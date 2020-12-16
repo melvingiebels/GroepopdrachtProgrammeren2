@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - AddStudent",
+            "request": "launch",
+            "mainClass": "GUI.AddStudent",
+            "projectName": "GroepopdrachtProgrammeren2_136dde90"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "vmArgs": "-p C:\\Dev\\javafx-sdk-11.0.2\\lib --add-modules javafx.controls",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Codecademy<GroepopdrachtProgrammeren2_136dde90>",
+            "request": "launch",
+            "mainClass": "Logic.Codecademy",
+            "projectName": "GroepopdrachtProgrammeren2_136dde90"
+        }
+    ]
+}
