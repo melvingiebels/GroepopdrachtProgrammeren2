@@ -2,6 +2,7 @@ package Database;
 
 import Domain.Student;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class StudentDAO extends DatabaseConnection {
     public void addStudent(Student newStudent) {
@@ -29,8 +30,8 @@ public class StudentDAO extends DatabaseConnection {
         }
     }
 
-    public void getAllStudents() {
-
+    public ArrayList<Student> getAllStudents() {
+        return null;
     }
 
     public void getStudent() {
