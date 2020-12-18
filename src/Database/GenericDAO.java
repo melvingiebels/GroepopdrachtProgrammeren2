@@ -2,7 +2,7 @@ package Database;
 
 import java.sql.*;
 
-abstract class DatabaseConnection {
+abstract class GenericDAO {
     // Dit zijn de instellingen voor de verbinding. Vervang de databaseName indien
     // deze voor jou anders is.
     protected String connectionUrl = "jdbc:sqlserver://localhost;databaseName=Codecademy;integratedSecurity=true;";
@@ -13,4 +13,23 @@ abstract class DatabaseConnection {
     // ResultSet is de tabel die we van de database terugkrijgen.
     // We kunnen door de rows heen stappen en iedere kolom lezen.
     protected ResultSet rs = null;
+
+    public GenericDAO() {
+        try {
+            // 'Importeer' de driver die je gedownload hebt.
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // Maak de verbinding met de database.
+            con = DriverManager.getConnection(connectionUrl);
+        } catch (Exception e) {
+        }
+    }
+
+    protected void excecuteQeury(String SQL) {
+        System.out.println(SQL);
+        try {
+            stmt = con.createStatement();
+            stmt.executeQuery(SQL);
+        } catch (Exception e) {
+        }
+    }
 }

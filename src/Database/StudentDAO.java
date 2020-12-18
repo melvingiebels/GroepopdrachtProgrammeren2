@@ -4,13 +4,9 @@ import Domain.Student;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class StudentDAO extends DatabaseConnection {
+public class StudentDAO extends GenericDAO {
     public void addStudent(Student newStudent) {
         try {
-            // 'Importeer' de driver die je gedownload hebt.
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            // Maak de verbinding met de database.
-            con = DriverManager.getConnection(connectionUrl);
             // addStudent query
             String SQL = "INSERT INTO Student VALUES(";
             String[] getters = { newStudent.getEmail(), newStudent.getName(), newStudent.getBirthdate(),
@@ -22,9 +18,8 @@ public class StudentDAO extends DatabaseConnection {
             SQL += String.join(",", formattedGetters);
             SQL += ")";
 
-            System.out.println(SQL);
-            stmt = con.createStatement();
-            stmt.executeQuery(SQL);
+            // Excecute query
+            this.excecuteQeury(SQL);
 
         } catch (Exception e) {
         }
