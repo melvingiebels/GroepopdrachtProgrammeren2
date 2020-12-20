@@ -26,7 +26,38 @@ public class StudentDAO extends GenericDAO {
     }
 
     public ArrayList<Student> getAllStudents() {
-        return null;
+        ArrayList<Student> students = new ArrayList<>();
+
+        try {
+            // getAllStudents query
+            String SQL = "SELECT * FROM Student";
+            stmt = con.createStatement();
+            // Query to database
+            rs = stmt.executeQuery(SQL);
+
+            // If resultset contains values make new students and add them to arrayList
+            
+
+            while (rs.next()) {
+                Student newStudent = new Student();
+
+                newStudent.setEmail(rs.getString("Email"));
+                newStudent.setName(rs.getString("Name"));
+                newStudent.setBirthdate(rs.getString("Birthdate"));
+                newStudent.setGender(rs.getString("Gender"));
+                newStudent.setAddress(rs.getString("Address"));
+                newStudent.setCity(rs.getString("City"));
+                newStudent.setCountry(rs.getString("Country"));
+            
+                students.add(newStudent);
+            }
+
+  
+
+        } catch (Exception e) {
+        }
+
+        return students;
     }
 
     public void getStudent() {

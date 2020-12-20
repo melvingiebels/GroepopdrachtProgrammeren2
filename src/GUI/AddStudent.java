@@ -1,30 +1,33 @@
 package GUI;
 
+import java.time.format.DateTimeFormatter;
+
 import Database.StudentDAO;
 import Domain.Student;
-import javafx.application.Application;
-import javafx.scene.Scene;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
-public class AddStudent extends Application {
+public class AddStudent {
 
-    @Override
-    public void start(Stage window) throws Exception {
+    public Parent getView() {
         BorderPane layout = new BorderPane();
         Label title = new Label("CREATE A NEW STUDENT");
 
         // Form elements
         VBox form = new VBox();
+        form.setPadding(new Insets(10, 50, 50, 50));
+        form.setSpacing(10);
         layout.setCenter(form);
 
         TextField emailInput = new TextField();
         TextField nameInput = new TextField();
-        TextField birthdateInput = new TextField();
+        DatePicker birthdateInput = new DatePicker();
         TextField genderInput = new TextField();
         TextField addressInput = new TextField();
         TextField cityInput = new TextField();
@@ -41,7 +44,10 @@ public class AddStudent extends Application {
         Button submit = new Button("SUBMIT");
         submit.setOnAction((event) -> {
             StudentDAO studentDAO = new StudentDAO();
-            studentDAO.addStudent(createNewStudent(emailInput.getText(), nameInput.getText(), birthdateInput.getText(),
+
+            String strDate = birthdateInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            
+            studentDAO.addStudent(createNewStudent(emailInput.getText(), nameInput.getText(), strDate,
                     genderInput.getText(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
         });
 
@@ -49,14 +55,15 @@ public class AddStudent extends Application {
         layout.setBottom(submit);
         form.getChildren().addAll(emailLabel, emailInput, nameLabel, nameInput, birthdateLabel, birthdateInput,
                 genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput);
-        Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.show();
+        
+        return layout;
     }
 
+
     public static Student createNewStudent(String email, String name, String birthdate, String gender, String address,
-            String city, String country) {
+        String city, String country) {
         Student newStudent = new Student();
+
         newStudent.setAddress(address);
         newStudent.setBirthdate(birthdate);
         newStudent.setCity(city);
@@ -65,10 +72,6 @@ public class AddStudent extends Application {
         newStudent.setGender(gender);
         newStudent.setName(name);
         return newStudent;
-    }
-
-    public static void main(String[] args) {
-        launch(AddStudent.class);
     }
 
 }

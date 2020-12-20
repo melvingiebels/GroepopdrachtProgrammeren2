@@ -14,7 +14,7 @@
         {
             "type": "java",
             "name": "Debug (Launch) - Current File",
-            "vmArgs": "-p C:\\Dev\\javafx-sdk-11.0.2\\lib --add-modules javafx.controls",
+            "vmArgs": "-p C:\\javafx-sdk-11.0.2\\lib --add-modules javafx.controls",
             "request": "launch",
             "mainClass": "${file}"
         },

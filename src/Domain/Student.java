@@ -10,7 +10,7 @@ public class Student {
     private String country;
 
     public Student() {
-
+    
     }
 
     public String getBirthdate() {
