@@ -36,24 +36,9 @@ public class StudentDAO extends GenericDAO {
             rs = stmt.executeQuery(SQL);
 
             // If resultset contains values make new students and add them to arrayList
-            
-
             while (rs.next()) {
-                Student newStudent = new Student();
-
-                newStudent.setEmail(rs.getString("Email"));
-                newStudent.setName(rs.getString("Name"));
-                newStudent.setBirthdate(rs.getString("Birthdate"));
-                newStudent.setGender(rs.getString("Gender"));
-                newStudent.setAddress(rs.getString("Address"));
-                newStudent.setCity(rs.getString("City"));
-                newStudent.setCountry(rs.getString("Country"));
-            
-                students.add(newStudent);
+                students.add(new Student(rs.getString("Email"), rs.getString("Name"), rs.getString("Birthdate"), rs.getString("Gender"), rs.getString("Address"), rs.getString("City"), rs.getString("Country")));
             }
-
-  
-
         } catch (Exception e) {
         }
 
@@ -64,8 +49,9 @@ public class StudentDAO extends GenericDAO {
 
     }
 
-    public void updateStudent() {
-
+    public void updateStudent(Student student) {
+        String SQL = String.format("UPDATE Student SET Name='%s', Birthdate='%s', Gender='%s', Address='%s', City='%s', Country='%s' WHERE Email='%s'", student.getName(), student.getBirthdate(), student.getGender(), student.getAddress(), student.getCity(), student.getCountry(), student.getEmail());
+        this.excecuteQeury(SQL);
     }
 
     public void removeStudent(String email) {

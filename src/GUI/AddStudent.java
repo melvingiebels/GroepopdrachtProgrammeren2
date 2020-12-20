@@ -36,7 +36,7 @@ public class AddStudent {
 
         Label emailLabel = new Label("Email:");
         Label nameLabel = new Label("Name: ");
-        Label birthdateLabel = new Label("Birthdate: (yyyy-mm-dd)");
+        Label birthdateLabel = new Label("Birthdate: ");
         Label genderLabel = new Label("Gender: ");
         Label addressLabel = new Label("Address:");
         Label cityLabel = new Label("City: ");
@@ -48,7 +48,7 @@ public class AddStudent {
 
             String strDate = birthdateInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            studentDAO.addStudent(createNewStudent(emailInput.getText(), nameInput.getText(), strDate,
+            studentDAO.addStudent(new Student(emailInput.getText(), nameInput.getText(), strDate,
                     genderInput.getText(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
 
             succesMsg.setText(nameInput.getText() + " has been added");
@@ -68,21 +68,6 @@ public class AddStudent {
                 genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput);
         
         return layout;
-    }
-
-
-    public static Student createNewStudent(String email, String name, String birthdate, String gender, String address,
-        String city, String country) {
-        Student newStudent = new Student();
-
-        newStudent.setAddress(address);
-        newStudent.setBirthdate(birthdate);
-        newStudent.setCity(city);
-        newStudent.setCountry(country);
-        newStudent.setEmail(email);
-        newStudent.setGender(gender);
-        newStudent.setName(name);
-        return newStudent;
     }
 
 }

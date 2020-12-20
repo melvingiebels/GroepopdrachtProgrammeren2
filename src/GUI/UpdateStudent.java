@@ -1,6 +1,9 @@
 package GUI;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import Database.StudentDAO;
 import Domain.Student;
@@ -15,7 +18,6 @@ import javafx.scene.layout.VBox;
 
 public class UpdateStudent {
 
-
     public Parent getView(Student student) {
         
         BorderPane layout = new BorderPane();
@@ -28,18 +30,16 @@ public class UpdateStudent {
         form.setSpacing(10);
         layout.setCenter(form);
 
-        TextField emailInput = new TextField(student.getEmail());
         TextField nameInput = new TextField(student.getName());
-        DatePicker birthdateInput = new DatePicker();
-        TextField genderInput = new TextField();
-        TextField addressInput = new TextField();
-        TextField cityInput = new TextField();
-        TextField countryInput = new TextField();
+        DatePicker birthdateInput = new DatePicker(LocalDate.parse(student.getBirthdate()));   
+        TextField genderInput = new TextField(student.getGender());
+        TextField addressInput = new TextField(student.getAddress());
+        TextField cityInput = new TextField(student.getCity());
+        TextField countryInput = new TextField(student.getCountry());
         
 
-        Label emailLabel = new Label("Email:");
         Label nameLabel = new Label("Name: ");
-        Label birthdateLabel = new Label("Birthdate: (yyyy-mm-dd)");
+        Label birthdateLabel = new Label("Birthdate: ");
         Label genderLabel = new Label("Gender: ");
         Label addressLabel = new Label("Address:");
         Label cityLabel = new Label("City: ");
@@ -48,9 +48,15 @@ public class UpdateStudent {
         Button submit = new Button("SUBMIT");
         submit.setOnAction((event) -> {
 
-            succesMsg.setText(nameInput.getText() + " has been added");
+            StudentDAO studentDAO = new StudentDAO();
 
-            emailInput.clear();
+            String strDate = birthdateInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            studentDAO.updateStudent(new Student(student.getEmail(), nameInput.getText(), strDate,
+                    genderInput.getText(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
+
+            succesMsg.setText(nameInput.getText() + " has been updated");
+
             nameInput.clear();
             birthdateInput.getEditor().clear();
             genderInput.clear();
@@ -61,7 +67,7 @@ public class UpdateStudent {
 
         layout.setTop(title);
         layout.setBottom(submit);
-        form.getChildren().addAll(succesMsg, emailLabel, emailInput, nameLabel, nameInput, birthdateLabel, birthdateInput,
+        form.getChildren().addAll(succesMsg, nameLabel, nameInput, birthdateLabel, birthdateInput,
                 genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput);
         
         return layout;

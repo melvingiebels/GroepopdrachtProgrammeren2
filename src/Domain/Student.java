@@ -9,8 +9,14 @@ public class Student {
     private String city;
     private String country;
 
-    public Student() {
-    
+    public Student(String email, String name, String birthdate, String gender, String address, String city, String country) {
+        this.email = email;
+        this.name = name;
+        this.birthdate = birthdate;
+        this.gender = gender;
+        this.address = address;
+        this.city = city;
+        this.country = country;
     }
 
     public String getBirthdate() {
