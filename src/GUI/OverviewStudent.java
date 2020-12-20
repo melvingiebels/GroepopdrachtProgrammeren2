@@ -10,9 +10,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -22,14 +19,13 @@ import javafx.stage.Stage;
 public class OverviewStudent extends Application {
 
     private StudentDAO studentDAO = new StudentDAO();
-    private ArrayList<Student> students = studentDAO.getAllStudents();
+    private ArrayList<Student> students;
+    private UpdateStudent updateView = new UpdateStudent();
+    private BorderPane layout = new BorderPane();
 
     @Override
     public void start(Stage window) throws Exception {
         AddStudent addView = new AddStudent();
-
-        // Create main layout
-        BorderPane layout = new BorderPane();
 
         // Create menu for main layout
         HBox menu = new HBox();
@@ -46,7 +42,7 @@ public class OverviewStudent extends Application {
         layout.setTop(menu);
 
         // Add subviews
-        StackPane overviewLayout = createView("Overview students");
+        StackPane overviewLayout = createOverView();
         
         layout.setCenter(overviewLayout);
     
@@ -64,40 +60,50 @@ public class OverviewStudent extends Application {
 
     }
 
-    private StackPane createView(String text) {
+    private StackPane createOverView() {
+        students = studentDAO.getAllStudents();
 
-        StackPane layout = new StackPane();
+        StackPane overviewlayout = new StackPane();
 
-        TableView<Student> table = new TableView<>();
+        VBox table = new VBox();
+        Label emailLabel = new Label("EMAIL");
+        Label nameLabel =  new Label("NAME");
+
+        emailLabel.setMinWidth(150);
+
+        HBox headRow = new HBox(20, emailLabel, nameLabel);
+
+        table.getChildren().add(headRow);
         
-        TableColumn<Student, String> column1 = new TableColumn<>("Email");
-        column1.setCellValueFactory(new PropertyValueFactory<>("email"));
+        overviewlayout.setPrefSize(500, 600);
 
-        TableColumn<Student, String> column2 = new TableColumn<>("Update");
-        column1.setCellValueFactory(new PropertyValueFactory<>("update"));
-
-        table.getColumns().add(column1);
-        table.getColumns().add(column2);
-
-
+     
         for(Student student : students) {
-            System.out.println(student);
-            table.getItems().add(student);  
+            Label email = new Label(student.getEmail());
+            Label name = new Label(student.getName());
+            Button updateBtn = new Button("Update");
+            Button deleteBtn = new Button("Delete");
+
+            email.setMinWidth(150);
+            name.setMinWidth(150);
+            HBox row = new HBox(20, email, name, updateBtn, deleteBtn);
+
+            updateBtn.setOnAction((event) -> {
+                layout.setCenter(updateView.getView(student));
+            });
+
+            deleteBtn.setOnAction((event) ->  {
+                studentDAO.removeStudent(student.getEmail());
+                table.getChildren().remove(row);
+            });
+            
+            table.getChildren().add(row);
         }
 
-        VBox vbox = new VBox(table);
+        overviewlayout.getChildren().add(table);
+        overviewlayout.setAlignment(Pos.CENTER);
 
-        layout.setPrefSize(500, 600);
-
-
-        // for(Student student : students) {
-        //     layout.getChildren().add(new Label(student.getEmail()));
-        // }
-        layout.getChildren().add(vbox);
-        layout.getChildren().add(new Label(text));
-        layout.setAlignment(Pos.CENTER);
-
-        return layout;
+        return overviewlayout;
     }
 
     public static void main(String[] args) {

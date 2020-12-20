@@ -68,8 +68,15 @@ public class StudentDAO extends GenericDAO {
 
     }
 
-    public void removeStudent() {
+    public void removeStudent(String email) {
+        try {
+            // addStudent query
+            String SQL = "DELETE FROM Student WHERE Email='" + email + "'";
+            // Excecute query
+            this.excecuteQeury(SQL);
 
+        } catch (Exception e) {
+        }
     }
 
 }
