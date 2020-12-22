@@ -13,6 +13,7 @@ abstract class GenericDAO {
     // ResultSet is de tabel die we van de database terugkrijgen.
     // We kunnen door de rows heen stappen en iedere kolom lezen.
     protected ResultSet rs = null;
+    protected String SQL;
 
     public GenericDAO() {
         try {

@@ -1,10 +1,7 @@
 package GUI;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
 import Database.StudentDAO;
 import Domain.Student;
 import javafx.geometry.Insets;
@@ -19,7 +16,7 @@ import javafx.scene.layout.VBox;
 public class UpdateStudent {
 
     public Parent getView(Student student) {
-        
+
         BorderPane layout = new BorderPane();
         Label title = new Label("Update student: " + student.getName());
         Label succesMsg = new Label("");
@@ -31,12 +28,11 @@ public class UpdateStudent {
         layout.setCenter(form);
 
         TextField nameInput = new TextField(student.getName());
-        DatePicker birthdateInput = new DatePicker(LocalDate.parse(student.getBirthdate()));   
+        DatePicker birthdateInput = new DatePicker(LocalDate.parse(student.getBirthdate()));
         TextField genderInput = new TextField(student.getGender());
         TextField addressInput = new TextField(student.getAddress());
         TextField cityInput = new TextField(student.getCity());
         TextField countryInput = new TextField(student.getCountry());
-        
 
         Label nameLabel = new Label("Name: ");
         Label birthdateLabel = new Label("Birthdate: ");
@@ -67,9 +63,9 @@ public class UpdateStudent {
 
         layout.setTop(title);
         layout.setBottom(submit);
-        form.getChildren().addAll(succesMsg, nameLabel, nameInput, birthdateLabel, birthdateInput,
-                genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput);
-        
+        form.getChildren().addAll(succesMsg, nameLabel, nameInput, birthdateLabel, birthdateInput, genderLabel,
+                genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput);
+
         return layout;
     }
 }

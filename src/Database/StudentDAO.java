@@ -1,14 +1,13 @@
 package Database;
 
 import Domain.Student;
-import java.sql.*;
 import java.util.ArrayList;
 
 public class StudentDAO extends GenericDAO {
     public void addStudent(Student newStudent) {
         try {
             // addStudent query
-            String SQL = "INSERT INTO Student VALUES(";
+            SQL = "INSERT INTO Student VALUES(";
             String[] getters = { newStudent.getEmail(), newStudent.getName(), newStudent.getBirthdate(),
                     newStudent.getGender(), newStudent.getAddress(), newStudent.getCity(), newStudent.getCountry() };
             String[] formattedGetters = new String[7];
@@ -30,7 +29,7 @@ public class StudentDAO extends GenericDAO {
 
         try {
             // getAllStudents query
-            String SQL = "SELECT * FROM Student";
+            SQL = "SELECT * FROM Student";
             stmt = con.createStatement();
             // Query to database
             rs = stmt.executeQuery(SQL);
@@ -52,7 +51,7 @@ public class StudentDAO extends GenericDAO {
     }
 
     public void updateStudent(Student student) {
-        String SQL = String.format(
+        SQL = String.format(
                 "UPDATE Student SET Name='%s', Birthdate='%s', Gender='%s', Address='%s', City='%s', Country='%s' WHERE Email='%s'",
                 student.getName(), student.getBirthdate(), student.getGender(), student.getAddress(), student.getCity(),
                 student.getCountry(), student.getEmail());
