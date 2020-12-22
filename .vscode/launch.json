@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch OverviewStudent",
+            "request": "launch",
+            "mainClass": "GUI.OverviewStudent",
+            "projectName": "GroepopdrachtProgrammeren2_136dde90"
+        },
+        {
+            "type": "java",
+            "name": "Launch AddCourse",
+            "request": "launch",
+            "mainClass": "GUI.AddCourse",
+            "projectName": "GroepopdrachtProgrammeren2_136dde90"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - AddStudent",
             "request": "launch",
             "mainClass": "GUI.AddStudent",
