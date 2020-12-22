@@ -24,7 +24,7 @@ abstract class GenericDAO {
         }
     }
 
-    protected void excecuteQeury(String SQL) {
+    protected void excecuteQuery(String SQL) {
         System.out.println(SQL);
         try {
             stmt = con.createStatement();

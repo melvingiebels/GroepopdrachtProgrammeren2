@@ -19,7 +19,7 @@ public class StudentDAO extends GenericDAO {
             SQL += ")";
 
             // Excecute query
-            this.excecuteQeury(SQL);
+            this.excecuteQuery(SQL);
 
         } catch (Exception e) {
         }
@@ -37,7 +37,9 @@ public class StudentDAO extends GenericDAO {
 
             // If resultset contains values make new students and add them to arrayList
             while (rs.next()) {
-                students.add(new Student(rs.getString("Email"), rs.getString("Name"), rs.getString("Birthdate"), rs.getString("Gender"), rs.getString("Address"), rs.getString("City"), rs.getString("Country")));
+                students.add(new Student(rs.getString("Email"), rs.getString("Name"), rs.getString("Birthdate"),
+                        rs.getString("Gender"), rs.getString("Address"), rs.getString("City"),
+                        rs.getString("Country")));
             }
         } catch (Exception e) {
         }
@@ -50,7 +52,10 @@ public class StudentDAO extends GenericDAO {
     }
 
     public void updateStudent(Student student) {
-        String SQL = String.format("UPDATE Student SET Name='%s', Birthdate='%s', Gender='%s', Address='%s', City='%s', Country='%s' WHERE Email='%s'", student.getName(), student.getBirthdate(), student.getGender(), student.getAddress(), student.getCity(), student.getCountry(), student.getEmail());
+        String SQL = String.format(
+                "UPDATE Student SET Name='%s', Birthdate='%s', Gender='%s', Address='%s', City='%s', Country='%s' WHERE Email='%s'",
+                student.getName(), student.getBirthdate(), student.getGender(), student.getAddress(), student.getCity(),
+                student.getCountry(), student.getEmail());
         this.excecuteQeury(SQL);
     }
 
