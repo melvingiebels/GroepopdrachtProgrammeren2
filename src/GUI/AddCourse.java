@@ -2,10 +2,8 @@ package GUI;
 
 import Database.CourseDAO;
 import Domain.Course;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -13,12 +11,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
-public class AddCourse extends Application {
+public class AddCourse {
 
-    @Override
-    public void start(Stage window) throws Exception {
+    public Parent getView() {
         // main layout
         BorderPane layout = new BorderPane();
         Label title = new Label("CREATE A NEW COURSE");
@@ -59,14 +55,7 @@ public class AddCourse extends Application {
         layout.setTop(title);
         layout.setCenter(form);
         layout.setBottom(submit);
-        Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.show();
-    }
-
-    // Main method is only temporarily for testing
-    public static void main(String[] args) {
-        launch(AddCourse.class);
+        return layout;
     }
 
 }
