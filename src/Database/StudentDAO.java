@@ -56,7 +56,7 @@ public class StudentDAO extends GenericDAO {
                 "UPDATE Student SET Name='%s', Birthdate='%s', Gender='%s', Address='%s', City='%s', Country='%s' WHERE Email='%s'",
                 student.getName(), student.getBirthdate(), student.getGender(), student.getAddress(), student.getCity(),
                 student.getCountry(), student.getEmail());
-        this.excecuteQeury(SQL);
+        this.excecuteQuery(SQL);
     }
 
     public void removeStudent(String email) {
@@ -64,7 +64,7 @@ public class StudentDAO extends GenericDAO {
             // addStudent query
             String SQL = "DELETE FROM Student WHERE Email='" + email + "'";
             // Excecute query
-            this.excecuteQeury(SQL);
+            this.excecuteQuery(SQL);
 
         } catch (Exception e) {
         }
