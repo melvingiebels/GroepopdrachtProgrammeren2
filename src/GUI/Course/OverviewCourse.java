@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Course;
 
 import java.util.ArrayList;
 
