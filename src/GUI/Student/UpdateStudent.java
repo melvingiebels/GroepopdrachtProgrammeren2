@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import Database.StudentDAO;
 import Domain.Student;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -15,11 +16,15 @@ import javafx.scene.layout.VBox;
 
 public class UpdateStudent {
 
-    public Parent getView(Student student) {
+    public Parent getView(Student student, StudentDAO studentDAO) {
 
         BorderPane layout = new BorderPane();
-        Label title = new Label("Update student: " + student.getName());
+
+        Label title = new Label("Update student: " + student.getEmail());
+        title.setStyle("-fx-font-weight: bold");
+
         Label succesMsg = new Label("");
+        succesMsg.setStyle("-fx-text-fill: green");
 
         // Form elements
         VBox form = new VBox();
@@ -42,29 +47,23 @@ public class UpdateStudent {
         Label countryLabel = new Label("Country: ");
 
         Button submit = new Button("SUBMIT");
+        
         submit.setOnAction((event) -> {
-
-            StudentDAO studentDAO = new StudentDAO();
 
             String strDate = birthdateInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
             studentDAO.updateStudent(new Student(student.getEmail(), nameInput.getText(), strDate,
                     genderInput.getText(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
 
-            succesMsg.setText(nameInput.getText() + " has been updated");
+            succesMsg.setText("Student has been successfully updated");
 
-            nameInput.clear();
-            birthdateInput.getEditor().clear();
-            genderInput.clear();
-            addressInput.clear();
-            cityInput.clear();
-            countryInput.clear();
+
         });
 
-        layout.setTop(title);
-        layout.setBottom(submit);
-        form.getChildren().addAll(succesMsg, nameLabel, nameInput, birthdateLabel, birthdateInput, genderLabel,
-                genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput);
+
+        form.getChildren().addAll(title, succesMsg, nameLabel, nameInput, birthdateLabel, birthdateInput, genderLabel,
+                genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput, submit);
+
 
         return layout;
     }

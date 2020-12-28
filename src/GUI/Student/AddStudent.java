@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import Database.StudentDAO;
 import Domain.Student;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -12,13 +13,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 
 public class AddStudent {
 
     public Parent getView() {
         BorderPane layout = new BorderPane();
+
         Label title = new Label("CREATE A NEW STUDENT");
+        title.setStyle("-fx-font-weight: bold");
+
         Label succesMsg = new Label("");
+        succesMsg.setStyle("-fx-text-fill: green");
 
         // Form elements
         VBox form = new VBox();
@@ -62,10 +68,8 @@ public class AddStudent {
             countryInput.clear();
         });
 
-        layout.setTop(title);
-        layout.setBottom(submit);
-        form.getChildren().addAll(succesMsg, emailLabel, emailInput, nameLabel, nameInput, birthdateLabel, birthdateInput,
-                genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput);
+        form.getChildren().addAll(title ,succesMsg, emailLabel, emailInput, nameLabel, nameInput, birthdateLabel, birthdateInput,
+                genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput, submit);
         
         return layout;
     }
