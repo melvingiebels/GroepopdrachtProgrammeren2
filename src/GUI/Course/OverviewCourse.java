@@ -62,14 +62,14 @@ public class OverviewCourse extends Application {
         // Placing elements inside the overview layout elements
     }
 
-    public StackPane createOverview() {
-        courses = courseDAO.getAllCourses();
-        StackPane overview = new StackPane();
+    // public StackPane createOverview() {
+    //     courses = courseDAO.getAllCourses();
+    //     StackPane overview = new StackPane();
 
-        for (Course x : courses) {
+    //     for (Course x : courses) {
 
-        }
-    }
+    //     }
+    // }
 
     public static void main(String[] args) {
         launch(OverviewCourse.class);
