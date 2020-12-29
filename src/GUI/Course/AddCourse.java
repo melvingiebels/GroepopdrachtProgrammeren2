@@ -18,6 +18,7 @@ public class AddCourse {
         // main layout
         BorderPane layout = new BorderPane();
         Label title = new Label("CREATE A NEW COURSE");
+        title.setStyle("-fx-font-weight: bold");
 
         // Layout for the form elements
         VBox form = new VBox();
@@ -34,6 +35,7 @@ public class AddCourse {
 
         // Labels for the inputfields
         Label succesMsg = new Label("");
+        succesMsg.setStyle("-fx-text-fill: green");
         Label name = new Label("Name: ");
         Label topic = new Label("Topic: ");
         Label description = new Label("Description: ");
@@ -50,8 +52,8 @@ public class AddCourse {
         });
 
         // Placing elements inside the layout elements
-        form.getChildren().addAll(name, nameInput, topic, topicInput, description, descriptionInput, difficulty,
-                difficultyInput);
+        form.getChildren().addAll(title, succesMsg, name, nameInput, topic, topicInput, description, descriptionInput,
+                difficulty, difficultyInput);
         layout.setTop(title);
         layout.setCenter(form);
         layout.setBottom(submit);
