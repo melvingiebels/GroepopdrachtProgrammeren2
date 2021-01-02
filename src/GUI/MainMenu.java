@@ -10,20 +10,19 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
-public class MainMenu extends Application{
+public class MainMenu{
 
     Stage window;
     Scene mainMenuScene;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        
-        window = primaryStage;
+    public Scene getScene(Stage mainStage) {
+
+        mainStage.setTitle("Main menu");
         BorderPane layout = new BorderPane();
 
         // Create views
-        OverviewStudent studentView = new OverviewStudent();
-        OverviewCourse courseView = new OverviewCourse();
+        OverviewStudent studentScene = new OverviewStudent();
+        OverviewCourse courseScene = new OverviewCourse();
         
         // Create menu for main layout
         HBox menu = new HBox();
@@ -41,20 +40,14 @@ public class MainMenu extends Application{
 
         // Add button actions
         studentsBtn.setOnAction((event) -> {
-            layout.setCenter(studentView.getview());        
+            mainStage.setScene(studentScene.getScene(mainStage));
+            // layout.setCenter(studentScene.getScene(mainStage));        
         });
         // coursesBtn.setOnAction((Event) -> {
         //     layout.setCenter(courseView.getview());
         // });
-
-        mainMenuScene = new Scene(layout,600,600);
-
-        window.setScene(mainMenuScene);
-        window.setTitle("main menu");
-        window.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }        
+        layout.setPrefSize(500, 600);
+        
+        return new Scene(layout);
+    }    
 }
