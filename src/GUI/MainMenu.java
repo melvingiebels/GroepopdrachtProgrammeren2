@@ -1,52 +1,52 @@
 package GUI;
 
-import GUI.Course.*;
+import GUI.Course.OverviewCourse;
 import GUI.Student.*;
-import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class MainMenu{
 
-    Stage window;
-    Scene mainMenuScene;
-
+    private BorderPane layout = new BorderPane();
+    
     public Scene getScene(Stage mainStage) {
 
         mainStage.setTitle("Main menu");
-        BorderPane layout = new BorderPane();
 
         // Create views
         OverviewStudent studentScene = new OverviewStudent();
         OverviewCourse courseScene = new OverviewCourse();
         
         // Create menu for main layout
-        HBox menu = new HBox();
-        menu.setPadding(new Insets(20, 0, 20, 0));
+        VBox menu = new VBox();
+        menu.setPadding(new Insets(100, 0, 0, 150));
         menu.setSpacing(10);
 
         // Create buttons for menu
         Button studentsBtn = new Button("Students");
+        studentsBtn.setMinSize(200, 50);
+
         Button coursesBtn =  new Button("Courses");
+        coursesBtn.setMinSize(200, 50);
     
         // Add buttons to menu
-        menu.getChildren().addAll(studentsBtn, coursesBtn);
-    
-        layout.setCenter(menu);
+        menu.getChildren().addAll(studentsBtn, coursesBtn);        
 
         // Add button actions
         studentsBtn.setOnAction((event) -> {
-            mainStage.setScene(studentScene.getScene(mainStage));
-            // layout.setCenter(studentScene.getScene(mainStage));        
+            mainStage.setScene(studentScene.getScene(mainStage));       
         });
-        // coursesBtn.setOnAction((Event) -> {
-        //     layout.setCenter(courseView.getview());
-        // });
-        layout.setPrefSize(500, 600);
+        
+        coursesBtn.setOnAction((Event) -> {
+            mainStage.setScene(courseScene.getScene(mainStage));
+        });
+        
+        layout.setPrefSize(500, 310);
+        layout.setCenter(menu);
         
         return new Scene(layout);
     }    

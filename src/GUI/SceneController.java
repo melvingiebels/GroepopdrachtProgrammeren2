@@ -12,7 +12,6 @@ public class SceneController extends Application{
         window.setScene(mainMenuScene.getScene(window));
         window.show();        
     }
-
         
     public static void main(String[] args) {
         launch(SceneController.class);

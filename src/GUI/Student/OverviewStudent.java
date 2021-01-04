@@ -7,7 +7,6 @@ import Domain.Student;
 import GUI.MainMenu;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 public class OverviewStudent{
     
@@ -31,31 +29,28 @@ public class OverviewStudent{
         UpdateStudent updateView = new UpdateStudent();
         MainMenu mainMenuScene = new MainMenu();
 
-        // Create menu for main layout
-        HBox menu = new HBox();
-        menu.setPadding(new Insets(20, 0, 20, 0));
-        menu.setSpacing(10);
+        // Create menu for overview and add student buttons
+        HBox topMenu = new HBox();
+        topMenu.setPadding(new Insets(20, 0, 20, 20));
+        
+        // add border 
+        // topMenu.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
         // Create buttons for menu
-        Button overviewBtn = new Button("Overview");
-        Button addBtn =  new Button("Add student");
         Button mainMenuBtn = new Button("Back");
+        Button addBtn =  new Button("Add student");
+
+        // Button styling
+        mainMenuBtn.setMinSize(50, 30);
+        addBtn.setMinSize(100, 30);
     
         // Add buttons to menu
-        menu.getChildren().addAll(overviewBtn, addBtn);
-
-        layout.setTop(menu);
-        layout.setLeft(mainMenuBtn);
-        layout.setCenter(createOverView(updateView, window));
+        topMenu.getChildren().addAll(mainMenuBtn, addBtn);
+        topMenu.setSpacing(20);
 
         // Add button actions
-        overviewBtn.setOnAction((event) ->  {
-            layout.setCenter(createOverView(updateView, window));
-            window.setTitle("Student overview");
-        });
-        
         addBtn.setOnAction((event) ->  {
-            layout.setCenter(addView.getView());
+            window.setScene(addView.getScene(window));;
             window.setTitle("Add new student");
         });
 
@@ -63,9 +58,10 @@ public class OverviewStudent{
             window.setScene(mainMenuScene.getScene(window));
         });
     
-
-        // window.setScene(view);
+        layout.setTop(topMenu);
+        layout.setCenter(createOverView(updateView, window));
         window.setTitle("Student overview");
+        
         return new Scene(layout);
     }
 
@@ -85,6 +81,7 @@ public class OverviewStudent{
         nameLabel.setStyle("-fx-font-weight: bold");
 
         HBox headRow = new HBox(20, emailLabel, nameLabel);
+        headRow.setPadding(new Insets(0, 0, 0, 20));
 
         VBox table = new VBox();
         table.getChildren().add(headRow);
@@ -101,7 +98,7 @@ public class OverviewStudent{
             Button deleteBtn = new Button("Delete");
 
             HBox row = new HBox(20, email, name, updateBtn, deleteBtn);
-            row.setPadding(new Insets(10, 0, 0, 0));
+            row.setPadding(new Insets(10, 0, 0, 20));
 
             updateBtn.setOnAction((event) -> {
                 layout.setCenter(updateView.getView(student, studentDAO));

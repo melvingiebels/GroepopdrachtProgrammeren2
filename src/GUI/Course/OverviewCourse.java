@@ -3,7 +3,7 @@ package GUI.Course;
 import java.util.ArrayList;
 import Database.CourseDAO;
 import Domain.Course;
-import javafx.application.Application;
+import GUI.MainMenu;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,46 +15,58 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class OverviewCourse extends Application {
+public class OverviewCourse{
 
     private AddCourse addView = new AddCourse();
     private UpdateCourse updateView = new UpdateCourse();
+    private MainMenu mainMenuScene = new MainMenu();
 
     private ArrayList<Course> courses;
     private CourseDAO courseDAO = new CourseDAO();
-    private BorderPane mainLayout = new BorderPane();
+    private BorderPane layout = new BorderPane();
 
     public OverviewCourse() {
         courses = courseDAO.getAllCourses();
     }
 
-    @Override
-    public void start(Stage window) throws Exception {
+    public Scene getScene(Stage window) {
         window.setTitle("Overview course");
 
         // Create menu for main layout
-        HBox menu = new HBox();
-        menu.setPadding(new Insets(20, 0, 20, 0));
-        menu.setSpacing(10);
+        HBox topMenu = new HBox();
+        topMenu.setPadding(new Insets(20, 0, 20, 20));
+        topMenu.setSpacing(10);
 
+        // Create buttons
         Button overviewBtn = new Button("Overview");
         Button addBtn = new Button("Add course");
+        Button mainMenuBtn = new Button("Back");
+
+        overviewBtn.setMinSize(100, 30);
+        addBtn.setMinSize(100, 30);
+        mainMenuBtn.setMinSize(50, 30);
+
+        // Add button functionality
         overviewBtn.setOnAction((event) -> {
-            mainLayout.setCenter(this.createOverview(window));
+            layout.setCenter(this.createOverview(window));
             window.setTitle("Overview course");
         });
+
         addBtn.setOnAction((event) -> {
-            mainLayout.setCenter(addView.getView());
-            window.setTitle("Add new student");
+            window.setScene(addView.getScene(window));            
         });
 
-        menu.getChildren().addAll(overviewBtn, addBtn);
+        mainMenuBtn.setOnAction((event) -> {
+            window.setScene(mainMenuScene.getScene(window));
+        });
 
-        mainLayout.setTop(menu);
-        mainLayout.setCenter(createOverview(window));
-        Scene scene = new Scene(mainLayout);
-        window.setScene(scene);
-        window.show();
+        topMenu.getChildren().addAll(mainMenuBtn, overviewBtn, addBtn);
+
+        layout.setTop(topMenu);
+        layout.setCenter(createOverview(window));
+        layout.setPrefSize(500, 600);
+
+        return new Scene(layout);
     }
 
     public StackPane createOverview(Stage window) {
@@ -93,7 +105,7 @@ public class OverviewCourse extends Application {
 
             // Add button events
             updateBtn.setOnAction((event) -> {
-                mainLayout.setCenter(updateView.getView(course));
+                layout.setCenter(updateView.getView(course));
                 window.setTitle("Update course");
             });
             deleteBtn.setOnAction((event) -> {
@@ -107,12 +119,8 @@ public class OverviewCourse extends Application {
 
         overviewlayout.getChildren().add(table);
         overviewlayout.setPrefSize(500, 600);
+        overviewlayout.setPadding(new Insets(0,0,0,20));
         overviewlayout.setAlignment(Pos.CENTER);
         return overviewlayout;
     }
-
-    public static void main(String[] args) {
-        launch(OverviewCourse.class);
-    }
-
 }

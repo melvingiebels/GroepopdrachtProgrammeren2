@@ -3,26 +3,35 @@ package GUI.Course;
 import Database.CourseDAO;
 import Domain.Course;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class AddCourse {
 
-    public Parent getView() {
+    private BorderPane layout = new BorderPane();
+
+    public Scene getScene(Stage window) {
+        
+        // create views
+        OverviewCourse courseOverview = new OverviewCourse();
+
         // main layout
-        BorderPane layout = new BorderPane();
+        HBox leftMenu = new HBox();
+        leftMenu.setPadding(new Insets(20, 0, 0, 20));;
         Label title = new Label("CREATE A NEW COURSE");
         title.setStyle("-fx-font-weight: bold");
 
         // Layout for the form elements
         VBox form = new VBox();
-        form.setPadding(new Insets(10, 50, 50, 50));
+        form.setPadding(new Insets(30, 50, 50, 50));
         form.setSpacing(10);
         layout.setCenter(form);
 
@@ -42,8 +51,14 @@ public class AddCourse {
         Label difficulty = new Label("Difficulty: ");
 
         // Button + addEvent
-        Button submit = new Button("SUBMIT");
-        submit.setOnAction((event) -> {
+        Button overviewBtn = new Button("Back");        
+        Button submitBtn = new Button("SUBMIT");
+
+        overviewBtn.setOnAction((Event) -> {
+            window.setScene(courseOverview.getScene(window));
+        });
+
+        submitBtn.setOnAction((event) -> {
             CourseDAO courseDAO = new CourseDAO();
             Course newCourse = new Course(nameInput.getText(), topicInput.getText(), descriptionInput.getText(),
                     (String) difficultyInput.getValue());
@@ -53,11 +68,12 @@ public class AddCourse {
 
         // Placing elements inside the layout elements
         form.getChildren().addAll(title, succesMsg, name, nameInput, topic, topicInput, description, descriptionInput,
-                difficulty, difficultyInput);
-        layout.setTop(title);
+                difficulty, difficultyInput, submitBtn);
+        leftMenu.getChildren().addAll(overviewBtn);
+        layout.setLeft(leftMenu);
         layout.setCenter(form);
-        layout.setBottom(submit);
-        return layout;
+        window.setTitle("Add new student");
+        return new Scene(layout);
     }
 
 }

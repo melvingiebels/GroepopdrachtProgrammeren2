@@ -5,21 +5,26 @@ import java.time.format.DateTimeFormatter;
 import Database.StudentDAO;
 import Domain.Student;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 
 public class AddStudent {
 
-    public Parent getView() {
-        BorderPane layout = new BorderPane();
+    private BorderPane layout = new BorderPane();
 
+    public Scene getScene(Stage window) {
+
+        // Create View
+        OverviewStudent overviewStudent = new OverviewStudent();
+
+        // create labels
         Label title = new Label("CREATE A NEW STUDENT");
         title.setStyle("-fx-font-weight: bold");
 
@@ -28,10 +33,20 @@ public class AddStudent {
 
         // Form elements
         VBox form = new VBox();
-        form.setPadding(new Insets(10, 50, 50, 50));
+        form.setPadding(new Insets(30, 50, 50, 50));
         form.setSpacing(10);
+        HBox leftMenu = new HBox();
+        leftMenu.setPadding(new Insets(20, 0, 0, 20));;
         layout.setCenter(form);
+        layout.setLeft(leftMenu);
 
+        // add button
+        Button overviewBtn = new Button("Back");
+        Button submitBtn = new Button("SUBMIT");
+
+        overviewBtn.setMinSize(50, 30);
+
+        // add textfields and labels
         TextField emailInput = new TextField();
         TextField nameInput = new TextField();
         DatePicker birthdateInput = new DatePicker();
@@ -48,8 +63,13 @@ public class AddStudent {
         Label cityLabel = new Label("City: ");
         Label countryLabel = new Label("Country: ");
 
-        Button submit = new Button("SUBMIT");
-        submit.setOnAction((event) -> {
+        // Add button actions
+        overviewBtn.setOnAction((event) ->  {
+            window.setScene(overviewStudent.getScene(window));
+            window.setTitle("Student overview");
+        });
+
+        submitBtn.setOnAction((event) -> {
             StudentDAO studentDAO = new StudentDAO();
 
             String strDate = birthdateInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -68,10 +88,14 @@ public class AddStudent {
             countryInput.clear();
         });
 
+        leftMenu.getChildren().addAll(overviewBtn);
+
         form.getChildren().addAll(title ,succesMsg, emailLabel, emailInput, nameLabel, nameInput, birthdateLabel, birthdateInput,
-                genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput, submit);
+                genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput, submitBtn);
         
-        return layout;
+        window.setTitle("Student overview");
+        layout.setPrefSize(500, 600);
+        return new Scene(layout);
     }
 
 }
