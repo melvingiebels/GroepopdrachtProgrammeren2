@@ -35,6 +35,7 @@ public class OverviewStudent{
         // Create buttons for menu
         Button mainMenuBtn = new Button("Back");
         Button addBtn =  new Button("Add student");
+        addBtn.setId("greenBtn");
 
         // Button styling
         mainMenuBtn.setMinSize(50, 30);
@@ -94,7 +95,9 @@ public class OverviewStudent{
             name.setMinWidth(150);
 
             Button updateBtn = new Button("Update");
+            updateBtn.setId("orangeBtn");
             Button deleteBtn = new Button("Delete");
+            deleteBtn.setId("redBtn");
 
             HBox row = new HBox(20, email, name, updateBtn, deleteBtn);
             row.setPadding(new Insets(10, 0, 0, 20));
