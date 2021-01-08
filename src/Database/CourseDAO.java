@@ -51,7 +51,8 @@ public class CourseDAO extends GenericDAO {
 
             while (rs.next()) {
                 modules.add(new Module(rs.getInt("ContentItemId"), rs.getInt("Version"), rs.getString("ContactName"),
-                        rs.getString("ContactMail"), rs.getInt("IndexNumber"), rs.getString("Title"), rs.getString("CourseName")));
+                        rs.getString("ContactMail"), rs.getInt("IndexNumber"), rs.getString("Title"),
+                        rs.getString("CourseName")));
             }
         } catch (Exception e) {
         }
@@ -59,7 +60,8 @@ public class CourseDAO extends GenericDAO {
     }
 
     public void updateModule(Module module, String courseName) {
-        SQL = String.format("UPDATE Module SET CourseName='%s' WHERE ContentItemId='%d'", courseName, module.getContentItemId());
+        SQL = String.format("UPDATE Module SET CourseName='%s' WHERE ContentItemId='%d'", courseName,
+                module.getContentItemId());
         this.excecuteQuery(SQL);
     }
 }

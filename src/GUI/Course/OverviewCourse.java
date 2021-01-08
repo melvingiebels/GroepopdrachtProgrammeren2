@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class OverviewCourse{
+public class OverviewCourse {
 
     private AddCourse addView = new AddCourse();
     private UpdateCourse updateView = new UpdateCourse();
@@ -37,29 +37,22 @@ public class OverviewCourse{
         topMenu.setSpacing(10);
 
         // Create buttons
-        Button overviewBtn = new Button("Overview");
         Button addBtn = new Button("Add course");
         Button mainMenuBtn = new Button("Back");
 
-        overviewBtn.setMinSize(100, 30);
         addBtn.setMinSize(100, 30);
         mainMenuBtn.setMinSize(50, 30);
 
         // Add button functionality
-        overviewBtn.setOnAction((event) -> {
-            layout.setCenter(this.createOverview(window));
-            window.setTitle("Overview course");
-        });
-
         addBtn.setOnAction((event) -> {
-            window.setScene(addView.getScene(window));            
+            window.setScene(addView.getScene(window));
         });
 
         mainMenuBtn.setOnAction((event) -> {
             window.setScene(mainMenuScene.getScene(window));
         });
 
-        topMenu.getChildren().addAll(mainMenuBtn, overviewBtn, addBtn);
+        topMenu.getChildren().addAll(mainMenuBtn, addBtn);
 
         layout.setTop(topMenu);
         layout.setCenter(createOverview(window));
@@ -118,7 +111,7 @@ public class OverviewCourse{
 
         overviewlayout.setContent(table);
         overviewlayout.setPrefSize(500, 600);
-        overviewlayout.setPadding(new Insets(0,0,0,20));
+        overviewlayout.setPadding(new Insets(0, 0, 0, 20));
         return overviewlayout;
     }
 }

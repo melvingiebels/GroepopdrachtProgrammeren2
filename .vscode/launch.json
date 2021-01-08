@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch SceneController",
+            "request": "launch",
+            "mainClass": "GUI.SceneController",
+            "projectName": "GroepopdrachtProgrammeren2_136dde90"
+        },
+        {
+            "type": "java",
             "name": "Launch OverviewStudent",
             "request": "launch",
             "mainClass": "GUI.OverviewStudent",
@@ -38,6 +45,6 @@
             "request": "launch",
             "mainClass": "Logic.Codecademy",
             "projectName": "GroepopdrachtProgrammeren2_136dde90"
-        }   
+        }
     ]
 }
