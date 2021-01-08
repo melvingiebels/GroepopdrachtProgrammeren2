@@ -1,10 +1,15 @@
 package GUI.Course;
 
+import java.util.ArrayList;
+
 import Database.CourseDAO;
 import Domain.Course;
+import Domain.Module;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -12,11 +17,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class AddCourse {
 
     private BorderPane layout = new BorderPane();
+    private CourseDAO courseDAO = new CourseDAO();
+    private ArrayList<Module> avaibleModules = courseDAO.getAvaibleModules();
+    private ArrayList<Module> modulesList = new ArrayList<>();
 
     public Scene getScene(Stage window) {
         
@@ -35,11 +44,14 @@ public class AddCourse {
         form.setSpacing(10);
         layout.setCenter(form);
 
+    
         // Inputfields & properties
         TextField nameInput = new TextField();
         TextField topicInput = new TextField();
         TextArea descriptionInput = new TextArea();
-        ComboBox difficultyInput = new ComboBox();
+        ComboBox<String> difficultyInput = new ComboBox<>();
+
+        difficultyInput.setValue("Beginner");
         difficultyInput.getItems().addAll("Beginner", "Advanced", "Expert");
 
         // Labels for the inputfields
@@ -49,31 +61,96 @@ public class AddCourse {
         Label topic = new Label("Topic: ");
         Label description = new Label("Description: ");
         Label difficulty = new Label("Difficulty: ");
+        Label moduleLabel = new Label("Aantal modules: 0");
 
         // Button + addEvent
-        Button overviewBtn = new Button("Back");        
+        Button overviewBtn = new Button("Back");    
+        Button modalBtn = new Button("Add modules");    
         Button submitBtn = new Button("SUBMIT");
 
-        overviewBtn.setOnAction((Event) -> {
+        // Switch to overview
+        overviewBtn.setOnAction((event) -> {
             window.setScene(courseOverview.getScene(window));
         });
 
+        // Change modules
+
+        modalBtn.setOnAction((event) -> {
+            modulesList = toggleModal();
+            moduleLabel.setText("Aantal modules: " + modulesList.size());
+        });
+        
+        // submit action
         submitBtn.setOnAction((event) -> {
-            CourseDAO courseDAO = new CourseDAO();
             Course newCourse = new Course(nameInput.getText(), topicInput.getText(), descriptionInput.getText(),
-                    (String) difficultyInput.getValue());
+                    difficultyInput.getValue());
             courseDAO.addCourse(newCourse);
+
+            for (Module module : modulesList) {
+                courseDAO.updateModule(module, newCourse.getName());
+            }
+
             succesMsg.setText(nameInput.getText() + " Has been added");
         });
 
         // Placing elements inside the layout elements
         form.getChildren().addAll(title, succesMsg, name, nameInput, topic, topicInput, description, descriptionInput,
-                difficulty, difficultyInput, submitBtn);
+                difficulty, difficultyInput, moduleLabel, modalBtn, submitBtn);
         leftMenu.getChildren().addAll(overviewBtn);
+
         layout.setLeft(leftMenu);
         layout.setCenter(form);
-        window.setTitle("Add new student");
+        window.setTitle("Add new course");
+
         return new Scene(layout);
+    }
+
+    public ArrayList<Module> toggleModal() {
+
+        Stage popupwindow = new Stage();
+      
+        popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setTitle("Add modules to course");
+            
+        Label title = new Label("Choose a avaible module"); 
+        Button saveBtn = new Button("Save");
+        VBox moduleLayout = new VBox(10);
+
+        moduleLayout.getChildren().add(title);
+        moduleLayout.setAlignment(Pos.CENTER);
+
+        // Make arrayList of the selected modules
+        ArrayList<Module> selectedModules = new ArrayList<>();
+
+        for(Module module : avaibleModules) {
+            CheckBox checkBox = new CheckBox(module.getTitle());
+
+            if (module.isActive()) {
+                checkBox.setSelected(true);
+                selectedModules.add(module);
+            }
+
+            checkBox.setOnAction((event) -> {
+                module.toggleActive();
+
+                if (module.isActive()) {
+                    selectedModules.add(module);
+                } else {
+                    selectedModules.remove(module);
+                }
+            });
+            moduleLayout.getChildren().add(checkBox);
+        }
+        moduleLayout.getChildren().add(saveBtn);    
+
+        saveBtn.setOnAction(e -> popupwindow.close());
+            
+        Scene scene1 = new Scene(moduleLayout, 300, 250);
+        
+        popupwindow.setScene(scene1);
+        popupwindow.showAndWait();
+
+        return selectedModules;
     }
 
 }

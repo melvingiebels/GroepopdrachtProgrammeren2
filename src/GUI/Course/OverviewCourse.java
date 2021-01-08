@@ -5,13 +5,12 @@ import Database.CourseDAO;
 import Domain.Course;
 import GUI.MainMenu;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -69,11 +68,11 @@ public class OverviewCourse{
         return new Scene(layout);
     }
 
-    public StackPane createOverview(Stage window) {
+    public ScrollPane createOverview(Stage window) {
         // sync
         courses = courseDAO.getAllCourses();
         // layout
-        StackPane overviewlayout = new StackPane();
+        ScrollPane overviewlayout = new ScrollPane();
 
         // column headers
         Label nameLabel = new Label("NAME");
@@ -117,10 +116,9 @@ public class OverviewCourse{
             table.getChildren().addAll(row);
         }
 
-        overviewlayout.getChildren().add(table);
+        overviewlayout.setContent(table);
         overviewlayout.setPrefSize(500, 600);
         overviewlayout.setPadding(new Insets(0,0,0,20));
-        overviewlayout.setAlignment(Pos.CENTER);
         return overviewlayout;
     }
 }

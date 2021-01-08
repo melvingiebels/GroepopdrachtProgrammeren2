@@ -3,6 +3,7 @@ package Database;
 import java.util.ArrayList;
 
 import Domain.Course;
+import Domain.Module;
 
 public class CourseDAO extends GenericDAO {
     public void addCourse(Course newCourse) {
@@ -37,6 +38,28 @@ public class CourseDAO extends GenericDAO {
 
     public void removeCourse(String courseName) {
         SQL = String.format("DELETE FROM Course WHERE CourseName='%s'", courseName);
+        this.excecuteQuery(SQL);
+    }
+
+    public ArrayList<Module> getAvaibleModules() {
+        ArrayList<Module> modules = new ArrayList<>();
+
+        try {
+            SQL = "SELECT * FROM Module WHERE CourseName IS NULL";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                modules.add(new Module(rs.getInt("ContentItemId"), rs.getInt("Version"), rs.getString("ContactName"),
+                        rs.getString("ContactMail"), rs.getInt("IndexNumber"), rs.getString("Title"), rs.getString("CourseName")));
+            }
+        } catch (Exception e) {
+        }
+        return modules;
+    }
+
+    public void updateModule(Module module, String courseName) {
+        SQL = String.format("UPDATE Module SET CourseName='%s' WHERE ContentItemId='%d'", courseName, module.getContentItemId());
         this.excecuteQuery(SQL);
     }
 }
