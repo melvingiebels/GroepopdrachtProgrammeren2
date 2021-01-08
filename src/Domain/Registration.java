@@ -6,11 +6,10 @@ public class Registration {
     private String email;
     private int certificateId;
 
-    public Registration(String registrationDate, String courseName, String email, int certificateId) {
+    public Registration(String registrationDate, String courseName, String email) {
         this.registrationDate = registrationDate;
         this.courseName = courseName;
         this.email = email;
-        this.certificateId = certificateId;
     }
 
     public String getRegistrationDate() {

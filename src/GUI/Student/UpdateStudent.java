@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import Database.StudentDAO;
 import Domain.Student;
+import GUI.Student.Registration.OverviewRegistration;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -68,6 +69,10 @@ public class UpdateStudent {
         Label countryLabel = new Label("Country: ");
 
         Button registrations = new Button("Registrations");
+        OverviewRegistration overviewRegistration = new OverviewRegistration();
+        registrations.setOnAction((event) -> {
+            window.setScene(overviewRegistration.getScene(window, student, studentDAO));
+        });
 
         Button submit = new Button("Save changes");
 

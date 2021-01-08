@@ -1,5 +1,6 @@
 package Database;
 
+import Domain.Registration;
 import Domain.Student;
 import java.util.ArrayList;
 
@@ -67,6 +68,35 @@ public class StudentDAO extends GenericDAO {
 
         } catch (Exception e) {
         }
+    }
+
+    public void addRegistration(Registration registration) {
+        SQL = String.format("INSERT INTO Registration (RegistrationDate, Coursename, Email) VALUES('%S','%S','%S')",
+                registration.getRegistrationDate(), registration.getCourseName(), registration.getEmail());
+        this.excecuteQuery(SQL);
+    }
+
+    public void removeRegistration(Registration registration) {
+        SQL = String.format("DELETE FROM Registration WHERE registrationDate='%s' AND CourseName='%s' AND Email='%s'",
+                registration.getRegistrationDate(), registration.getCourseName(), registration.getEmail());
+        this.excecuteQuery(SQL);
+    }
+
+    public ArrayList<Registration> getRegistrations(Student student) {
+        SQL = String.format("SELECT * FROM Registration WHERE Email='%s'", student.getEmail());
+        ArrayList<Registration> registrations = new ArrayList<>();
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+                registrations.add(new Registration(rs.getString("RegistrationDate"), rs.getString("CourseName"),
+                        rs.getString("Email")));
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return registrations;
     }
 
 }

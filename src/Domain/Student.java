@@ -32,6 +32,10 @@ public class Student {
         this.registrations = registrations;
     }
 
+    public void addNewRegistration(Registration registration) {
+        registrations.add(registration);
+    }
+
     public String getBirthdate() {
         return birthdate;
     }
