@@ -1,0 +1,9 @@
+.root{
+    -fx-font-family: "";
+    -fx-font-weight: bold;
+}
+
+.button{
+    -fx-background-color: rgb(175, 175, 175); 
+    -fx-text-fill: #fff; 
+}

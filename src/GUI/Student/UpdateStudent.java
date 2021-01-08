@@ -7,6 +7,7 @@ import Domain.Student;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -33,7 +34,11 @@ public class UpdateStudent {
 
         TextField nameInput = new TextField(student.getName());
         DatePicker birthdateInput = new DatePicker(LocalDate.parse(student.getBirthdate()));
-        TextField genderInput = new TextField(student.getGender());
+        ComboBox<String> genderInput = new ComboBox<>();
+
+        genderInput.setValue(student.getGender());
+        genderInput.getItems().addAll("Male", "Female", "Other");
+        
         TextField addressInput = new TextField(student.getAddress());
         TextField cityInput = new TextField(student.getCity());
         TextField countryInput = new TextField(student.getCountry());
@@ -52,10 +57,9 @@ public class UpdateStudent {
             String strDate = birthdateInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
             studentDAO.updateStudent(new Student(student.getEmail(), nameInput.getText(), strDate,
-                    genderInput.getText(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
+                    genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
 
             succesMsg.setText("Student has been successfully updated");
-
 
         });
 

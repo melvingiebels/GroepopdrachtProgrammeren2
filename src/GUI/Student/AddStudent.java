@@ -7,6 +7,7 @@ import Domain.Student;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -49,8 +50,12 @@ public class AddStudent {
         // add textfields and labels
         TextField emailInput = new TextField();
         TextField nameInput = new TextField();
-        DatePicker birthdateInput = new DatePicker();
-        TextField genderInput = new TextField();
+        DatePicker birthdateInput = new DatePicker();        
+        ComboBox<String> genderInput = new ComboBox<>();
+
+        genderInput.setValue("Male");
+        genderInput.getItems().addAll("Male", "Female", "Other");
+
         TextField addressInput = new TextField();
         TextField cityInput = new TextField();
         TextField countryInput = new TextField();
@@ -75,14 +80,14 @@ public class AddStudent {
             String strDate = birthdateInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
             studentDAO.addStudent(new Student(emailInput.getText(), nameInput.getText(), strDate,
-                    genderInput.getText(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
+                    genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
 
             succesMsg.setText(nameInput.getText() + " has been added");
 
             emailInput.clear();
             nameInput.clear();
             birthdateInput.getEditor().clear();
-            genderInput.clear();
+            genderInput.setValue("Male");
             addressInput.clear();
             cityInput.clear();
             countryInput.clear();

@@ -6,13 +6,12 @@ import Database.StudentDAO;
 import Domain.Student;
 import GUI.MainMenu;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -32,9 +31,6 @@ public class OverviewStudent{
         // Create menu for overview and add student buttons
         HBox topMenu = new HBox();
         topMenu.setPadding(new Insets(20, 0, 20, 20));
-        
-        // add border 
-        // topMenu.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
         // Create buttons for menu
         Button mainMenuBtn = new Button("Back");
@@ -62,18 +58,21 @@ public class OverviewStudent{
         layout.setCenter(createOverView(updateView, window));
         window.setTitle("Student overview");
         
-        return new Scene(layout);
+        Scene scene = new Scene(layout);
+        scene.getStylesheets().add("./GUI/Stylesheet.css");
+        return scene;
     }
 
-    private StackPane createOverView(UpdateStudent updateView, Stage window) {
+    private ScrollPane createOverView(UpdateStudent updateView, Stage window) {
 
         // Sync with database
         students = studentDAO.getAllStudents();
             
-        StackPane overviewlayout = new StackPane();
+        ScrollPane overviewlayout = new ScrollPane();
 
         Label emailLabel = new Label("EMAIL");
         Label nameLabel =  new Label("NAME");
+
 
         emailLabel.setStyle("-fx-font-weight: bold");
         emailLabel.setMinWidth(150);
@@ -112,11 +111,9 @@ public class OverviewStudent{
         
             table.getChildren().add(row);
         }
-
-        overviewlayout.getChildren().add(table);
+        overviewlayout.setContent(table);
         overviewlayout.setPrefSize(500, 600);
-        overviewlayout.setAlignment(Pos.CENTER);
-
+        overviewlayout.setPadding(new Insets(0,0,0,20));
         return overviewlayout;
     }
 }
