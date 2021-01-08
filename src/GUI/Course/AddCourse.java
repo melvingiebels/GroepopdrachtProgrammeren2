@@ -50,7 +50,6 @@ public class AddCourse {
         TextField topicInput = new TextField();
         TextArea descriptionInput = new TextArea();
         ComboBox<String> difficultyInput = new ComboBox<>();
-
         difficultyInput.setValue("Beginner");
         difficultyInput.getItems().addAll("Beginner", "Advanced", "Expert");
 
@@ -74,7 +73,6 @@ public class AddCourse {
         });
 
         // Change modules
-
         modalBtn.setOnAction((event) -> {
             modulesList = toggleModal();
             moduleLabel.setText("Aantal modules: " + modulesList.size());
@@ -101,7 +99,6 @@ public class AddCourse {
         layout.setLeft(leftMenu);
         layout.setCenter(form);
         window.setTitle("Add new course");
-
         return new Scene(layout);
     }
 
