@@ -37,7 +37,7 @@ public class AddStudent {
         form.setPadding(new Insets(30, 50, 50, 50));
         form.setSpacing(10);
         HBox leftMenu = new HBox();
-        leftMenu.setPadding(new Insets(20, 0, 0, 20));;
+        leftMenu.setPadding(new Insets(20, 0, 0, 20));
         layout.setCenter(form);
         layout.setLeft(leftMenu);
 
@@ -50,7 +50,7 @@ public class AddStudent {
         // add textfields and labels
         TextField emailInput = new TextField();
         TextField nameInput = new TextField();
-        DatePicker birthdateInput = new DatePicker();        
+        DatePicker birthdateInput = new DatePicker();
         ComboBox<String> genderInput = new ComboBox<>();
 
         genderInput.setValue("Male");
@@ -69,7 +69,7 @@ public class AddStudent {
         Label countryLabel = new Label("Country: ");
 
         // Add button actions
-        overviewBtn.setOnAction((event) ->  {
+        overviewBtn.setOnAction((event) -> {
             window.setScene(overviewStudent.getScene(window));
             window.setTitle("Student overview");
         });
@@ -95,9 +95,10 @@ public class AddStudent {
 
         leftMenu.getChildren().addAll(overviewBtn);
 
-        form.getChildren().addAll(title ,succesMsg, emailLabel, emailInput, nameLabel, nameInput, birthdateLabel, birthdateInput,
-                genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput, submitBtn);
-        
+        form.getChildren().addAll(title, succesMsg, emailLabel, emailInput, nameLabel, nameInput, birthdateLabel,
+                birthdateInput, genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput,
+                countryLabel, countryInput, submitBtn);
+
         window.setTitle("Student overview");
         layout.setPrefSize(500, 600);
         return new Scene(layout);
