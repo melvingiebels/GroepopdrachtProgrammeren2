@@ -1,5 +1,7 @@
 package Domain;
 
+import java.util.ArrayList;
+
 public class Student {
     private String email;
     private String name;
@@ -8,8 +10,10 @@ public class Student {
     private String address;
     private String city;
     private String country;
+    private ArrayList<Registration> registrations;
 
-    public Student(String email, String name, String birthdate, String gender, String address, String city, String country) {
+    public Student(String email, String name, String birthdate, String gender, String address, String city,
+            String country) {
         this.email = email;
         this.name = name;
         this.birthdate = birthdate;
@@ -17,6 +21,15 @@ public class Student {
         this.address = address;
         this.city = city;
         this.country = country;
+        registrations = new ArrayList<>();
+    }
+
+    public ArrayList<Registration> getRegistrations() {
+        return registrations;
+    }
+
+    public void setRegistrations(ArrayList<Registration> registrations) {
+        this.registrations = registrations;
     }
 
     public String getBirthdate() {
