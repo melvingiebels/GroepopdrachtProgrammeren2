@@ -24,7 +24,7 @@ public class MainMenu{
         
         // Create menu for main layout
         VBox menu = new VBox();
-        menu.setPadding(new Insets(80, 0, 0, 150));
+        menu.setPadding(new Insets(80, 0, 0, 200));
         menu.setSpacing(20);
 
         // Create buttons for menu
@@ -46,7 +46,7 @@ public class MainMenu{
             mainStage.setScene(courseScene.getScene(mainStage));
         });
         
-        layout.setPrefSize(500, 310);
+        layout.setPrefSize(600, 310);
         layout.setCenter(menu);
         
         Scene scene = new Scene(layout);

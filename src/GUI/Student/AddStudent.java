@@ -100,7 +100,7 @@ public class AddStudent {
                 countryLabel, countryInput, submitBtn);
 
         window.setTitle("Student overview");
-        layout.setPrefSize(500, 600);
+        layout.setPrefSize(600, 600);
         return new Scene(layout);
     }
 

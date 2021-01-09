@@ -99,6 +99,7 @@ public class AddCourse {
         layout.setLeft(leftMenu);
         layout.setCenter(form);
         window.setTitle("Add new course");
+        layout.setPrefSize(600, 600);
         return new Scene(layout);
     }
 

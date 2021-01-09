@@ -56,7 +56,7 @@ public class OverviewCourse {
 
         layout.setTop(topMenu);
         layout.setCenter(createOverview(window));
-        layout.setPrefSize(500, 600);
+        layout.setPrefSize(600, 600);
 
         return new Scene(layout);
     }
