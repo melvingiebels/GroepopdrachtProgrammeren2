@@ -1,4 +1,4 @@
-package Logic.tests;
+package Logic.Tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.Test;
@@ -67,7 +67,7 @@ public class InputValidationTest {
 
         // Assert
         assertEquals(false, result);
-   }
+    }
 
     @Test
     public void testValidateUrlRequiresNoSubdomainEnsuresFalse(){
