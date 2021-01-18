@@ -1,7 +1,7 @@
 package GUI.Student;
 
-import Database.StudentDAO;
 import Domain.Student;
+import GUI.GenericGUI;
 import GUI.Student.Registration.OverviewRegistration;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -14,9 +14,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class UpdateStudent {
+public class UpdateStudent extends GenericGUI {
 
-    public Scene getScene(Student student, StudentDAO studentDAO, Stage window) {
+    public Scene getScene(Student student, Stage window) {
 
         // create overview page for back button
         OverviewStudent overviewStudent = new OverviewStudent();
@@ -82,7 +82,7 @@ public class UpdateStudent {
         Button registrations = new Button("Registrations");
         OverviewRegistration overviewRegistration = new OverviewRegistration();
         registrations.setOnAction((event) -> {
-            window.setScene(overviewRegistration.getScene(window, student, studentDAO));
+            window.setScene(overviewRegistration.getScene(window, student));
         });
 
         Button submit = new Button("Save changes");
@@ -91,10 +91,11 @@ public class UpdateStudent {
 
             try {
                 // Check if input is a number and make it correct date format
-                String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()), Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
+                String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()),
+                        Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
 
                 studentDAO.updateStudent(new Student(student.getEmail(), nameInput.getText(), strDate,
-                genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
+                        genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
 
                 responseMsg.setText("Student has been successfully updated");
                 responseMsg.setStyle("-fx-text-fill: green");

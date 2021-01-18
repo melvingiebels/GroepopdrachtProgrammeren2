@@ -1,19 +1,16 @@
 package GUI.Student.Registration;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 import Database.CourseDAO;
 import Database.StudentDAO;
 import Domain.Course;
 import Domain.Registration;
 import Domain.Student;
+import GUI.GenericGUI;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -21,8 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AddRegistration {
-    private StudentDAO studentDAO = new StudentDAO();
+public class AddRegistration extends GenericGUI {
 
     public Scene getScene(Stage window, Student student) {
         // layout
@@ -34,7 +30,7 @@ public class AddRegistration {
         Button backBtn = new Button("Back");
         OverviewRegistration overviewRegistration = new OverviewRegistration();
         backBtn.setOnAction((event) -> {
-            window.setScene(overviewRegistration.getScene(window, student, studentDAO));
+            window.setScene(overviewRegistration.getScene(window, student));
         });
         leftMenu.getChildren().add(backBtn);
         layout.setLeft(leftMenu);
@@ -46,7 +42,7 @@ public class AddRegistration {
 
         // Inputfields & properties
         Label emailValue = new Label("Email of student: " + student.getEmail());
-        
+
         HBox dateInput = new HBox();
         dateInput.setSpacing(20);
 
@@ -81,7 +77,8 @@ public class AddRegistration {
         submitBtn.setOnAction((event) -> {
             try {
                 // Check if input is a number and make it correct date format
-                String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()), Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
+                String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()),
+                        Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
 
                 // create registration
                 Registration registration = new Registration(strDate, coursesInput.getValue(), student.getEmail());
@@ -98,19 +95,18 @@ public class AddRegistration {
                 responseMsg.setText("Date is not a number");
                 responseMsg.setStyle("-fx-text-fill: red");
             }
-            
+
         });
 
         dateInput.getChildren().addAll(dayInput, line1, monthInput, line2, yearInput);
-        form.getChildren().addAll(title, emailValue, responseMsg, registrationDateLabel, dateInput,
-                coursesLabel, coursesInput, submitBtn);
+        form.getChildren().addAll(title, emailValue, responseMsg, registrationDateLabel, dateInput, coursesLabel,
+                coursesInput, submitBtn);
 
         return new Scene(layout);
     }
 
     private ArrayList<String> createCourseList() {
         ArrayList<String> list = new ArrayList<>();
-        CourseDAO courseDAO = new CourseDAO();
         ArrayList<Course> courses = courseDAO.getAllCourses();
         for (Course course : courses) {
             list.add(course.getName());

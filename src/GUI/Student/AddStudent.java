@@ -1,7 +1,7 @@
 package GUI.Student;
 
-import Database.StudentDAO;
 import Domain.Student;
+import GUI.GenericGUI;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AddStudent {
+public class AddStudent extends GenericGUI {
 
     public Scene getScene(Stage window) {
 
@@ -46,7 +46,7 @@ public class AddStudent {
         // add textfields and labels
         TextField emailInput = new TextField();
         TextField nameInput = new TextField();
-      
+
         HBox dateInput = new HBox();
         dateInput.setSpacing(20);
 
@@ -84,14 +84,14 @@ public class AddStudent {
         });
 
         submitBtn.setOnAction((event) -> {
-            StudentDAO studentDAO = new StudentDAO();
 
             try {
                 // Check if input is a number and make it correct date format
-                String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()), Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
+                String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()),
+                        Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
 
                 studentDAO.addStudent(new Student(emailInput.getText(), nameInput.getText(), strDate,
-                genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
+                        genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
 
                 responseMsg.setText(nameInput.getText() + " has been added");
                 responseMsg.setStyle("-fx-text-fill: green");
@@ -114,8 +114,8 @@ public class AddStudent {
         leftMenu.getChildren().addAll(overviewBtn);
         dateInput.getChildren().addAll(dayInput, line1, monthInput, line2, yearInput);
         form.getChildren().addAll(title, responseMsg, emailLabel, emailInput, nameLabel, nameInput, birthdateLabel,
-                dateInput, genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput,
-                countryLabel, countryInput, submitBtn);
+                dateInput, genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel,
+                countryInput, submitBtn);
 
         window.setTitle("Student overview");
         layout.setPrefSize(600, 600);

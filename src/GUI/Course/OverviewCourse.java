@@ -1,8 +1,8 @@
 package GUI.Course;
 
 import java.util.ArrayList;
-import Database.CourseDAO;
 import Domain.Course;
+import GUI.GenericGUI;
 import GUI.MainMenu;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -14,14 +14,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class OverviewCourse {
+public class OverviewCourse extends GenericGUI {
 
     private AddCourse addView = new AddCourse();
     private UpdateCourse updateView = new UpdateCourse();
     private MainMenu mainMenuScene = new MainMenu();
 
     private ArrayList<Course> courses;
-    private CourseDAO courseDAO = new CourseDAO();
     private BorderPane layout = new BorderPane();
 
     public OverviewCourse() {

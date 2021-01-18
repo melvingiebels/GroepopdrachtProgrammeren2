@@ -1,7 +1,7 @@
 package GUI.Course;
 
-import Database.CourseDAO;
 import Domain.Course;
+import GUI.GenericGUI;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -12,8 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-public class UpdateCourse {
-    CourseDAO courseDAO = new CourseDAO();
+public class UpdateCourse extends GenericGUI {
 
     public Parent getView(Course course) {
         // Layout
@@ -37,7 +36,7 @@ public class UpdateCourse {
         TextField nameInput = new TextField(course.getName());
         TextField topicInput = new TextField(course.getTopic());
         TextArea descriptionInput = new TextArea(course.getDescription());
-        ComboBox difficultyInput = new ComboBox();
+        ComboBox<String> difficultyInput = new ComboBox<String>();
         difficultyInput.getItems().addAll("Beginner", "Advanced", "Expert");
         difficultyInput.setValue(course.getDifficulty());
 

@@ -2,8 +2,8 @@ package GUI.Student;
 
 import java.util.ArrayList;
 
-import Database.StudentDAO;
 import Domain.Student;
+import GUI.GenericGUI;
 import GUI.MainMenu;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -15,11 +15,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class OverviewStudent {
+public class OverviewStudent extends GenericGUI {
 
     private ArrayList<Student> students;
-    private StudentDAO studentDAO = new StudentDAO();
-    private BorderPane layout = new BorderPane();
 
     public Scene getScene(Stage window) {
 
@@ -27,6 +25,9 @@ public class OverviewStudent {
         AddStudent addView = new AddStudent();
         UpdateStudent updateView = new UpdateStudent();
         MainMenu mainMenuScene = new MainMenu();
+
+        // main layout
+        BorderPane layout = new BorderPane();
 
         // Create menu for overview and add student buttons
         HBox topMenu = new HBox();
@@ -105,7 +106,7 @@ public class OverviewStudent {
             row.setPadding(new Insets(10, 0, 0, 20));
 
             updateBtn.setOnAction((event) -> {
-                window.setScene(updateView.getScene(student, studentDAO, window));
+                window.setScene(updateView.getScene(student, window));
                 window.setTitle("Update student");
             });
 

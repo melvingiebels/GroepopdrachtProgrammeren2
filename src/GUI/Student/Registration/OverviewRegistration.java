@@ -1,10 +1,9 @@
 package GUI.Student.Registration;
 
 import java.util.ArrayList;
-
-import Database.StudentDAO;
 import Domain.Registration;
 import Domain.Student;
+import GUI.GenericGUI;
 import GUI.Student.UpdateStudent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -16,10 +15,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class OverviewRegistration {
+public class OverviewRegistration extends GenericGUI {
     private ArrayList<Registration> registrations;
 
-    public Scene getScene(Stage window, Student student, StudentDAO studentDAO) {
+    public Scene getScene(Stage window, Student student) {
         window.setTitle("Registrations of: " + student.getEmail());
         // Layouts of the overview
         BorderPane layout = new BorderPane();
@@ -32,7 +31,7 @@ public class OverviewRegistration {
         backBtn.setMinSize(50, 30);
         UpdateStudent updateStudent = new UpdateStudent();
         backBtn.setOnAction((event) -> {
-            window.setScene(updateStudent.getScene(student, studentDAO, window));
+            window.setScene(updateStudent.getScene(student, window));
         });
 
         Button addBtn = new Button("Add registration");
@@ -45,12 +44,12 @@ public class OverviewRegistration {
         topMenu.setSpacing(20);
 
         // overview element
-        layout.setCenter(this.createOverview(student, studentDAO));
+        layout.setCenter(this.createOverview(student));
 
         return new Scene(layout);
     }
 
-    private ScrollPane createOverview(Student student, StudentDAO studentDAO) {
+    private ScrollPane createOverview(Student student) {
         // get fresh list of registrations
         registrations = studentDAO.getRegistrations(student);
 
