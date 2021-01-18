@@ -1,14 +1,11 @@
 package GUI.Student;
 
-import java.time.format.DateTimeFormatter;
-
 import Database.StudentDAO;
 import Domain.Student;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -18,19 +15,18 @@ import javafx.stage.Stage;
 
 public class AddStudent {
 
-    private BorderPane layout = new BorderPane();
-
     public Scene getScene(Stage window) {
 
         // Create View
         OverviewStudent overviewStudent = new OverviewStudent();
 
+        BorderPane layout = new BorderPane();
+
         // create labels
         Label title = new Label("CREATE A NEW STUDENT");
         title.setStyle("-fx-font-weight: bold");
 
-        Label succesMsg = new Label("");
-        succesMsg.setStyle("-fx-text-fill: green");
+        Label responseMsg = new Label("");
 
         // Form elements
         VBox form = new VBox();
@@ -50,11 +46,22 @@ public class AddStudent {
         // add textfields and labels
         TextField emailInput = new TextField();
         TextField nameInput = new TextField();
-        DatePicker birthdateInput = new DatePicker();
+      
+        HBox dateInput = new HBox();
+        dateInput.setSpacing(20);
+
+        TextField dayInput = new TextField();
+        TextField monthInput = new TextField();
+        TextField yearInput = new TextField();
+
+        dayInput.setPromptText("Day: 00");
+        monthInput.setPromptText("Month: 00");
+        yearInput.setPromptText("Year: 0000");
+
         ComboBox<String> genderInput = new ComboBox<>();
 
         genderInput.setValue("Male");
-        genderInput.getItems().addAll("Male", "Female", "Other");
+        genderInput.getItems().addAll("Male", "Female");
 
         TextField addressInput = new TextField();
         TextField cityInput = new TextField();
@@ -67,6 +74,8 @@ public class AddStudent {
         Label addressLabel = new Label("Address:");
         Label cityLabel = new Label("City: ");
         Label countryLabel = new Label("Country: ");
+        Label line1 = new Label("-");
+        Label line2 = new Label("-");
 
         // Add button actions
         overviewBtn.setOnAction((event) -> {
@@ -77,26 +86,35 @@ public class AddStudent {
         submitBtn.setOnAction((event) -> {
             StudentDAO studentDAO = new StudentDAO();
 
-            String strDate = birthdateInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            try {
+                // Check if input is a number and make it correct date format
+                String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()), Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
 
-            studentDAO.addStudent(new Student(emailInput.getText(), nameInput.getText(), strDate,
-                    genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
+                studentDAO.addStudent(new Student(emailInput.getText(), nameInput.getText(), strDate,
+                genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
 
-            succesMsg.setText(nameInput.getText() + " has been added");
+                responseMsg.setText(nameInput.getText() + " has been added");
+                responseMsg.setStyle("-fx-text-fill: green");
 
-            emailInput.clear();
-            nameInput.clear();
-            birthdateInput.getEditor().clear();
-            genderInput.setValue("Male");
-            addressInput.clear();
-            cityInput.clear();
-            countryInput.clear();
+                emailInput.clear();
+                nameInput.clear();
+                dayInput.clear();
+                monthInput.clear();
+                yearInput.clear();
+                genderInput.setValue("Male");
+                addressInput.clear();
+                cityInput.clear();
+                countryInput.clear();
+            } catch (NumberFormatException e) {
+                responseMsg.setText("Date is not a number");
+                responseMsg.setStyle("-fx-text-fill: red");
+            }
         });
 
         leftMenu.getChildren().addAll(overviewBtn);
-
-        form.getChildren().addAll(title, succesMsg, emailLabel, emailInput, nameLabel, nameInput, birthdateLabel,
-                birthdateInput, genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput,
+        dateInput.getChildren().addAll(dayInput, line1, monthInput, line2, yearInput);
+        form.getChildren().addAll(title, responseMsg, emailLabel, emailInput, nameLabel, nameInput, birthdateLabel,
+                dateInput, genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput,
                 countryLabel, countryInput, submitBtn);
 
         window.setTitle("Student overview");
