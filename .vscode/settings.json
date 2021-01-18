@@ -10,6 +10,10 @@
         "c:\\javafx-sdk-11.0.2\\lib\\javafx.swing.jar",
         "c:\\javafx-sdk-11.0.2\\lib\\javafx.web.jar",
         "c:\\javafx-sdk-11.0.2\\lib\\javafx-swt.jar",
+<<<<<<< HEAD
         "c:\\Users\\pikub\\Downloads\\junit-platform-console-standalone-1.7.0-all.jar"
+=======
+        "c:\\Dev\\junit-platform-console-standalone-1.7.0-all.jar"
+>>>>>>> fb4fdf77428e81c507a4c38c03e4dfc89df6bbaa
     ]
 }
