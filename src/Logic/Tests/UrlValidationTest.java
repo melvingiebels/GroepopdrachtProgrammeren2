@@ -1,8 +1,10 @@
 package Logic.Tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
-import Logic.InputValidation;
+import Logic.Validation.UrlValidation;
 
 
 public class UrlValidationTest {
@@ -13,10 +15,22 @@ public class UrlValidationTest {
         String url = "www.website.com";
 
         // Act
-        Boolean result = InputValidation.validateUrl(url);
+        Boolean result = UrlValidation.validateUrl(url);
 
         // Assert
-        assertEquals(false, result);
+        assertFalse("Url contains no protocol", result);
+    }
+
+    @Test
+    public void testValidateUrlStartsWithProtocolEnsurestrue() {
+        // Arrange
+        String url = "http://www.website.com";
+
+        // Act
+        Boolean result = UrlValidation.validateUrl(url);
+
+        // Assert
+        assertTrue("Url contains protocol", result);
     }
 
     @Test
@@ -25,10 +39,22 @@ public class UrlValidationTest {
         String url = "https://.website.com";
 
         // Act
-        Boolean result = InputValidation.validateUrl(url);
+        Boolean result = UrlValidation.validateUrl(url);
 
         // Assert
-        assertEquals(false, result);
+        assertFalse("Url contains no subdomain", result);
+    }
+
+    @Test
+    public void testValidateUrlRequiresSubdomainEnsuresTrue(){
+        // Arrange
+        String url = "https://www.website.com";
+
+        // Act
+        Boolean result = UrlValidation.validateUrl(url);
+
+        // Assert
+        assertTrue("Url contains subdomain", result);
     }
 
     @Test
@@ -37,10 +63,22 @@ public class UrlValidationTest {
         String url = "http://www..com";
 
         // Act
-        Boolean result = InputValidation.validateUrl(url);
+        Boolean result = UrlValidation.validateUrl(url);
 
         // Assert
-        assertEquals(false, result);
+        assertFalse("Url contains no domain name", result);
+    }
+
+    @Test
+    public void testValidateUrlRequiresDomainNameEnsuresTrue(){
+        // Arrange
+        String url = "http://www..com";
+
+        // Act
+        Boolean result = UrlValidation.validateUrl(url);
+
+        // Assert
+        assertTrue("Url contains domain name", result);
     }
 
     @Test
@@ -49,9 +87,21 @@ public class UrlValidationTest {
         String url = "https://www.website.";
 
         // Act
-        Boolean result = InputValidation.validateUrl(url);
+        Boolean result = UrlValidation.validateUrl(url);
 
         // Assert
-        assertEquals(false, result);
+        assertFalse("Url contains no top level domain", result);
+    }
+
+    @Test
+    public void testValidateUrlRequiresTopLevelDomainEnsuresTrue(){
+        // Arrange
+        String url = "https://www.website.";
+
+        // Act
+        Boolean result = UrlValidation.validateUrl(url);
+
+        // Assert
+        assertTrue("Url contains top level domain", result);
     }
 }
