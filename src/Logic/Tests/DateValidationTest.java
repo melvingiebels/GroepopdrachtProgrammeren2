@@ -1,8 +1,10 @@
 package Logic.Tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
-import Logic.InputValidation;
+import Logic.Validation.MailValidation;
 
 
 public class DateValidationTest {
