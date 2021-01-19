@@ -19,12 +19,13 @@ public class OverviewStudent extends GenericGUI {
 
     private ArrayList<Student> students;
 
-    public Scene getScene(Stage window) {
+    // Create views
+    private AddStudent addView = new AddStudent();
+    private UpdateStudent updateView = new UpdateStudent();
+    private MainMenu mainMenuScene = new MainMenu();
+    private StudentDetails studentDetails = new StudentDetails();
 
-        // Create views
-        AddStudent addView = new AddStudent();
-        UpdateStudent updateView = new UpdateStudent();
-        MainMenu mainMenuScene = new MainMenu();
+    public Scene getScene(Stage window) {
 
         // main layout
         BorderPane layout = new BorderPane();
@@ -60,7 +61,7 @@ public class OverviewStudent extends GenericGUI {
         });
 
         layout.setTop(topMenu);
-        layout.setCenter(createOverView(updateView, window));
+        layout.setCenter(createOverView(window));
         window.setTitle("Student overview");
 
         Scene scene = new Scene(layout);
@@ -68,24 +69,27 @@ public class OverviewStudent extends GenericGUI {
         return scene;
     }
 
-    private ScrollPane createOverView(UpdateStudent updateView, Stage window) {
+    // create overview with students + buttons
+    private ScrollPane createOverView(Stage window) {
 
         // Sync with database
         students = studentDAO.getAllStudents();
 
+        // main layout scrollpane
         ScrollPane overviewlayout = new ScrollPane();
 
+        // "table" headers
         Label emailLabel = new Label("EMAIL");
         Label nameLabel = new Label("NAME");
-
         emailLabel.setStyle("-fx-font-weight: bold");
         emailLabel.setMinWidth(150);
-
         nameLabel.setStyle("-fx-font-weight: bold");
 
+        // Individual record
         HBox headRow = new HBox(20, emailLabel, nameLabel);
         headRow.setPadding(new Insets(0, 0, 0, 20));
 
+        // Table grid
         VBox table = new VBox();
         table.getChildren().add(headRow);
 
@@ -93,7 +97,6 @@ public class OverviewStudent extends GenericGUI {
         for (Student student : students) {
             Label email = new Label(student.getEmail());
             Label name = new Label(student.getName());
-
             email.setMinWidth(150);
             name.setMinWidth(150);
 
@@ -101,8 +104,9 @@ public class OverviewStudent extends GenericGUI {
             updateBtn.setId("orangeBtn");
             Button deleteBtn = new Button("Delete");
             deleteBtn.setId("redBtn");
+            Button detailBtn = new Button("Details");
 
-            HBox row = new HBox(20, email, name, updateBtn, deleteBtn);
+            HBox row = new HBox(20, email, name, updateBtn, detailBtn, deleteBtn);
             row.setPadding(new Insets(10, 0, 0, 20));
 
             updateBtn.setOnAction((event) -> {
@@ -113,6 +117,10 @@ public class OverviewStudent extends GenericGUI {
             deleteBtn.setOnAction((event) -> {
                 studentDAO.removeStudent(student.getEmail());
                 table.getChildren().remove(row);
+            });
+
+            detailBtn.setOnAction((event) -> {
+                window.setScene(studentDetails.getScene(window, student));
             });
 
             table.getChildren().add(row);

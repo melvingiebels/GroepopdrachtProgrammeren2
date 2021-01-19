@@ -39,4 +39,5 @@ public class ContentItemDAO extends GenericDAO {
             System.out.println("failed to update module");
         }
     }
+
 }

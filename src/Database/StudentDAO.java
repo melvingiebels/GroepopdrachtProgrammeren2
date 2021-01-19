@@ -1,6 +1,8 @@
 package Database;
 
 import java.sql.*;
+
+import Domain.Course;
 import Domain.Registration;
 import Domain.Student;
 import java.util.ArrayList;
@@ -131,6 +133,25 @@ public class StudentDAO extends GenericDAO {
             System.out.println("failed to get registrations");
         }
         return registrations;
+    }
+
+    public ArrayList<String> getCourses(String email) {
+        SQL = "SELECT DISTINCT CourseName FROM Registration WHERE Email= ?";
+        ArrayList<String> courses = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to prepared statement
+            stmt.setString(1, email);
+
+            // Excecute query
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                courses.add(rs.getString("CourseName"));
+            }
+        } catch (Exception e) {
+            System.out.println("failed to retrieve courses");
+        }
+        return courses;
     }
 
 }
