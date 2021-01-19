@@ -1,23 +1,31 @@
 package GUI.Course;
 
-import Database.CourseDAO;
 import Domain.Course;
+import GUI.GenericGUI;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-public class UpdateCourse {
-    CourseDAO courseDAO = new CourseDAO();
+public class UpdateCourse extends GenericGUI {
 
-    public Parent getView(Course course) {
+    public Scene getScene(Course course, Stage window) {
+
+        // create views
+        OverviewCourse courseOverview = new OverviewCourse();
+
         // Layout
         BorderPane layout = new BorderPane();
+        HBox leftMenu = new HBox();
+        leftMenu.setPadding(new Insets(20, 0, 0, 20));
 
         // Form Layout
         VBox form = new VBox();
@@ -37,14 +45,21 @@ public class UpdateCourse {
         TextField nameInput = new TextField(course.getName());
         TextField topicInput = new TextField(course.getTopic());
         TextArea descriptionInput = new TextArea(course.getDescription());
-        ComboBox difficultyInput = new ComboBox();
+        ComboBox<String> difficultyInput = new ComboBox<>();
+
         difficultyInput.getItems().addAll("Beginner", "Advanced", "Expert");
         difficultyInput.setValue(course.getDifficulty());
 
         Label succesMsg = new Label("");
         succesMsg.setStyle("-fx-text-fill: green");
 
+        Button overviewBtn = new Button("Back");
         Button submit = new Button("SUBMIT");
+
+        // Switch to overview
+        overviewBtn.setOnAction((event) -> {
+            window.setScene(courseOverview.getScene(window));
+        });
 
         // update event
         submit.setOnAction((event) -> {
@@ -55,9 +70,13 @@ public class UpdateCourse {
             succesMsg.setText("Student has been successfully updated");
         });
 
+        leftMenu.getChildren().addAll(overviewBtn);;
         form.getChildren().addAll(title, succesMsg, nameLabel, nameInput, topicLabel, topicInput, descriptionLabel,
                 descriptionInput, difficultyLabel, difficultyInput, submit);
 
-        return layout;
+        layout.setLeft(leftMenu);
+        layout.setCenter(form);
+
+        return new Scene(layout);
     }
 }

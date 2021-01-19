@@ -2,11 +2,11 @@ package Database;
 
 import java.sql.*;
 import java.util.ArrayList;
-
 import Domain.Course;
-import Domain.Module;
 
 public class CourseDAO extends GenericDAO {
+
+    // Adding new courses to the database
     public void addCourse(Course newCourse) {
         SQL = "INSERT INTO Course VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
@@ -23,6 +23,7 @@ public class CourseDAO extends GenericDAO {
         }
     }
 
+    // Get all courses from the database
     public ArrayList<Course> getAllCourses() {
         ArrayList<Course> courses = new ArrayList<>();
         SQL = "SELECT * FROM Course";
@@ -41,6 +42,7 @@ public class CourseDAO extends GenericDAO {
         return courses;
     }
 
+    // Update course in the database
     public void updateCourse(Course course) {
         SQL = "UPDATE Course SET CourseName= ?, Topic= ?, Description= ?, Difficulty= ? WHERE CourseName= ?";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
@@ -58,6 +60,7 @@ public class CourseDAO extends GenericDAO {
         }
     }
 
+    // remove a course from the database
     public void removeCourse(String courseName) {
         SQL = "DELETE FROM Course WHERE CourseName= ?";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
@@ -69,39 +72,6 @@ public class CourseDAO extends GenericDAO {
             System.out.println(stmt);
         } catch (Exception e) {
             System.out.println("failed to remove course");
-        }
-    }
-
-    public ArrayList<Module> getAvaibleModules() {
-        ArrayList<Module> modules = new ArrayList<>();
-        SQL = "SELECT * FROM Module WHERE CourseName IS NULL";
-
-        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
-            // execute statement
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                modules.add(new Module(rs.getInt("ContentItemId"), rs.getInt("Version"), rs.getString("ContactName"),
-                        rs.getString("ContactMail"), rs.getInt("IndexNumber"), rs.getString("Title"),
-                        rs.getString("CourseName")));
-            }
-        } catch (Exception e) {
-            System.out.println("failed to getAvailableModules");
-        }
-        return modules;
-    }
-
-    public void updateModule(Module module, String courseName) {
-        SQL = "UPDATE Module SET CourseName= ? WHERE ContentItemId= ?";
-        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
-            // Add values to prepared statement
-            stmt.setString(1, courseName);
-            stmt.setInt(2, module.getContentItemId());
-
-            // execute statement
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("failed to update module");
         }
     }
 }

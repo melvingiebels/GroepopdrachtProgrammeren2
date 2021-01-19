@@ -2,9 +2,9 @@ package GUI.Course;
 
 import java.util.ArrayList;
 
-import Database.CourseDAO;
 import Domain.Course;
 import Domain.Module;
+import GUI.GenericGUI;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,21 +20,21 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AddCourse {
+public class AddCourse extends GenericGUI {
 
-    private BorderPane layout = new BorderPane();
-    private CourseDAO courseDAO = new CourseDAO();
-    private ArrayList<Module> avaibleModules = courseDAO.getAvaibleModules();
+    private ArrayList<Module> avaibleModules = contentItemDAO.getAvaibleModules();
     private ArrayList<Module> modulesList = new ArrayList<>();
 
     public Scene getScene(Stage window) {
-        
-        // create views
+
+        // Create view
         OverviewCourse courseOverview = new OverviewCourse();
 
-        // main layout
+        // Main layout
+        BorderPane layout = new BorderPane();
         HBox leftMenu = new HBox();
-        leftMenu.setPadding(new Insets(20, 0, 0, 20));;
+        leftMenu.setPadding(new Insets(20, 0, 0, 20));
+        
         Label title = new Label("CREATE A NEW COURSE");
         title.setStyle("-fx-font-weight: bold");
 
@@ -44,7 +44,6 @@ public class AddCourse {
         form.setSpacing(10);
         layout.setCenter(form);
 
-    
         // Inputfields & properties
         TextField nameInput = new TextField();
         TextField topicInput = new TextField();
@@ -63,8 +62,8 @@ public class AddCourse {
         Label moduleLabel = new Label("Aantal modules: 0");
 
         // Button + addEvent
-        Button overviewBtn = new Button("Back");    
-        Button modalBtn = new Button("Add modules");    
+        Button overviewBtn = new Button("Back");
+        Button modalBtn = new Button("Add modules");
         Button submitBtn = new Button("SUBMIT");
 
         // Switch to overview
@@ -77,7 +76,7 @@ public class AddCourse {
             modulesList = toggleModal();
             moduleLabel.setText("Aantal modules: " + modulesList.size());
         });
-        
+
         // submit action
         submitBtn.setOnAction((event) -> {
             Course newCourse = new Course(nameInput.getText(), topicInput.getText(), descriptionInput.getText(),
@@ -85,7 +84,7 @@ public class AddCourse {
             courseDAO.addCourse(newCourse);
 
             for (Module module : modulesList) {
-                courseDAO.updateModule(module, newCourse.getName());
+                contentItemDAO.updateModule(module, newCourse.getName());
             }
 
             succesMsg.setText(nameInput.getText() + " Has been added");
@@ -106,11 +105,11 @@ public class AddCourse {
     public ArrayList<Module> toggleModal() {
 
         Stage popupwindow = new Stage();
-      
+
         popupwindow.initModality(Modality.APPLICATION_MODAL);
         popupwindow.setTitle("Add modules to course");
-            
-        Label title = new Label("Choose a avaible module"); 
+
+        Label title = new Label("Choose a avaible module");
         Button saveBtn = new Button("Save");
         VBox moduleLayout = new VBox(10);
 
@@ -120,7 +119,7 @@ public class AddCourse {
         // Make arrayList of the selected modules
         ArrayList<Module> selectedModules = new ArrayList<>();
 
-        for(Module module : avaibleModules) {
+        for (Module module : avaibleModules) {
             CheckBox checkBox = new CheckBox(module.getTitle());
 
             if (module.isActive()) {
@@ -139,12 +138,12 @@ public class AddCourse {
             });
             moduleLayout.getChildren().add(checkBox);
         }
-        moduleLayout.getChildren().add(saveBtn);    
+        moduleLayout.getChildren().add(saveBtn);
 
         saveBtn.setOnAction(e -> popupwindow.close());
-            
+
         Scene scene1 = new Scene(moduleLayout, 300, 250);
-        
+
         popupwindow.setScene(scene1);
         popupwindow.showAndWait();
 

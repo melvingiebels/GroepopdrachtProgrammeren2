@@ -1,8 +1,8 @@
 package GUI.Course;
 
 import java.util.ArrayList;
-import Database.CourseDAO;
 import Domain.Course;
+import GUI.GenericGUI;
 import GUI.MainMenu;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -14,14 +14,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class OverviewCourse {
+public class OverviewCourse extends GenericGUI {
 
     private AddCourse addView = new AddCourse();
     private UpdateCourse updateView = new UpdateCourse();
+    private DetailsCourse detailsView = new DetailsCourse();
     private MainMenu mainMenuScene = new MainMenu();
 
     private ArrayList<Course> courses;
-    private CourseDAO courseDAO = new CourseDAO();
     private BorderPane layout = new BorderPane();
 
     public OverviewCourse() {
@@ -87,18 +87,23 @@ public class OverviewCourse {
             name.setMinWidth(150);
             description.setMinWidth(150);
 
-            // buttons
+            // Action Buttons
             Button updateBtn = new Button("Update");
+            Button detailsBtn = new Button("Details");
             Button deleteBtn = new Button("Delete");
 
             // Make row
-            HBox row = new HBox(20, name, description, updateBtn, deleteBtn);
+            HBox row = new HBox(20, name, description, updateBtn, detailsBtn, deleteBtn);
             row.setPadding(new Insets(10, 0, 0, 0));
 
             // Add button events
             updateBtn.setOnAction((event) -> {
-                layout.setCenter(updateView.getView(course));
+                window.setScene(updateView.getScene(course, window));
                 window.setTitle("Update course");
+            });
+            detailsBtn.setOnAction((event) -> {
+                window.setScene(detailsView.getScene(window));
+                window.setTitle(course.getName() + " details");
             });
             deleteBtn.setOnAction((event) -> {
                 courseDAO.removeCourse(course.getName());

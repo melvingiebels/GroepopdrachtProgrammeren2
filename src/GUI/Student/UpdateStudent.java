@@ -1,16 +1,11 @@
 package GUI.Student;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import Database.StudentDAO;
 import Domain.Student;
-import GUI.Student.Registration.OverviewRegistration;
+import GUI.GenericGUI;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -18,20 +13,20 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class UpdateStudent {
+public class UpdateStudent extends GenericGUI {
 
-    public Scene getScene(Student student, StudentDAO studentDAO, Stage window) {
+    public Scene getScene(Student student, Stage window) {
 
         // create overview page for back button
         OverviewStudent overviewStudent = new OverviewStudent();
 
         BorderPane layout = new BorderPane();
 
+        // Create labels
         Label title = new Label("Update student: " + student.getEmail());
         title.setStyle("-fx-font-weight: bold");
 
-        Label succesMsg = new Label("");
-        succesMsg.setStyle("-fx-text-fill: green");
+        Label responseMsg = new Label("");
 
         Button backToUpdatePage = new Button("Back");
         backToUpdatePage.setOnAction((event) -> {
@@ -51,11 +46,24 @@ public class UpdateStudent {
         layout.setCenter(form);
 
         TextField nameInput = new TextField(student.getName());
-        DatePicker birthdateInput = new DatePicker(LocalDate.parse(student.getBirthdate()));
+
+        HBox dateInput = new HBox();
+        dateInput.setSpacing(20);
+
+        String[] date = student.getBirthdate().split("-");
+
+        TextField dayInput = new TextField(date[2]);
+        TextField monthInput = new TextField(date[1]);
+        TextField yearInput = new TextField(date[0]);
+
+        dayInput.setPromptText("Day: 00");
+        monthInput.setPromptText("Month: 00");
+        yearInput.setPromptText("Year: 0000");
+
         ComboBox<String> genderInput = new ComboBox<>();
 
         genderInput.setValue(student.getGender());
-        genderInput.getItems().addAll("Male", "Female", "Other");
+        genderInput.getItems().addAll("Male", "Female");
 
         TextField addressInput = new TextField(student.getAddress());
         TextField cityInput = new TextField(student.getCity());
@@ -67,29 +75,32 @@ public class UpdateStudent {
         Label addressLabel = new Label("Address:");
         Label cityLabel = new Label("City: ");
         Label countryLabel = new Label("Country: ");
-
-        Button registrations = new Button("Registrations");
-        OverviewRegistration overviewRegistration = new OverviewRegistration();
-        registrations.setOnAction((event) -> {
-            window.setScene(overviewRegistration.getScene(window, student, studentDAO));
-        });
+        Label line1 = new Label("-");
+        Label line2 = new Label("-");
 
         Button submit = new Button("Save changes");
 
         submit.setOnAction((event) -> {
 
-            String strDate = birthdateInput.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            try {
+                // Check if input is a number and make it correct date format
+                String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()),
+                        Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
 
-            studentDAO.updateStudent(new Student(student.getEmail(), nameInput.getText(), strDate,
-                    genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
+                studentDAO.updateStudent(new Student(student.getEmail(), nameInput.getText(), strDate,
+                        genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
 
-            succesMsg.setText("Student has been successfully updated");
-
+                responseMsg.setText("Student has been successfully updated");
+                responseMsg.setStyle("-fx-text-fill: green");
+            } catch (NumberFormatException e) {
+                responseMsg.setText("Date is not a number");
+                responseMsg.setStyle("-fx-text-fill: red");
+            }
         });
 
-        form.getChildren().addAll(title, succesMsg, nameLabel, nameInput, birthdateLabel, birthdateInput, genderLabel,
-                genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput,
-                registrations, submit);
+        dateInput.getChildren().addAll(dayInput, line1, monthInput, line2, yearInput);
+        form.getChildren().addAll(title, responseMsg, nameLabel, nameInput, birthdateLabel, dateInput, genderLabel,
+                genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput, submit);
 
         return new Scene(layout);
     }
