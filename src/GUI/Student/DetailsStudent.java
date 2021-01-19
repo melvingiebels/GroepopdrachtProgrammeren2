@@ -3,6 +3,7 @@ package GUI.Student;
 import java.util.ArrayList;
 
 import Domain.Student;
+import Domain.Module;
 import GUI.GenericGUI;
 import GUI.Student.Registration.OverviewRegistration;
 import javafx.geometry.Insets;
@@ -13,6 +14,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class DetailsStudent extends GenericGUI {
@@ -107,7 +109,7 @@ public class DetailsStudent extends GenericGUI {
             row.setPadding(new Insets(10, 0, 0, 20));
 
             progressBtn.setOnAction((event) -> {
-
+                this.toggleModal(course, student.getEmail());
             });
 
             table.getChildren().add(row);
@@ -116,5 +118,41 @@ public class DetailsStudent extends GenericGUI {
         overviewlayout.setPrefSize(600, 600);
         overviewlayout.setPadding(new Insets(0, 0, 0, 20));
         return overviewlayout;
+    }
+
+    public void toggleModal(String courseName, String email) {
+        // create list of modules per course
+        ArrayList<Module> modules = courseDAO.getModulesPerCourse(courseName);
+        Stage popupwindow = new Stage();
+
+        popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setTitle("Progress on each module");
+
+        ScrollPane scrollPane = new ScrollPane();
+        VBox list = new VBox();
+        list.setSpacing(20);
+        HBox listHeader = new HBox();
+        listHeader.getChildren().addAll(new Label("Version"), new Label("Index"), new Label("Title"),
+                new Label("Progress"));
+        list.getChildren().add(listHeader);
+        listHeader.setSpacing(20);
+        for (Module module : modules) {
+            Label version = new Label(String.valueOf(module.getVersion()));
+            Label index = new Label(String.valueOf(module.getIndexNumber()));
+            Label title = new Label(module.getTitle());
+            Label progress = new Label(
+                    String.valueOf(studentDAO.getProgressPerModulePerStudent(email, module.getContentItemId())));
+
+            HBox row = new HBox();
+            row.setSpacing(20);
+            row.getChildren().addAll(version, index, title, progress);
+
+            list.getChildren().add(row);
+        }
+
+        scrollPane.setContent(list);
+        Scene scene = new Scene(scrollPane);
+        popupwindow.setScene(scene);
+        popupwindow.showAndWait();
     }
 }

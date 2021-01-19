@@ -1,13 +1,12 @@
 package Database;
 
 import java.sql.*;
-
-import Domain.Course;
 import Domain.Registration;
 import Domain.Student;
 import java.util.ArrayList;
 
 public class StudentDAO extends GenericDAO {
+    // Add a student to the database
     public void addStudent(Student newStudent) {
         SQL = "INSERT INTO Student VALUES(?, ?, ? ,?, ?, ?, ?)";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
@@ -28,6 +27,7 @@ public class StudentDAO extends GenericDAO {
         }
     }
 
+    // Get list of students
     public ArrayList<Student> getAllStudents() {
         ArrayList<Student> students = new ArrayList<>();
         SQL = "SELECT * FROM Student";
@@ -49,6 +49,7 @@ public class StudentDAO extends GenericDAO {
         return students;
     }
 
+    // Update student
     public void updateStudent(Student student) {
         SQL = "UPDATE Student SET Name= ?, Birthdate= ?, Gender= ?, Address= ?, City= ?, Country= ? WHERE Email= ?";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
@@ -67,6 +68,7 @@ public class StudentDAO extends GenericDAO {
         }
     }
 
+    // Remove student
     public void removeStudent(String email) {
         SQL = "DELETE FROM Student WHERE Email= ?";
 
@@ -81,6 +83,8 @@ public class StudentDAO extends GenericDAO {
         }
     }
 
+    // Add a registration and set the progress on 0 after (also set progress back to
+    // 0 by multiple registrations for the same course)
     public void addRegistration(Registration registration) {
         SQL = "INSERT INTO Registration (RegistrationDate, Coursename, Email) VALUES(?, ?, ?)";
 
@@ -96,6 +100,40 @@ public class StudentDAO extends GenericDAO {
         } catch (Exception e) {
             System.out.println("failed to add registration");
         }
+
+        // Set progress on all modules at 0 after a registration
+        // Get a list of contentItemID's(modules) from the course
+        CourseDAO courseDAO = new CourseDAO();
+        ArrayList<Integer> modules = courseDAO.getContentItemIdModule(registration.getCourseName());
+
+        // Add progress to database per module
+
+        for (int module : modules) {
+            // first check if there is already process made & set it back to 0
+            SQL = "UPDATE Progress SET Percentage= 0 WHERE Email=? AND contentItemId=?";
+            try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+                stmt.setString(1, registration.getEmail());
+                stmt.setInt(2, module);
+                // Excecute query
+                stmt.executeQuery();
+            } catch (Exception e) {
+                SQL = "INSERT INTO Progress VALUES(?, ?, ?)";
+                try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+                    // Add values to prepared statement
+                    stmt.setString(1, registration.getEmail());
+                    stmt.setInt(2, module);
+                    stmt.setInt(3, 0);
+
+                    // Excecute query
+                    stmt.executeQuery();
+
+                } catch (Exception b) {
+                    System.out.println("failed to add progress");
+                }
+            }
+
+        }
+
     }
 
     public void removeRegistration(Registration registration) {
@@ -152,6 +190,24 @@ public class StudentDAO extends GenericDAO {
             System.out.println("failed to retrieve courses");
         }
         return courses;
+    }
+
+    public int getProgressPerModulePerStudent(String email, int contentItemId) {
+        SQL = "SELECT * FROM Progress WHERE Email=? AND ContentItemId= ?";
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to statement
+            stmt.setString(1, email);
+            stmt.setInt(2, contentItemId);
+            rs = stmt.executeQuery();
+            // excecute query
+            while (rs.next()) {
+                return rs.getInt("Percentage");
+            }
+        } catch (Exception e) {
+            System.out.println("failed to get progress");
+        }
+        return 0;
+
     }
 
 }
