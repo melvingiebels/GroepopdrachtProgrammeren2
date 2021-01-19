@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class StudentDetails extends GenericGUI {
+public class DetailsStudent extends GenericGUI {
 
     public Scene getScene(Stage window, Student student) {
         // create overview page for back button
@@ -23,7 +23,7 @@ public class StudentDetails extends GenericGUI {
         // main layout
         BorderPane layout = new BorderPane();
 
-        // Back button 
+        // Back button
         Button backBtn = new Button("Back");
         backBtn.setOnAction((event) -> {
             window.setScene(overviewStudent.getScene(window));

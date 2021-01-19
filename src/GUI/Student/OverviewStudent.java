@@ -23,7 +23,7 @@ public class OverviewStudent extends GenericGUI {
     private AddStudent addView = new AddStudent();
     private UpdateStudent updateView = new UpdateStudent();
     private MainMenu mainMenuScene = new MainMenu();
-    private StudentDetails studentDetails = new StudentDetails();
+    private DetailsStudent studentDetails = new DetailsStudent();
 
     public Scene getScene(Stage window) {
 

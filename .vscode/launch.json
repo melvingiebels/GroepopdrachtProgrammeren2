@@ -8,6 +8,7 @@
             "type": "java",
             "name": "Launch SceneController",
             "request": "launch",
+            "vmArgs": "-p C:\\javafx-sdk-11.0.2\\lib --add-modules javafx.controls",
             "mainClass": "GUI.SceneController",
             "projectName": "GroepopdrachtProgrammeren2_136dde90"
         },
