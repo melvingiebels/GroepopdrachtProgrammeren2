@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 public class AddCourse extends GenericGUI {
 
-    private ArrayList<Module> avaibleModules = courseDAO.getAvaibleModules();
+    private ArrayList<Module> avaibleModules = contentItemDAO.getAvaibleModules();
     private ArrayList<Module> modulesList = new ArrayList<>();
 
     public Scene getScene(Stage window) {
@@ -84,7 +84,7 @@ public class AddCourse extends GenericGUI {
             courseDAO.addCourse(newCourse);
 
             for (Module module : modulesList) {
-                courseDAO.updateModule(module, newCourse.getName());
+                contentItemDAO.updateModule(module, newCourse.getName());
             }
 
             succesMsg.setText(nameInput.getText() + " Has been added");

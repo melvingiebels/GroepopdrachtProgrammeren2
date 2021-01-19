@@ -1,8 +1,6 @@
 package GUI.Student.Registration;
 
 import java.util.ArrayList;
-import Database.CourseDAO;
-import Database.StudentDAO;
 import Domain.Course;
 import Domain.Registration;
 import Domain.Student;
