@@ -3,6 +3,7 @@ package Database;
 import java.sql.*;
 import Domain.Registration;
 import Domain.Student;
+import Domain.Module;
 import java.util.ArrayList;
 
 public class StudentDAO extends GenericDAO {
@@ -104,16 +105,15 @@ public class StudentDAO extends GenericDAO {
         // Set progress on all modules at 0 after a registration
         // Get a list of contentItemID's(modules) from the course
         CourseDAO courseDAO = new CourseDAO();
-        ArrayList<Integer> modules = courseDAO.getContentItemIdModule(registration.getCourseName());
+        ArrayList<Module> modules = courseDAO.getModulesPerCourse(registration.getCourseName());
 
         // Add progress to database per module
-
-        for (int module : modules) {
+        for (Module module : modules) {
             // first check if there is already process made & set it back to 0
             SQL = "UPDATE Progress SET Percentage= 0 WHERE Email=? AND contentItemId=?";
             try (PreparedStatement stmt = con.prepareStatement(SQL)) {
                 stmt.setString(1, registration.getEmail());
-                stmt.setInt(2, module);
+                stmt.setInt(2, module.getContentItemId());
                 // Excecute query
                 stmt.executeQuery();
             } catch (Exception e) {
@@ -121,7 +121,7 @@ public class StudentDAO extends GenericDAO {
                 try (PreparedStatement stmt = con.prepareStatement(SQL)) {
                     // Add values to prepared statement
                     stmt.setString(1, registration.getEmail());
-                    stmt.setInt(2, module);
+                    stmt.setInt(2, module.getContentItemId());
                     stmt.setInt(3, 0);
 
                     // Excecute query

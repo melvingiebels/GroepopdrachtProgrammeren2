@@ -76,26 +76,7 @@ public class CourseDAO extends GenericDAO {
         }
     }
 
-    public ArrayList<Integer> getContentItemIdModule(String courseName) {
-        ArrayList<Integer> modules = new ArrayList<>();
-
-        SQL = "SELECT ContentItemId FROM Module WHERE CourseName =?";
-        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
-            // Add values to prepared statement
-            stmt.setString(1, courseName);
-
-            // Excecute query
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                modules.add(rs.getInt("ContentItemId"));
-            }
-        } catch (Exception e) {
-            System.out.println("failed to retrieve modules from the course");
-        }
-        return modules;
-    }
-
+    // Get a list of modules in a course
     public ArrayList<Module> getModulesPerCourse(String courseName) {
         ArrayList<Module> modules = new ArrayList<>();
         SQL = "SELECT * FROM Module WHERE CourseName=?";
