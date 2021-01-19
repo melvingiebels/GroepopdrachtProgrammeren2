@@ -23,7 +23,7 @@ public class OverviewStudent extends GenericGUI {
     private AddStudent addView = new AddStudent();
     private UpdateStudent updateView = new UpdateStudent();
     private MainMenu mainMenuScene = new MainMenu();
-    private DetailsStudent studentDetails = new DetailsStudent();
+    private DetailsStudent detailsStudent = new DetailsStudent();
 
     public Scene getScene(Stage window) {
 
@@ -119,7 +119,7 @@ public class OverviewStudent extends GenericGUI {
             });
 
             detailBtn.setOnAction((event) -> {
-                window.setScene(studentDetails.getScene(window, student));
+                window.setScene(detailsStudent.getScene(window, student));
             });
 
             table.getChildren().add(row);

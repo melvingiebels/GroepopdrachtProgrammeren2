@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Domain.Student;
 import GUI.GenericGUI;
+import GUI.Student.Registration.OverviewRegistration;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,12 +17,15 @@ import javafx.stage.Stage;
 
 public class DetailsStudent extends GenericGUI {
 
+    private OverviewRegistration overviewRegistration = new OverviewRegistration();
+
     public Scene getScene(Stage window, Student student) {
         // create overview page for back button
         OverviewStudent overviewStudent = new OverviewStudent();
 
         // main layout
         BorderPane layout = new BorderPane();
+        window.setTitle("Student details");
 
         // Back button
         Button backBtn = new Button("Back");
@@ -31,16 +35,18 @@ public class DetailsStudent extends GenericGUI {
 
         backBtn.setMinSize(50, 30);
 
-        // Main elements
+        // CENTER - center lists (courses, webcasts)
         VBox mainGrid = new VBox();
         mainGrid.setPadding(new Insets(30, 50, 50, 50));
         mainGrid.setSpacing(10);
         mainGrid.getChildren().add(getCoursesOverview(student));
 
+        // LEFT - back button
         HBox leftMenu = new HBox();
         leftMenu.setPadding(new Insets(20, 0, 0, 20));
         leftMenu.getChildren().addAll(backBtn);
 
+        // RIGHT - properties pane
         VBox rightMenu = new VBox();
         rightMenu.setPadding(new Insets(30, 50, 50, 50));
         rightMenu.setSpacing(10);
@@ -52,8 +58,13 @@ public class DetailsStudent extends GenericGUI {
         Label studentGender = new Label("Gender: " + student.getGender());
         Label studentAddress = new Label(
                 "Address: " + student.getAddress() + ", " + student.getCity() + "," + student.getCountry());
+
+        Button registrationsBtn = new Button("Registrations");
+        registrationsBtn.setOnAction((event) -> {
+            window.setScene(overviewRegistration.getScene(window, student));
+        });
         rightMenu.getChildren().addAll(rightMenuHeader, studentName, studentEmail, studentBirthdate, studentGender,
-                studentAddress);
+                studentAddress, registrationsBtn);
 
         // Mainlayout assignment
         layout.setLeft(leftMenu);
@@ -72,7 +83,7 @@ public class DetailsStudent extends GenericGUI {
         ScrollPane overviewlayout = new ScrollPane();
 
         // "table" headers
-        Label header = new Label("Courses followed by: " + student.getName() + " (" + student.getEmail() + ")");
+        Label header = new Label("Courses followed by: " + student.getName());
         header.setStyle("-fx-font-weight: bold");
         header.setMinWidth(150);
 
