@@ -23,10 +23,7 @@ public class StudentDetails extends GenericGUI {
         // main layout
         BorderPane layout = new BorderPane();
 
-        // Header labels
-        Label title = new Label("Update student: " + student.getEmail());
-        title.setStyle("-fx-font-weight: bold");
-
+        // Back button 
         Button backBtn = new Button("Back");
         backBtn.setOnAction((event) -> {
             window.setScene(overviewStudent.getScene(window));
@@ -34,7 +31,7 @@ public class StudentDetails extends GenericGUI {
 
         backBtn.setMinSize(50, 30);
 
-        // main elements
+        // Main elements
         VBox mainGrid = new VBox();
         mainGrid.setPadding(new Insets(30, 50, 50, 50));
         mainGrid.setSpacing(10);

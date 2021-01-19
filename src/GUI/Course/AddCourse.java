@@ -27,14 +27,14 @@ public class AddCourse extends GenericGUI {
 
     public Scene getScene(Stage window) {
 
-        // create views
+        // Create view
         OverviewCourse courseOverview = new OverviewCourse();
 
-        // main layout
+        // Main layout
         BorderPane layout = new BorderPane();
         HBox leftMenu = new HBox();
         leftMenu.setPadding(new Insets(20, 0, 0, 20));
-        ;
+        
         Label title = new Label("CREATE A NEW COURSE");
         title.setStyle("-fx-font-weight: bold");
 

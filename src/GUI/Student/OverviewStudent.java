@@ -51,12 +51,11 @@ public class OverviewStudent extends GenericGUI {
         // Switch to addStudent view
         addBtn.setOnAction((event) -> {
             window.setScene(addView.getScene(window));
-            ;
             window.setTitle("Add new student");
         });
 
         // Switch to go back to the mainmenu
-        mainMenuBtn.setOnAction((Event) -> {
+        mainMenuBtn.setOnAction((event) -> {
             window.setScene(mainMenuScene.getScene(window));
         });
 
