@@ -84,8 +84,8 @@ public class StudentDAO extends GenericDAO {
         }
     }
 
-    // Add a registration and set the progress on 0 after (also set progress back to
-    // 0 by multiple registrations for the same course)
+    // Add a registration, set progress to 0 on all module and reset progress when
+    // doing the course a second time (AddRegistration)
     public void addRegistration(Registration registration) {
         SQL = "INSERT INTO Registration (RegistrationDate, Coursename, Email) VALUES(?, ?, ?)";
 
@@ -117,6 +117,7 @@ public class StudentDAO extends GenericDAO {
                 // Excecute query
                 stmt.executeQuery();
             } catch (Exception e) {
+                // Set progress to 0 per module
                 SQL = "INSERT INTO Progress VALUES(?, ?, ?)";
                 try (PreparedStatement stmt = con.prepareStatement(SQL)) {
                     // Add values to prepared statement
@@ -136,6 +137,7 @@ public class StudentDAO extends GenericDAO {
 
     }
 
+    // Remove a registration from the overview (OverviewRegistration)
     public void removeRegistration(Registration registration) {
         SQL = "DELETE FROM Registration WHERE registrationDate= ? AND CourseName= ? AND Email= ?";
 

@@ -61,6 +61,7 @@ public class DetailsStudent extends GenericGUI {
         Label studentAddress = new Label(
                 "Address: " + student.getAddress() + ", " + student.getCity() + "," + student.getCountry());
 
+        // registration button
         Button registrationsBtn = new Button("Registrations");
         registrationsBtn.setOnAction((event) -> {
             window.setScene(overviewRegistration.getScene(window, student));
@@ -68,6 +69,8 @@ public class DetailsStudent extends GenericGUI {
         rightMenu.getChildren().addAll(rightMenuHeader, studentName, studentEmail, studentBirthdate, studentGender,
                 studentAddress, registrationsBtn);
 
+        // Certificate button
+        Button certificateBtn = new Button("Certificates");
         // Mainlayout assignment
         layout.setLeft(leftMenu);
         layout.setCenter(mainGrid);
