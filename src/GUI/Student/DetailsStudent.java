@@ -11,9 +11,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -132,23 +134,34 @@ public class DetailsStudent extends GenericGUI {
         popupwindow.setTitle("Progress on each module");
 
         ScrollPane scrollPane = new ScrollPane();
+        Label label = new Label("Progress");
+        label.setFont(new Font("Arial", 20));
+        label.setStyle("-fx-font-weight: bold");
+
         VBox list = new VBox();
         list.setSpacing(20);
         HBox listHeader = new HBox();
         listHeader.getChildren().addAll(new Label("Version"), new Label("Index"), new Label("Title"),
                 new Label("Progress"));
-        list.getChildren().add(listHeader);
-        listHeader.setSpacing(20);
+        list.getChildren().addAll(label, listHeader);
+        listHeader.setSpacing(50);
         for (Module module : modules) {
             Label version = new Label(String.valueOf(module.getVersion()));
             Label index = new Label(String.valueOf(module.getIndexNumber()));
             Label title = new Label(module.getTitle());
-            Label progress = new Label(
+            TextField progress = new TextField();
+            progress.setText(
                     String.valueOf(studentDAO.getProgressPerModulePerStudent(email, module.getContentItemId())));
 
+            Button update = new Button("Update");
+            update.setOnAction((event) -> {
+                studentDAO.updateProgress(email, module.getContentItemId(), Integer.valueOf(progress.getText()));
+                progress.setStyle("-fx-text-fill: green");
+            });
+
             HBox row = new HBox();
-            row.setSpacing(20);
-            row.getChildren().addAll(version, index, title, progress);
+            row.setSpacing(50);
+            row.getChildren().addAll(version, index, title, progress, update);
 
             list.getChildren().add(row);
         }
