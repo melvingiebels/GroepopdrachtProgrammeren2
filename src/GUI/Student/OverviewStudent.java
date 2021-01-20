@@ -125,7 +125,7 @@ public class OverviewStudent extends GenericGUI {
             table.getChildren().add(row);
         }
         overviewlayout.setContent(table);
-        overviewlayout.setPrefSize(600, 600);
+        overviewlayout.setPrefSize(650, 600);
         overviewlayout.setPadding(new Insets(0, 0, 0, 20));
         return overviewlayout;
     }
