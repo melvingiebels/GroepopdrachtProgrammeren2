@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Domain.Student;
 import Domain.Module;
+import Domain.Registration;
 import GUI.GenericGUI;
 import GUI.Student.Registration.OverviewRegistration;
 import javafx.geometry.Insets;
@@ -83,8 +84,7 @@ public class DetailsStudent extends GenericGUI {
 
     public ScrollPane getCoursesOverview(Student student) {
         // Sync with database
-        ArrayList<String> courses = new ArrayList<>();
-        courses = studentDAO.getCourses(student.getEmail());
+        ArrayList<Registration> registrations = studentDAO.getRegistrations(student);
 
         // main layout scrollpane
         ScrollPane overviewlayout = new ScrollPane();
@@ -103,8 +103,8 @@ public class DetailsStudent extends GenericGUI {
         table.getChildren().add(headRow);
 
         // Fill table with students with update and delete buttons
-        for (String course : courses) {
-            Label courseName = new Label(course);
+        for (Registration registration : registrations) {
+            Label courseName = new Label(registration.getCourseName());
             courseName.setMinWidth(150);
 
             Button progressBtn = new Button("Progress");
@@ -114,7 +114,7 @@ public class DetailsStudent extends GenericGUI {
             row.setPadding(new Insets(10, 0, 0, 20));
 
             progressBtn.setOnAction((event) -> {
-                this.toggleModal(course, student.getEmail());
+                this.toggleModal(registration);
             });
 
             table.getChildren().add(row);
@@ -125,9 +125,9 @@ public class DetailsStudent extends GenericGUI {
         return overviewlayout;
     }
 
-    public void toggleModal(String courseName, String email) {
+    public void toggleModal(Registration registration) {
         // create list of modules per course
-        ArrayList<Module> modules = courseDAO.getModulesPerCourse(courseName);
+        ArrayList<Module> modules = courseDAO.getModulesPerCourse(registration.getCourseName());
         Stage popupwindow = new Stage();
 
         popupwindow.initModality(Modality.APPLICATION_MODAL);
@@ -141,27 +141,30 @@ public class DetailsStudent extends GenericGUI {
         VBox list = new VBox();
         list.setSpacing(20);
         HBox listHeader = new HBox();
-        listHeader.getChildren().addAll(new Label("Version"), new Label("Index"), new Label("Title"),
+        listHeader.getChildren().addAll(new Label("ID"), new Label("Version"), new Label("Index"), new Label("Title"),
                 new Label("Progress"));
         list.getChildren().addAll(label, listHeader);
         listHeader.setSpacing(50);
         for (Module module : modules) {
+            Label id = new Label(String.valueOf(module.getContentItemId()));
             Label version = new Label(String.valueOf(module.getVersion()));
             Label index = new Label(String.valueOf(module.getIndexNumber()));
             Label title = new Label(module.getTitle());
             TextField progress = new TextField();
-            progress.setText(
-                    String.valueOf(studentDAO.getProgressPerModulePerStudent(email, module.getContentItemId())));
+            progress.setText(String.valueOf(
+                    studentDAO.getProgressPerModulePerStudent(registration.getEmail(), module.getContentItemId())));
 
             Button update = new Button("Update");
             update.setOnAction((event) -> {
-                studentDAO.updateProgress(email, module.getContentItemId(), Integer.valueOf(progress.getText()));
+                studentDAO.updateProgress(registration.getEmail(), module.getContentItemId(),
+                        Integer.valueOf(progress.getText()), registration.getCourseName(),
+                        registration.getRegistrationDate());
                 progress.setStyle("-fx-text-fill: green");
             });
 
             HBox row = new HBox();
             row.setSpacing(50);
-            row.getChildren().addAll(version, index, title, progress, update);
+            row.getChildren().addAll(id, version, index, title, progress, update);
 
             list.getChildren().add(row);
         }

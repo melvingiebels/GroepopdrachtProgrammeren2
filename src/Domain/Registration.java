@@ -4,7 +4,6 @@ public class Registration {
     private String registrationDate;
     private String courseName;
     private String email;
-    private int certificateId;
 
     public Registration(String registrationDate, String courseName, String email) {
         this.registrationDate = registrationDate;
@@ -34,14 +33,6 @@ public class Registration {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getCertificateId() {
-        return certificateId;
-    }
-
-    public void setCertificateId(int certificateId) {
-        this.certificateId = certificateId;
     }
 
 }

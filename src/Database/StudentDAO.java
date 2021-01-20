@@ -87,7 +87,7 @@ public class StudentDAO extends GenericDAO {
     // Add a registration, set progress to 0 on all module and reset progress when
     // doing the course a second time (AddRegistration)
     public void addRegistration(Registration registration) {
-        SQL = "INSERT INTO Registration (RegistrationDate, Coursename, Email) VALUES(?, ?, ?)";
+        SQL = "INSERT INTO Registration VALUES(?, ?, ?)";
 
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
             // Add values to prepared statement
@@ -155,6 +155,7 @@ public class StudentDAO extends GenericDAO {
 
     }
 
+    // get registrations of a student (DetailsStudent)
     public ArrayList<Registration> getRegistrations(Student student) {
         SQL = "SELECT * FROM Registration WHERE Email= ?";
         ArrayList<Registration> registrations = new ArrayList<>();
@@ -212,7 +213,9 @@ public class StudentDAO extends GenericDAO {
 
     }
 
-    public void updateProgress(String email, int contentItemId, int progress) {
+    public void updateProgress(String email, int contentItemId, int progress, String courseName,
+            String registrationDate) {
+        // Change progress
         SQL = "UPDATE Progress SET Percentage=? WHERE Email=? AND ContentItemId=?";
 
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
@@ -225,6 +228,38 @@ public class StudentDAO extends GenericDAO {
             stmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("failed to update progress");
+        }
+
+        // Check if student completed all modules
+        CourseDAO courseDao = new CourseDAO();
+        ArrayList<Module> modules = courseDao.getModulesPerCourse(courseName);
+        boolean allCompleted = true;
+        for (Module module : modules) {
+            if (this.getProgressPerModulePerStudent(email, module.getContentItemId()) != 100) {
+                allCompleted = false;
+            }
+        }
+
+        if (allCompleted == true) {
+            this.createCertificate(email, courseName, registrationDate);
+        }
+
+    }
+
+    // Create certificate (used in updateProgress())
+    private void createCertificate(String email, String courseName, String registrationDate) {
+        SQL = "INSERT INTO Certificate (RegistrationDate, CourseName, Email) VALUES (?, ?, ?)";
+
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to statement
+            stmt.setString(1, registrationDate);
+            stmt.setString(2, courseName);
+            stmt.setString(3, email);
+            rs = stmt.executeQuery();
+            // excecute query
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("failed to create certificate");
         }
     }
 
