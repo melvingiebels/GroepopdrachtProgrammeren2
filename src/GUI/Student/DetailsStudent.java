@@ -2,6 +2,7 @@ package GUI.Student;
 
 import java.util.ArrayList;
 import Domain.Student;
+import Domain.Webcast;
 import Domain.Certificate;
 import Domain.Module;
 import Domain.Registration;
@@ -41,11 +42,14 @@ public class DetailsStudent extends GenericGUI {
         backBtn.setMinSize(50, 30);
 
         // CENTER - center lists (courses, webcasts)
-        VBox mainGrid = new VBox();
-        mainGrid.setPadding(new Insets(30, 50, 50, 50));
-        mainGrid.setSpacing(10);
-        mainGrid.getChildren().add(getCoursesOverview(student));
+        VBox centerView = new VBox();
+        centerView.setPadding(new Insets(30, 50, 50, 50));
+        centerView.setSpacing(10);
+        centerView.getChildren().add(getCoursesOverview(student));
+        centerView.getChildren().add(getWebcastOverview(student));
 
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(centerView);
         // LEFT - back button
         HBox leftMenu = new HBox();
         leftMenu.setPadding(new Insets(20, 0, 0, 20));
@@ -73,34 +77,29 @@ public class DetailsStudent extends GenericGUI {
         // Certificate button
         Button certificateBtn = new Button("Certificates");
         certificateBtn.setOnAction((event) -> {
-            this.certificateModal(student.getEmail());
+            this.getCertificateModal(student.getEmail());
         });
         rightMenu.getChildren().addAll(rightMenuHeader, studentName, studentEmail, studentBirthdate, studentGender,
                 studentAddress, registrationsBtn, certificateBtn);
 
         // Mainlayout assignment
         layout.setLeft(leftMenu);
-        layout.setCenter(mainGrid);
+        layout.setCenter(scrollPane);
         layout.setRight(rightMenu);
 
         return new Scene(layout);
     }
 
-    public ScrollPane getCoursesOverview(Student student) {
+    public VBox getCoursesOverview(Student student) {
         // Sync with database
         ArrayList<Registration> registrations = studentDAO.getRegistrations(student);
-
-        // main layout scrollpane
-        ScrollPane overviewlayout = new ScrollPane();
 
         // "table" headers
         Label header = new Label("Courses followed by: " + student.getName());
         header.setStyle("-fx-font-weight: bold");
-        header.setMinWidth(150);
 
         // Individual record
-        HBox headRow = new HBox(20, header);
-        headRow.setPadding(new Insets(0, 0, 0, 20));
+        HBox headRow = new HBox(header);
 
         // Table grid
         VBox table = new VBox();
@@ -118,18 +117,99 @@ public class DetailsStudent extends GenericGUI {
             row.setPadding(new Insets(10, 0, 0, 20));
 
             progressBtn.setOnAction((event) -> {
-                this.progressModal(registration);
+                this.getModuleProgressModal(registration);
             });
 
             table.getChildren().add(row);
         }
-        overviewlayout.setContent(table);
-        overviewlayout.setPrefSize(600, 600);
-        overviewlayout.setPadding(new Insets(0, 0, 0, 20));
-        return overviewlayout;
+
+        table.setMinHeight(100);
+        table.setMinWidth(700);
+        table.setPadding(new Insets(0, 0, 0, 20));
+        return table;
     }
 
-    public void progressModal(Registration registration) {
+    public VBox getWebcastOverview(Student student) {
+        // data
+        ArrayList<Webcast> webcasts = contentItemDAO.getWebcastsPerStudent(student.getEmail());
+
+        // title
+        Label title = new Label("Webcasts");
+        title.setStyle("-fx-font-weight: bold");
+
+        // Table elements
+        VBox table = new VBox();
+
+        // "table" headers
+        HBox headRow = new HBox();
+        headRow.setStyle("-fx-font-weight: bold");
+        headRow.getChildren().addAll(new Label("ID"), new Label("Webcast"), new Label("Progress"));
+        headRow.setSpacing(50);
+        table.getChildren().addAll(title, headRow);
+
+        // Individual records
+        for (Webcast webcast : webcasts) {
+            HBox row = new HBox();
+
+            Label contentItemId = new Label(String.valueOf(webcast.getContentItemId()));
+            Label titleWebcast = new Label(webcast.getTitle());
+            TextField progress = new TextField();
+            progress.setText(String.valueOf(studentDAO.getProgressPerWebcastPerStudent(webcast.getContentItemId())));
+            Button saveBtn = new Button("Save");
+
+            saveBtn.setOnAction((event) -> {
+                studentDAO.updateWebcastProgress(student.getEmail(), webcast.getContentItemId(),
+                        Integer.valueOf(progress.getText()));
+                progress.setStyle("-fx-text-fill: green");
+            });
+
+            Button detailBtn = new Button("Details");
+            detailBtn.setOnAction((event) -> {
+                this.getWebcastDetailsModal(webcast);
+            });
+
+            row.getChildren().addAll(contentItemId, titleWebcast, progress, saveBtn, detailBtn);
+            row.setSpacing(50);
+            table.getChildren().addAll(row);
+        }
+
+        table.setMinHeight(100);
+        table.setMinWidth(700);
+        table.setPadding(new Insets(0, 0, 0, 20));
+        return table;
+
+    }
+
+    public void getWebcastDetailsModal(Webcast webcast) {
+        // Modal elements
+        Stage popupwindow = new Stage();
+        popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setTitle("Progress on each module");
+
+        HBox list = new HBox();
+
+        // List elements
+        VBox listSubjects = new VBox();
+        listSubjects.getChildren().addAll(new Label("ID: "), new Label("Title: "), new Label("Duration: "),
+                new Label("Url: "), new Label("Lector: "), new Label("Organisation: "));
+        listSubjects.setStyle("-fx-font-weight: bold");
+
+        VBox listValues = new VBox();
+        listValues.getChildren().addAll(new Label(String.valueOf(webcast.getContentItemId())),
+                new Label(webcast.getTitle()), new Label(String.valueOf(webcast.getDuration()) + "Minutes"),
+                new Label(webcast.getUrl()), new Label(webcast.getLector()), new Label(webcast.getOrganisation()));
+
+        // Make list
+        list.getChildren().addAll(listSubjects, listValues);
+        list.setSpacing(10);
+
+        // Adding table to the scene
+        Scene scene = new Scene(list);
+        popupwindow.setScene(scene);
+        popupwindow.showAndWait();
+    }
+
+    public void getModuleProgressModal(Registration registration) {
         // Data
         ArrayList<Module> modules = courseDAO.getModulesPerCourse(registration.getCourseName());
         Stage popupwindow = new Stage();
@@ -165,7 +245,7 @@ public class DetailsStudent extends GenericGUI {
 
             Button update = new Button("Update");
             update.setOnAction((event) -> {
-                studentDAO.updateProgress(registration.getEmail(), module.getContentItemId(),
+                studentDAO.updateProgressModule(registration.getEmail(), module.getContentItemId(),
                         Integer.valueOf(progress.getText()), registration.getCourseName(),
                         registration.getRegistrationDate());
                 progress.setStyle("-fx-text-fill: green");
@@ -186,7 +266,7 @@ public class DetailsStudent extends GenericGUI {
         popupwindow.showAndWait();
     }
 
-    public void certificateModal(String email) {
+    public void getCertificateModal(String email) {
         // Modal elements
         Stage popupwindow = new Stage();
         popupwindow.initModality(Modality.APPLICATION_MODAL);

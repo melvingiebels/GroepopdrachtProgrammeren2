@@ -196,6 +196,23 @@ public class StudentDAO extends GenericDAO {
         return courses;
     }
 
+    public int getProgressPerWebcastPerStudent(int contentItemId) {
+        SQL = "SELECT Percentage FROM Progress WHERE ContentItemId= ?";
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to statement
+            stmt.setInt(1, contentItemId);
+            rs = stmt.executeQuery();
+            // excecute query
+            while (rs.next()) {
+                return rs.getInt("Percentage");
+            }
+        } catch (Exception e) {
+            System.out.println("failed to get progress");
+        }
+        return 0;
+
+    }
+
     public int getProgressPerModulePerStudent(String email, int contentItemId) {
         SQL = "SELECT * FROM Progress WHERE Email=? AND ContentItemId= ?";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
@@ -211,10 +228,27 @@ public class StudentDAO extends GenericDAO {
             System.out.println("failed to get progress");
         }
         return 0;
-
     }
 
-    public void updateProgress(String email, int contentItemId, int progress, String courseName,
+    public void updateWebcastProgress(String email, int contentItemId, int progress) {
+        SQL = "UPDATE Progress SET Percentage=? WHERE Email=? AND ContentItemId=?";
+
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to statement
+            stmt.setInt(1, progress);
+            stmt.setString(2, email);
+            stmt.setInt(3, contentItemId);
+            rs = stmt.executeQuery();
+            // excecute query
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("failed to update progress");
+        }
+    }
+
+    // update progress of modules per course per student & automatically create
+    // certificate when progress is 100 (DetailsStudent)
+    public void updateProgressModule(String email, int contentItemId, int progress, String courseName,
             String registrationDate) {
         // Change progress
         SQL = "UPDATE Progress SET Percentage=? WHERE Email=? AND ContentItemId=?";
