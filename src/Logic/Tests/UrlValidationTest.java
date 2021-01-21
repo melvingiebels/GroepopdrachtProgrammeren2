@@ -72,7 +72,7 @@ public class UrlValidationTest {
     @Test
     public void testValidateUrlRequiresDomainNameEnsuresTrue(){
         // Arrange
-        String url = "http://www..com";
+        String url = "http://www.domain.com";
 
         // Act
         Boolean result = UrlValidation.validateUrl(url);
@@ -96,7 +96,7 @@ public class UrlValidationTest {
     @Test
     public void testValidateUrlRequiresTopLevelDomainEnsuresTrue(){
         // Arrange
-        String url = "https://www.website.";
+        String url = "https://www.website.nl";
 
         // Act
         Boolean result = UrlValidation.validateUrl(url);

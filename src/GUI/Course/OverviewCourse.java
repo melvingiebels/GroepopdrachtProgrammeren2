@@ -38,6 +38,7 @@ public class OverviewCourse extends GenericGUI {
 
         // Create buttons
         Button addBtn = new Button("Add course");
+        addBtn.setId("greenBtn");
         Button mainMenuBtn = new Button("Back");
 
         addBtn.setMinSize(100, 30);
@@ -56,9 +57,11 @@ public class OverviewCourse extends GenericGUI {
 
         layout.setTop(topMenu);
         layout.setCenter(createOverview(window));
-        layout.setPrefSize(600, 600);
+        layout.setPrefSize(650, 600);
 
-        return new Scene(layout);
+        Scene scene = new Scene(layout);
+        scene.getStylesheets().add("./GUI/Stylesheet.css");
+        return scene;
     }
 
     public ScrollPane createOverview(Stage window) {
@@ -89,8 +92,10 @@ public class OverviewCourse extends GenericGUI {
 
             // Action Buttons
             Button updateBtn = new Button("Update");
+            updateBtn.setId("orangeBtn");
             Button detailsBtn = new Button("Details");
             Button deleteBtn = new Button("Delete");
+            deleteBtn.setId("redBtn");
 
             // Make row
             HBox row = new HBox(20, name, description, updateBtn, detailsBtn, deleteBtn);

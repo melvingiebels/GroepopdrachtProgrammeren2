@@ -3,7 +3,6 @@ package GUI;
 import GUI.Course.OverviewCourse;
 import GUI.Student.*;
 import javafx.stage.Stage;
-import javafx.css.Stylesheet;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,7 +23,7 @@ public class MainMenu{
         
         // Create menu for main layout
         VBox menu = new VBox();
-        menu.setPadding(new Insets(80, 0, 0, 200));
+        menu.setPadding(new Insets(100, 0, 0, 225));
         menu.setSpacing(20);
 
         // Create buttons for menu
@@ -46,7 +45,7 @@ public class MainMenu{
             mainStage.setScene(courseScene.getScene(mainStage));
         });
         
-        layout.setPrefSize(600, 310);
+        layout.setPrefSize(650, 350);
         layout.setCenter(menu);
         
         Scene scene = new Scene(layout);

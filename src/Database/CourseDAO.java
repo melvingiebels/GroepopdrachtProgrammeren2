@@ -3,6 +3,7 @@ package Database;
 import java.sql.*;
 import java.util.ArrayList;
 import Domain.Course;
+import Domain.Module;
 
 public class CourseDAO extends GenericDAO {
 
@@ -73,5 +74,28 @@ public class CourseDAO extends GenericDAO {
         } catch (Exception e) {
             System.out.println("failed to remove course");
         }
+    }
+
+    // Get a list of modules in a course
+    public ArrayList<Module> getModulesPerCourse(String courseName) {
+        ArrayList<Module> modules = new ArrayList<>();
+        SQL = "SELECT * FROM Module WHERE CourseName=?";
+
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to prepared statement
+            stmt.setString(1, courseName);
+            // execute statement
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                modules.add(new Module(rs.getInt("ContentItemId"), rs.getInt("Version"), rs.getString("ContactName"),
+                        rs.getString("ContactMail"), rs.getInt("IndexNumber"), rs.getString("Title"),
+                        rs.getString("CourseName")));
+            }
+
+        } catch (Exception e) {
+            System.out.println("failed to modules per course");
+        }
+        return modules;
     }
 }

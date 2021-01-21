@@ -2,7 +2,6 @@ package GUI.Student;
 
 import Domain.Student;
 import GUI.GenericGUI;
-import GUI.Student.Registration.OverviewRegistration;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -79,12 +78,6 @@ public class UpdateStudent extends GenericGUI {
         Label line1 = new Label("-");
         Label line2 = new Label("-");
 
-        Button registrations = new Button("Registrations");
-        OverviewRegistration overviewRegistration = new OverviewRegistration();
-        registrations.setOnAction((event) -> {
-            window.setScene(overviewRegistration.getScene(window, student));
-        });
-
         Button submit = new Button("Save changes");
 
         submit.setOnAction((event) -> {
@@ -107,8 +100,7 @@ public class UpdateStudent extends GenericGUI {
 
         dateInput.getChildren().addAll(dayInput, line1, monthInput, line2, yearInput);
         form.getChildren().addAll(title, responseMsg, nameLabel, nameInput, birthdateLabel, dateInput, genderLabel,
-                genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput,
-                registrations, submit);
+                genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput, submit);
 
         return new Scene(layout);
     }

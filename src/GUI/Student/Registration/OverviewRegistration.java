@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import Domain.Registration;
 import Domain.Student;
 import GUI.GenericGUI;
-import GUI.Student.UpdateStudent;
+import GUI.Student.DetailsStudent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,11 +27,11 @@ public class OverviewRegistration extends GenericGUI {
         layout.setTop(topMenu);
 
         // menu elements
+        DetailsStudent detailsStudent = new DetailsStudent();
         Button backBtn = new Button("Back");
         backBtn.setMinSize(50, 30);
-        UpdateStudent updateStudent = new UpdateStudent();
         backBtn.setOnAction((event) -> {
-            window.setScene(updateStudent.getScene(student, window));
+            window.setScene(detailsStudent.getScene(window, student));
         });
 
         Button addBtn = new Button("Add registration");

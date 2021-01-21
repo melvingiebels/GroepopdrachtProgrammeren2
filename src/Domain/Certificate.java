@@ -1,14 +1,24 @@
 package Domain;
 
-public class Registration {
+public class Certificate {
+    private int certiticateId;
     private String registrationDate;
     private String courseName;
     private String email;
 
-    public Registration(String registrationDate, String courseName, String email) {
+    public Certificate(int certiticateId, String registrationDate, String courseName, String email) {
+        this.certiticateId = certiticateId;
         this.registrationDate = registrationDate;
         this.courseName = courseName;
         this.email = email;
+    }
+
+    public int getCertiticateId() {
+        return certiticateId;
+    }
+
+    public void setCertiticateId(int certiticateId) {
+        this.certiticateId = certiticateId;
     }
 
     public String getRegistrationDate() {
@@ -34,5 +44,4 @@ public class Registration {
     public void setEmail(String email) {
         this.email = email;
     }
-
 }

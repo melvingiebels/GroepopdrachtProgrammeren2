@@ -23,7 +23,7 @@ public class OverviewStudent extends GenericGUI {
     private AddStudent addView = new AddStudent();
     private UpdateStudent updateView = new UpdateStudent();
     private MainMenu mainMenuScene = new MainMenu();
-    private StudentDetails studentDetails = new StudentDetails();
+    private DetailsStudent detailsStudent = new DetailsStudent();
 
     public Scene getScene(Stage window) {
 
@@ -119,13 +119,13 @@ public class OverviewStudent extends GenericGUI {
             });
 
             detailBtn.setOnAction((event) -> {
-                window.setScene(studentDetails.getScene(window, student));
+                window.setScene(detailsStudent.getScene(window, student));
             });
 
             table.getChildren().add(row);
         }
         overviewlayout.setContent(table);
-        overviewlayout.setPrefSize(600, 600);
+        overviewlayout.setPrefSize(650, 600);
         overviewlayout.setPadding(new Insets(0, 0, 0, 20));
         return overviewlayout;
     }
