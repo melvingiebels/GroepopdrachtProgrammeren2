@@ -107,7 +107,7 @@ public class OverviewCourse extends GenericGUI {
                 window.setTitle("Update course");
             });
             detailsBtn.setOnAction((event) -> {
-                window.setScene(detailsView.getScene(window));
+                window.setScene(detailsView.getScene(course, window));
                 window.setTitle(course.getName() + " details");
             });
             deleteBtn.setOnAction((event) -> {
