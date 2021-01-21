@@ -230,6 +230,17 @@ public class StudentDAO extends GenericDAO {
         } catch (Exception e) {
             System.out.println("failed to update progress");
         }
+        // check if student already has a certificate
+        ArrayList<Certificate> certificates = this.getCertificatesPerUser(email);
+        boolean hasCertificate = false;
+        Certificate completedCertificate = null;
+        for (Certificate certificate : certificates) {
+            if (certificate.getRegistrationDate().equals(registrationDate)
+                    && certificate.getCourseName().equals(courseName) && certificate.getEmail().equals(email)) {
+                hasCertificate = true;
+                completedCertificate = certificate;
+            }
+        }
 
         // Check if student completed all modules
         CourseDAO courseDao = new CourseDAO();
@@ -241,8 +252,15 @@ public class StudentDAO extends GenericDAO {
             }
         }
 
-        if (allCompleted == true) {
+        // Create certificate if student completed all modules & doesn't already have a
+        // certificate
+        if (allCompleted == true && hasCertificate == false) {
             this.createCertificate(email, courseName, registrationDate);
+        }
+
+        // Remove certificate when progress is set back under 100
+        if (allCompleted == false && hasCertificate == true) {
+            this.removeCertificate(completedCertificate.getCertiticateId());
         }
 
     }
@@ -298,6 +316,7 @@ public class StudentDAO extends GenericDAO {
         } catch (Exception e) {
             System.out.println("Failed to remove certificate");
         }
+
     }
 
 }
