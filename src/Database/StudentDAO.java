@@ -3,6 +3,7 @@ package Database;
 import java.sql.*;
 import Domain.Registration;
 import Domain.Student;
+import Domain.Certificate;
 import Domain.Module;
 import java.util.ArrayList;
 
@@ -260,6 +261,42 @@ public class StudentDAO extends GenericDAO {
             stmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("failed to create certificate");
+        }
+    }
+
+    // Get all certificates from user (DetailsStudent)
+    public ArrayList<Certificate> getCertificatesPerUser(String email) {
+        SQL = "SELECT * FROM certificate WHERE Email=?";
+        ArrayList<Certificate> certificates = new ArrayList<>();
+
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to statement
+            stmt.setString(1, email);
+
+            // Execute query
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                certificates.add(new Certificate(rs.getInt("CertificateId"), rs.getString("RegistrationDate"),
+                        rs.getString("CourseName"), rs.getString("Email")));
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to get certificates");
+        }
+
+        return certificates;
+    }
+
+    public void removeCertificate(int CertificateId) {
+        SQL = "DELETE FROM certificate WHERE CertificateId =?";
+
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to statement
+            stmt.setInt(1, CertificateId);
+
+            // Execute query
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Failed to remove certificate");
         }
     }
 

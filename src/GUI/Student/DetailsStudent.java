@@ -1,8 +1,8 @@
 package GUI.Student;
 
 import java.util.ArrayList;
-
 import Domain.Student;
+import Domain.Certificate;
 import Domain.Module;
 import Domain.Registration;
 import GUI.GenericGUI;
@@ -69,11 +69,15 @@ public class DetailsStudent extends GenericGUI {
         registrationsBtn.setOnAction((event) -> {
             window.setScene(overviewRegistration.getScene(window, student));
         });
-        rightMenu.getChildren().addAll(rightMenuHeader, studentName, studentEmail, studentBirthdate, studentGender,
-                studentAddress, registrationsBtn);
 
         // Certificate button
         Button certificateBtn = new Button("Certificates");
+        certificateBtn.setOnAction((event) -> {
+            this.certificateModal(student.getEmail());
+        });
+        rightMenu.getChildren().addAll(rightMenuHeader, studentName, studentEmail, studentBirthdate, studentGender,
+                studentAddress, registrationsBtn, certificateBtn);
+
         // Mainlayout assignment
         layout.setLeft(leftMenu);
         layout.setCenter(mainGrid);
@@ -114,7 +118,7 @@ public class DetailsStudent extends GenericGUI {
             row.setPadding(new Insets(10, 0, 0, 20));
 
             progressBtn.setOnAction((event) -> {
-                this.toggleModal(registration);
+                this.progressModal(registration);
             });
 
             table.getChildren().add(row);
@@ -125,14 +129,16 @@ public class DetailsStudent extends GenericGUI {
         return overviewlayout;
     }
 
-    public void toggleModal(Registration registration) {
-        // create list of modules per course
+    public void progressModal(Registration registration) {
+        // Data
         ArrayList<Module> modules = courseDAO.getModulesPerCourse(registration.getCourseName());
         Stage popupwindow = new Stage();
 
+        // Modal elements
         popupwindow.initModality(Modality.APPLICATION_MODAL);
         popupwindow.setTitle("Progress on each module");
 
+        // Table elements
         ScrollPane scrollPane = new ScrollPane();
         Label label = new Label("Progress");
         label.setFont(new Font("Arial", 20));
@@ -145,7 +151,10 @@ public class DetailsStudent extends GenericGUI {
                 new Label("Progress"));
         list.getChildren().addAll(label, listHeader);
         listHeader.setSpacing(50);
+
+        // Creating rows
         for (Module module : modules) {
+            // Values
             Label id = new Label(String.valueOf(module.getContentItemId()));
             Label version = new Label(String.valueOf(module.getVersion()));
             Label index = new Label(String.valueOf(module.getIndexNumber()));
@@ -162,6 +171,7 @@ public class DetailsStudent extends GenericGUI {
                 progress.setStyle("-fx-text-fill: green");
             });
 
+            // Adding values to row
             HBox row = new HBox();
             row.setSpacing(50);
             row.getChildren().addAll(id, version, index, title, progress, update);
@@ -169,8 +179,59 @@ public class DetailsStudent extends GenericGUI {
             list.getChildren().add(row);
         }
 
+        // Adding table to the scene
         scrollPane.setContent(list);
         Scene scene = new Scene(scrollPane);
+        popupwindow.setScene(scene);
+        popupwindow.showAndWait();
+    }
+
+    public void certificateModal(String email) {
+        // Modal elements
+        Stage popupwindow = new Stage();
+        popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setTitle("Certificates");
+
+        // Title
+        Label label = new Label("Certificates");
+        label.setFont(new Font("Arial", 20));
+
+        // Data
+        ArrayList<Certificate> certificates = studentDAO.getCertificatesPerUser(email);
+
+        // Table elemtens
+        VBox table = new VBox();
+        HBox header = new HBox();
+        header.getChildren().addAll(new Label("Certificate ID"), new Label("Registration date"),
+                new Label("Course name"), new Label("Email"));
+        header.setSpacing(50);
+        header.setStyle("-fx-font-weight: bold");
+        table.getChildren().add(header);
+
+        // Creating rows
+        for (Certificate certificate : certificates) {
+            HBox row = new HBox();
+
+            // Values
+            Label idLabel = new Label(String.valueOf(certificate.getCertiticateId()));
+            Label dateLabel = new Label(certificate.getRegistrationDate());
+            Label courseLabel = new Label(certificate.getCourseName());
+            Label emailLabel = new Label(certificate.getEmail());
+
+            Button deleteCertificate = new Button("Delete");
+            deleteCertificate.setOnAction((event) -> {
+                studentDAO.removeCertificate(certificate.getCertiticateId());
+                table.getChildren().remove(row);
+            });
+
+            // Adding values to the row
+            row.setSpacing(50);
+            row.getChildren().addAll(idLabel, dateLabel, courseLabel, emailLabel, deleteCertificate);
+            table.getChildren().add(row);
+        }
+
+        // Adding table to the scene
+        Scene scene = new Scene(table);
         popupwindow.setScene(scene);
         popupwindow.showAndWait();
     }
