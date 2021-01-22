@@ -153,11 +153,12 @@ public class DetailsStudent extends GenericGUI {
             Label contentItemId = new Label(String.valueOf(webcast.getContentItemId()));
             Label titleWebcast = new Label(webcast.getTitle());
             TextField progress = new TextField();
-            progress.setText(String.valueOf(studentDAO.getProgressPerWebcastPerStudent(webcast.getContentItemId())));
+            progress.setText(
+                    String.valueOf(contentItemDAO.getProgressPerWebcastPerStudent(webcast.getContentItemId())));
             Button saveBtn = new Button("Save");
 
             saveBtn.setOnAction((event) -> {
-                studentDAO.updateWebcastProgress(student.getEmail(), webcast.getContentItemId(),
+                contentItemDAO.updateWebcastProgress(student.getEmail(), webcast.getContentItemId(),
                         Integer.valueOf(progress.getText()));
                 progress.setStyle("-fx-text-fill: green");
             });
@@ -240,11 +241,11 @@ public class DetailsStudent extends GenericGUI {
             Label title = new Label(module.getTitle());
             TextField progress = new TextField();
             progress.setText(String.valueOf(
-                    studentDAO.getProgressPerModulePerStudent(registration.getEmail(), module.getContentItemId())));
+                    contentItemDAO.getProgressPerModulePerStudent(registration.getEmail(), module.getContentItemId())));
 
             Button update = new Button("Update");
             update.setOnAction((event) -> {
-                studentDAO.updateProgressModule(registration.getEmail(), module.getContentItemId(),
+                contentItemDAO.updateModuleProgress(registration.getEmail(), module.getContentItemId(),
                         Integer.valueOf(progress.getText()), registration.getCourseName(),
                         registration.getRegistrationDate());
                 progress.setStyle("-fx-text-fill: green");
@@ -276,7 +277,7 @@ public class DetailsStudent extends GenericGUI {
         label.setFont(new Font("Arial", 20));
 
         // Data
-        ArrayList<Certificate> certificates = studentDAO.getCertificatesPerUser(email);
+        ArrayList<Certificate> certificates = contentItemDAO.getCertificatesPerUser(email);
 
         // Table elemtens
         VBox table = new VBox();
@@ -299,7 +300,7 @@ public class DetailsStudent extends GenericGUI {
 
             Button deleteCertificate = new Button("Delete");
             deleteCertificate.setOnAction((event) -> {
-                studentDAO.removeCertificate(certificate.getCertiticateId());
+                contentItemDAO.removeCertificate(certificate.getCertiticateId());
                 table.getChildren().remove(row);
             });
 
