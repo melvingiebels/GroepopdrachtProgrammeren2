@@ -28,11 +28,12 @@ public class ContentItemDAO extends GenericDAO {
         return modules;
     }
 
-    public ArrayList<Module> getCourseModules(Course course) {
+    public ArrayList<Module> getCourseModules(String courseName) {
         ArrayList<Module> modules = new ArrayList<>();
-        SQL = String.format("SELECT * FROM Module WHERE CourseName='%s'", course.getName());
+        SQL = "SELECT * FROM Module WHERE CourseName=?";
 
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            stmt.setString(1, courseName);
             // execute statement
             rs = stmt.executeQuery();
 

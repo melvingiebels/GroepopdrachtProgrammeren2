@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -109,12 +110,16 @@ public class AddCourse extends GenericGUI {
         popupwindow.initModality(Modality.APPLICATION_MODAL);
         popupwindow.setTitle("Add modules to course");
 
-        Label title = new Label("Choose a avaible module");
+        Label title = new Label("Choose a avaible module: ");
+        title.setStyle("-fx-font-weight: bold");
+
         Button saveBtn = new Button("Save");
         VBox moduleLayout = new VBox(10);
 
+        moduleLayout.setPadding(new Insets(30, 50, 50, 50));
+
+
         moduleLayout.getChildren().add(title);
-        moduleLayout.setAlignment(Pos.CENTER);
 
         // Make arrayList of the selected modules
         ArrayList<Module> selectedModules = new ArrayList<>();
@@ -139,10 +144,13 @@ public class AddCourse extends GenericGUI {
             moduleLayout.getChildren().add(checkBox);
         }
         moduleLayout.getChildren().add(saveBtn);
+        
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(moduleLayout);
 
         saveBtn.setOnAction(e -> popupwindow.close());
 
-        Scene scene1 = new Scene(moduleLayout, 300, 250);
+        Scene scene1 = new Scene(scrollPane, 400, 400);
 
         popupwindow.setScene(scene1);
         popupwindow.showAndWait();

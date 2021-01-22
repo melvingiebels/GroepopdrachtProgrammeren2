@@ -50,7 +50,7 @@ public class OverviewCourse extends GenericGUI {
 
         layout.setTop(topMenu);
         layout.setCenter(createOverview(window));
-        layout.setPrefSize(650, 600);
+        layout.setPrefSize(800, 600);
 
         Scene scene = new Scene(layout);
         scene.getStylesheets().add("./GUI/Stylesheet.css");
@@ -69,7 +69,7 @@ public class OverviewCourse extends GenericGUI {
         Label nameLabel = new Label("NAME");
         Label descriptionLabel = new Label("DESCRIPTION");
         nameLabel.setStyle("-fx-font-weight: bold");
-        nameLabel.setMinWidth(150);
+        nameLabel.setMinWidth(200);
         descriptionLabel.setStyle("-fx-font-weight: bold");
         HBox tableColumns = new HBox(20, nameLabel, descriptionLabel);
 
@@ -82,8 +82,9 @@ public class OverviewCourse extends GenericGUI {
             // Course values
             Label name = new Label(course.getName());
             Label description = new Label(course.getDescription());
-            name.setMinWidth(150);
-            description.setMinWidth(150);
+            name.setMinWidth(200);
+            description.setMinWidth(250);
+            description.setMaxWidth(250);
 
             // Action Buttons
             Button updateBtn = new Button("Update");
