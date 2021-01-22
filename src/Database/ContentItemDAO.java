@@ -131,7 +131,6 @@ public class ContentItemDAO extends GenericDAO {
             stmt.setInt(1, progress);
             stmt.setString(2, email);
             stmt.setInt(3, contentItemId);
-            rs = stmt.executeQuery();
             // excecute query
             stmt.executeUpdate();
         } catch (Exception e) {
@@ -200,7 +199,6 @@ public class ContentItemDAO extends GenericDAO {
             stmt.setString(1, registrationDate);
             stmt.setString(2, courseName);
             stmt.setString(3, email);
-            rs = stmt.executeQuery();
             // excecute query
             stmt.executeUpdate();
         } catch (Exception e) {
