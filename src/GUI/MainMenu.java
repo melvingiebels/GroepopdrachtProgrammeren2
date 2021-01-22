@@ -2,15 +2,12 @@ package GUI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import Database.ContentItemDAO;
 import Domain.Webcast;
 import GUI.Course.OverviewCourse;
 import GUI.Student.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

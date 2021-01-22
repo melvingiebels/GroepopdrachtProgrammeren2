@@ -98,7 +98,7 @@ public class StudentDAO extends GenericDAO {
             stmt.setString(3, registration.getEmail());
 
             // Excecute query
-            stmt.executeQuery();
+            stmt.executeUpdate();
 
         } catch (Exception e) {
             System.out.println("failed to add registration");
@@ -127,7 +127,7 @@ public class StudentDAO extends GenericDAO {
                     stmt.setInt(3, 0);
 
                     // Excecute query
-                    stmt.executeQuery();
+                    stmt.executeUpdate();
 
                 } catch (Exception b) {
                     System.out.println("failed to add progress");
@@ -149,7 +149,7 @@ public class StudentDAO extends GenericDAO {
             stmt.setString(3, registration.getEmail());
 
             // Excecute query
-            stmt.executeQuery();
+            stmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("failed to remove registration");
         }
