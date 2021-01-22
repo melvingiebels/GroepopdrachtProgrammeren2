@@ -2,6 +2,7 @@ package Database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Domain.Certificate;
 import Domain.Course;
@@ -241,6 +242,29 @@ public class ContentItemDAO extends GenericDAO {
         } catch (Exception e) {
             System.out.println("Failed to remove certificate");
         }
+    }
 
+    public ArrayList<HashMap<Webcast, Integer>> getTop3ViewedWebcasts() {
+        SQL = "SELECT * FROM Webcast JOIN (SELECT TOP 3 Webcast.ContentItemId, COUNT(*) AS 'Views' FROM Webcast JOIN Progress ON Webcast.ContentItemId = Progress.ContentItemId GROUP BY Webcast.ContentItemId ORDER BY Views DESC) AS best ON Webcast.ContentItemId = best.ContentItemId ";
+        ArrayList<HashMap<Webcast, Integer>> webcasts = new ArrayList<>();
+
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+
+            // Execute query
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                HashMap<Webcast, Integer> map = new HashMap<>();
+                map.put(new Webcast(rs.getInt("contentItemId"), rs.getInt("duration"), rs.getString("url"),
+                        rs.getString("lector"), rs.getString("organisation"), rs.getString("title")),
+                        rs.getInt("Views"));
+
+                webcasts.add(map);
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to get top 3 most viewd webcasts");
+        }
+
+        return webcasts;
     }
 }

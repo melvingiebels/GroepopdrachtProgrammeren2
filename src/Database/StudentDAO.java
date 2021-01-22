@@ -79,7 +79,7 @@ public class StudentDAO extends GenericDAO {
             // Add values to prepared statement
             stmt.setString(1, email);
             // Excecute query
-            stmt.executeQuery();
+            stmt.executeUpdate();
 
         } catch (Exception e) {
             System.out.println("failed to remove student");
