@@ -3,12 +3,12 @@ package Logic.Validation;
 public class ZipCodeValidation {
 
     public static boolean validateZipCode(String zipCode) {
-        // @subcontract null postalCode
+        // null zipCode
         if (zipCode.equals(null)) {
             return false;
         }
 
-        // @subcontract valid postalCode
+        // valid zipCode
         try {
             int zipCodeNumbers = Integer.valueOf(zipCode.trim().substring(0, 4));
             String zipCodeLetters = zipCode.trim().substring(4).trim();
@@ -18,14 +18,18 @@ public class ZipCodeValidation {
             if (zipCodeNumbers > 999 && zipCodeNumbers <= 9999 && zipCodeLetters.length() == 2
                     && ('A' <= zipCodeFirstLetter && zipCodeFirstLetter <= 'Z')
                     && ('A' <= zipCodeSecondLetter && zipCodeSecondLetter <= 'Z')) {
-                // If postalcode is valid, return true
+                // If zipCode is valid, return true
                 return true;
             }
 
         } catch (Exception e) {
-            // @subcontract invalid postalCode
+            // invalid zipCode
             return false;
         }
         return false;
+    }
+
+    public static String formatZipCode(String zipCode){
+        return zipCode.trim().substring(0, 4) + " " + zipCode.trim().substring(4).toUpperCase();
     }
 }
