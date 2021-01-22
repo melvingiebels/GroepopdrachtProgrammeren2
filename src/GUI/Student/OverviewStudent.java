@@ -17,15 +17,10 @@ import javafx.stage.Stage;
 
 public class OverviewStudent extends GenericGUI {
 
-    private ArrayList<Student> students;
-
-    // Create views
-    private AddStudent addView = new AddStudent();
-    private UpdateStudent updateView = new UpdateStudent();
-    private MainMenu mainMenuScene = new MainMenu();
-    private DetailsStudent detailsStudent = new DetailsStudent();
-
     public Scene getScene(Stage window) {
+        // Create views for changing the scene
+        MainMenu mainMenuScene = new MainMenu();
+        AddStudent addView = new AddStudent();
 
         // main layout
         BorderPane layout = new BorderPane();
@@ -70,9 +65,12 @@ public class OverviewStudent extends GenericGUI {
 
     // create overview with students + buttons
     private ScrollPane createOverView(Stage window) {
+        // Create views for changing the scene
+        DetailsStudent detailsStudent = new DetailsStudent();
+        UpdateStudent updateView = new UpdateStudent();
 
         // Sync with database
-        students = studentDAO.getAllStudents();
+        ArrayList<Student> students = studentDAO.getAllStudents();
 
         // main layout scrollpane
         ScrollPane overviewlayout = new ScrollPane();

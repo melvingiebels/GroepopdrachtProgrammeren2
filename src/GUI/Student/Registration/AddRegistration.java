@@ -58,7 +58,6 @@ public class AddRegistration extends GenericGUI {
             coursesInput.getItems().add(courseName);
         }
         coursesInput.setValue(courseList.get(0));
-        // HIER MOET NOG EEN IMPLEMENTATIE KOMEN VOOR DE CERTIFICATEN !!!!!!!!!!!!!
 
         // Labels for the inputfields
         Label title = new Label("Add a new registration");

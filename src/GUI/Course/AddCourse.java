@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 public class AddCourse extends GenericGUI {
 
-    private ArrayList<Module> avaibleModules = contentItemDAO.getAvaibleModules();
+    private ArrayList<Module> availableModules = contentItemDAO.getAvaibleModules();
     private ArrayList<Module> modulesList = new ArrayList<>();
 
     public Scene getScene(Stage window) {
@@ -34,7 +34,7 @@ public class AddCourse extends GenericGUI {
         BorderPane layout = new BorderPane();
         HBox leftMenu = new HBox();
         leftMenu.setPadding(new Insets(20, 0, 0, 20));
-        
+
         Label title = new Label("CREATE A NEW COURSE");
         title.setStyle("-fx-font-weight: bold");
 
@@ -102,7 +102,7 @@ public class AddCourse extends GenericGUI {
         return new Scene(layout);
     }
 
-    public ArrayList<Module> toggleModal() {
+    private ArrayList<Module> toggleModal() {
 
         Stage popupwindow = new Stage();
 
@@ -119,7 +119,7 @@ public class AddCourse extends GenericGUI {
         // Make arrayList of the selected modules
         ArrayList<Module> selectedModules = new ArrayList<>();
 
-        for (Module module : avaibleModules) {
+        for (Module module : availableModules) {
             CheckBox checkBox = new CheckBox(module.getTitle());
 
             if (module.isActive()) {

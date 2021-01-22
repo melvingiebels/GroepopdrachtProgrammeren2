@@ -16,7 +16,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class OverviewRegistration extends GenericGUI {
-    private ArrayList<Registration> registrations;
 
     public Scene getScene(Stage window, Student student) {
         window.setTitle("Registrations of: " + student.getEmail());
@@ -51,7 +50,7 @@ public class OverviewRegistration extends GenericGUI {
 
     private ScrollPane createOverview(Student student) {
         // get fresh list of registrations
-        registrations = studentDAO.getRegistrations(student);
+        ArrayList<Registration> registrations = studentDAO.getRegistrations(student);
 
         // list columns headers
         Label courseNameLabel = new Label("COURSE NAME");

@@ -16,20 +16,13 @@ import javafx.stage.Stage;
 
 public class OverviewCourse extends GenericGUI {
 
-    private AddCourse addView = new AddCourse();
-    private UpdateCourse updateView = new UpdateCourse();
-    private DetailsCourse detailsView = new DetailsCourse();
-    private MainMenu mainMenuScene = new MainMenu();
-
-    private ArrayList<Course> courses;
-    private BorderPane layout = new BorderPane();
-
-    public OverviewCourse() {
-        courses = courseDAO.getAllCourses();
-    }
-
     public Scene getScene(Stage window) {
+        // Create views for changing the scene
+        AddCourse addView = new AddCourse();
+        MainMenu mainMenuScene = new MainMenu();
+
         window.setTitle("Overview course");
+        BorderPane layout = new BorderPane();
 
         // Create menu for main layout
         HBox topMenu = new HBox();
@@ -65,8 +58,10 @@ public class OverviewCourse extends GenericGUI {
     }
 
     public ScrollPane createOverview(Stage window) {
+        DetailsCourse detailsView = new DetailsCourse();
+        UpdateCourse updateView = new UpdateCourse();
         // sync
-        courses = courseDAO.getAllCourses();
+        ArrayList<Course> courses = courseDAO.getAllCourses();
         // layout
         ScrollPane overviewlayout = new ScrollPane();
 

@@ -23,8 +23,6 @@ import javafx.stage.Stage;
 
 public class DetailsStudent extends GenericGUI {
 
-    private OverviewRegistration overviewRegistration = new OverviewRegistration();
-
     public Scene getScene(Stage window, Student student) {
         // create overview page for back button
         OverviewStudent overviewStudent = new OverviewStudent();
@@ -70,6 +68,7 @@ public class DetailsStudent extends GenericGUI {
 
         // registration button
         Button registrationsBtn = new Button("Registrations");
+        OverviewRegistration overviewRegistration = new OverviewRegistration();
         registrationsBtn.setOnAction((event) -> {
             window.setScene(overviewRegistration.getScene(window, student));
         });
@@ -90,7 +89,7 @@ public class DetailsStudent extends GenericGUI {
         return new Scene(layout);
     }
 
-    public VBox getCoursesOverview(Student student) {
+    private VBox getCoursesOverview(Student student) {
         // Sync with database
         ArrayList<Registration> registrations = studentDAO.getRegistrations(student);
 
@@ -129,7 +128,7 @@ public class DetailsStudent extends GenericGUI {
         return table;
     }
 
-    public VBox getWebcastOverview(Student student) {
+    private VBox getWebcastOverview(Student student) {
         // data
         ArrayList<Webcast> webcasts = contentItemDAO.getWebcastsPerStudent(student.getEmail());
 
@@ -180,7 +179,7 @@ public class DetailsStudent extends GenericGUI {
 
     }
 
-    public void getWebcastDetailsModal(Webcast webcast) {
+    private void getWebcastDetailsModal(Webcast webcast) {
         // Modal elements
         Stage popupwindow = new Stage();
         popupwindow.initModality(Modality.APPLICATION_MODAL);
@@ -209,7 +208,7 @@ public class DetailsStudent extends GenericGUI {
         popupwindow.showAndWait();
     }
 
-    public void getModuleProgressModal(Registration registration) {
+    private void getModuleProgressModal(Registration registration) {
         // Data
         ArrayList<Module> modules = courseDAO.getModulesPerCourse(registration.getCourseName());
         Stage popupwindow = new Stage();
@@ -266,7 +265,7 @@ public class DetailsStudent extends GenericGUI {
         popupwindow.showAndWait();
     }
 
-    public void getCertificateModal(String email) {
+    private void getCertificateModal(String email) {
         // Modal elements
         Stage popupwindow = new Stage();
         popupwindow.initModality(Modality.APPLICATION_MODAL);
