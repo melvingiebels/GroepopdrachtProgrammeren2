@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -52,14 +53,18 @@ public class DetailsCourse extends GenericGUI {
         Label topic = new Label("Topic: " + course.getTopic());
         Label difficulty = new Label("Difficulty: " + course.getDifficulty());
         Label description = new Label("Description: " + course.getDescription());
+        Label total = new Label("Total students that completed course: " + courseDAO.getTotalCompleted(course.getName()));
 
-        rightMenu.getChildren().addAll(courseName, topic, difficulty, description);
+        rightMenu.getChildren().addAll(courseName, topic, difficulty, description, total);
 
         layout.setLeft(leftMenu);
         layout.setCenter(mainGrid);
         layout.setRight(rightMenu);
 
-        return new Scene(layout);
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(layout);
+
+        return new Scene(scrollPane, 1500, 400);
     }
 
     private VBox getCourseModulesOverview(Course course) {
@@ -95,7 +100,7 @@ public class DetailsCourse extends GenericGUI {
 
                 index.setMinWidth(50);
                 index.setMaxWidth(50);
-                title.setMinWidth(250);
+                title.setMinWidth(50);
                 title.setMaxWidth(250);
 
                 row.getChildren().addAll(index, title);

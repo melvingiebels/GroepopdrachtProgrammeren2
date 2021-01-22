@@ -98,4 +98,20 @@ public class CourseDAO extends GenericDAO {
         }
         return modules;
     }
+
+    public int getTotalCompleted(String courseName) {
+        SQL = "SELECT COUNT(*) AS Total FROM Certificate WHERE CourseName=?";
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to statement
+            stmt.setString(1, courseName);
+            rs = stmt.executeQuery();
+            // excecute query
+            while (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (Exception e) {
+            System.out.println("failed to get progress");
+        }
+        return 0;
+    }
 }
