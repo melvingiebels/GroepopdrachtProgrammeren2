@@ -4,121 +4,121 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import Logic.InputValidation;
+import Logic.Validation.ZipCodeValidation;
 
 public class ZipCodeValidationTest {
 
-    // * @subcontract null postalCode {
-    // * @requires postalCode == null;
-    // * @signals (NullPointerException) postalCode == null;
+    // * @subcontract null ZipCode {
+    // * @requires ZipCode == null;
+    // * @signals (NullPointerException) ZipCode == null;
     
     @Test(expected = NullPointerException.class)
-    public void testValidatePostalCodeRequiresNullSignalsNullPointerException() {
+    public void testvalidateZipCodeRequiresNullSignalsNullPointerException() {
         // Arrange
-        String PostalCode = null;
+        String ZipCode = null;
         // Act
-        Boolean result = InputValidation.validatePostalCode(PostalCode);
+        Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
     }
 
-    // @subcontract valid postalCode
+    // @subcontract valid ZipCode
     @Test
-    public void testValidatePostalCodeRequires1000AAEnsuresTrue() {
+    public void testvalidateZipCodeRequires1000aAEnsures1000_AA() {
         // Arrange
-        String PostalCode = "1000 AA";
+        String ZipCode = "1000aA";
         // Act
-        Boolean result = InputValidation.validatePostalCode(PostalCode);
+        Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
         // Assert
         assertTrue("This is a valid zipcode", result);
     }
 
     @Test
-    public void testValidatePostalCodeRequires9999ZZEnsuresTrue() {
+    public void testvalidateZipCodeRequires9999ZZEnsuresTrue() {
         // Arrange
-        String PostalCode = "9999ZZ";
+        String ZipCode = "9999ZZ";
         // Act
-        Boolean result = InputValidation.validatePostalCode(PostalCode);
+        Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
         // Assert
         assertTrue("This is a valid zipcode", result);
     }
 
     @Test
-    public void testValidatePostalCodeRequires5000LLEnsuresTrue() {
+    public void testvalidateZipCodeRequires5000LLEnsuresTrue() {
         // Arrange
-        String PostalCode = "5000 LL";
+        String ZipCode = "5000 LL";
         // Act
-        Boolean result = InputValidation.validatePostalCode(PostalCode);
+        Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
         // Assert
         assertTrue("This is a valid zipcode", result);
     }
 
-    // @subcontract invalid postalCode
+    // @subcontract invalid ZipCode
     @Test
-    public void testValidatePostalCodeRequires999AAEnsuresFalse() {
+    public void testvalidateZipCodeRequires999AAEnsuresFalse() {
         // Arrange
-        String PostalCode = "999 AA";
+        String ZipCode = "999 AA";
         // Act
-        Boolean result = InputValidation.validatePostalCode(PostalCode);
+        Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
         // Assert
         assertFalse("This is a invalid zipcode", result);
     }
 
     @Test
-    public void testValidatePostalCodeRequires10000AAEnsuresFalse() {
+    public void testvalidateZipCodeRequires10000AAEnsuresFalse() {
         // Arrange
-        String PostalCode = "10000 AA";
+        String ZipCode = "10000 AA";
         // Act
-        Boolean result = InputValidation.validatePostalCode(PostalCode);
+        Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
         // Assert
         assertFalse("This is a invalid zipcode", result);
     }
 
     @Test
-    public void testValidatePostalCodeRequires333LLEnsuresFalse() {
+    public void testvalidateZipCodeRequires333LLEnsuresFalse() {
         // Arrange
-        String PostalCode = "333 LL";
+        String ZipCode = "333 LL";
         // Act
-        Boolean result = InputValidation.validatePostalCode(PostalCode);
+        Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
         // Assert
         assertFalse("This is a invalid zipcode", result);
     }
 
     @Test
-    public void testValidatePostalCodeRequires1000AEnsuresFalse() {
+    public void testvalidateZipCodeRequires1000AEnsuresFalse() {
         // Arrange
-        String PostalCode = "1000 A";
+        String ZipCode = "1000 A";
         // Act
-        Boolean result = InputValidation.validatePostalCode(PostalCode);
+        Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
         // Assert
         assertFalse("This is a invalid zipcode", result);
     }
 
     @Test
-    public void testValidatePostalCodeRequires1000spaceAEnsuresFalse() {
+    public void testvalidateZipCodeRequires1000spaceAEnsuresFalse() {
         // Arrange
-        String PostalCode = "1000  A";
+        String ZipCode = "1000  A";
         // Act
-        Boolean result = InputValidation.validatePostalCode(PostalCode);
+        Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
         // Assert
         assertFalse("This is a invalid zipcode", result);
     }
 
     // This test is not working
     @Test
-    public void testValidatePostalCodeRequires1000aaEnsuresTrue() {
+    public void testvalidateZipCodeRequires1000aaEnsuresTrue() {
         // Arrange
-        String PostalCode = "1000 aa";
+        String ZipCode = "1000 aa";
         // Act
-        Boolean result = InputValidation.validatePostalCode(PostalCode);
+        Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
         // Assert
         assertTrue("This is a valid zipcode", result);
     }
 
     @Test
-    public void testValidatePostalCodeRequires1000SpecialcharEnsuresFalse() {
+    public void testvalidateZipCodeRequires1000SpecialcharEnsuresFalse() {
         // Arrange
-        String PostalCode = "1000 %#";
+        String ZipCode = "1000 %#";
         // Act
-        Boolean result = InputValidation.validatePostalCode(PostalCode);
+        Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
         // Assert
         assertFalse("This is a invalid zipcode", result);
     }
@@ -127,58 +127,58 @@ public class ZipCodeValidationTest {
     // public void
     // testValidatePostalRequiresCodeCanBeShorterThen6CharactersEnsuresFalse() {
     // // Arrange
-    // String PostalCode = "1234A";
+    // String ZipCode = "1234A";
 
     // // Act
-    // Boolean result = InputValidation.validatePostalCode(PostalCode);
+    // Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
 
     // // Assert
     // assertEquals(false, result);
     // }
 
     // @Test
-    // public void testValidatePostalCodeCanBeLongerThen6CharactersEnsuresFalse() {
+    // public void testvalidateZipCodeCanBeLongerThen6CharactersEnsuresFalse() {
     // // Arrange
-    // String PostalCode = "1234AAA";
+    // String ZipCode = "1234AAA";
 
     // // Act
-    // Boolean result = InputValidation.validatePostalCode(PostalCode);
+    // Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
 
     // // Assert
     // assertEquals(false, result);
     // }
 
     // @Test
-    // public void testValidatePostalCodeStartsWith0EnsuresFalse() {
+    // public void testvalidateZipCodeStartsWith0EnsuresFalse() {
     // // Arrange
-    // String PostalCode = "0123AB";
+    // String ZipCode = "0123AB";
 
     // // Act
-    // Boolean result = InputValidation.validatePostalCode(PostalCode);
+    // Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
 
     // // Assert
     // assertEquals(false, result);
     // }
 
     // @Test
-    // public void testValidatePostalCodeDoesNotStartWith4DigitsEnsuresFalse() {
+    // public void testvalidateZipCodeDoesNotStartWith4DigitsEnsuresFalse() {
     // // Arrange
-    // String PostalCode = "123ABC";
+    // String ZipCode = "123ABC";
 
     // // Act
-    // Boolean result = InputValidation.validatePostalCode(PostalCode);
+    // Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
 
     // // Assert
     // assertEquals(false, result);
     // }
 
     // @Test
-    // public void testValidatePostalCodeDoesNotEndWith2LettersEnsuresFalse() {
+    // public void testvalidateZipCodeDoesNotEndWith2LettersEnsuresFalse() {
     // // Arrange
-    // String PostalCode = "12345A";
+    // String ZipCode = "12345A";
 
     // // Act
-    // Boolean result = InputValidation.validatePostalCode(PostalCode);
+    // Boolean result = ZipCodeValidation.validateZipCode(ZipCode);
 
     // // Assert
     // assertEquals(false, result);
