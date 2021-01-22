@@ -8,6 +8,7 @@ import GUI.GenericGUI;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
@@ -54,8 +55,19 @@ public class DetailsCourse extends GenericGUI {
         Label difficulty = new Label("Difficulty: " + course.getDifficulty());
         Label description = new Label("Description: " + course.getDescription());
         Label total = new Label("Total students that completed course: " + courseDAO.getTotalCompleted(course.getName()));
+        Label genderPercentage = new Label();
 
-        rightMenu.getChildren().addAll(courseName, topic, difficulty, description, total);
+        ComboBox<String> genderInput = new ComboBox<>();
+
+        genderInput.setValue("Choose one option");
+        genderInput.getItems().addAll("Male", "Female");
+
+        genderInput.setOnAction((event) -> {
+            int percentage = courseDAO.getGenderPercentage(genderInput.getValue());
+            genderPercentage.setText(genderInput.getValue() + " percentage: " + percentage);
+        });
+
+        rightMenu.getChildren().addAll(courseName, topic, difficulty, description, total, genderInput, genderPercentage);
 
         layout.setLeft(leftMenu);
         layout.setCenter(mainGrid);

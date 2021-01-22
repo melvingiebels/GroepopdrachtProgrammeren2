@@ -47,7 +47,7 @@ public class OverviewCourse extends GenericGUI {
         });
 
         topMenu.getChildren().addAll(mainMenuBtn, addBtn);
-
+        
         layout.setTop(topMenu);
         layout.setCenter(createOverview(window));
         layout.setPrefSize(800, 600);
