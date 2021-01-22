@@ -8,6 +8,8 @@ import Domain.Module;
 import java.util.ArrayList;
 
 public class StudentDAO extends GenericDAO {
+    private CourseDAO courseDAO = new CourseDAO();
+
     // Add a student to the database
     public void addStudent(Student newStudent) {
         SQL = "INSERT INTO Student VALUES(?, ?, ? ,?, ?, ?, ?)";
@@ -105,7 +107,6 @@ public class StudentDAO extends GenericDAO {
 
         // Set progress on all modules at 0 after a registration
         // Get a list of contentItemID's(modules) from the course
-        CourseDAO courseDAO = new CourseDAO();
         ArrayList<Module> modules = courseDAO.getModulesPerCourse(registration.getCourseName());
 
         // Add progress to database per module
@@ -277,8 +278,7 @@ public class StudentDAO extends GenericDAO {
         }
 
         // Check if student completed all modules
-        CourseDAO courseDao = new CourseDAO();
-        ArrayList<Module> modules = courseDao.getModulesPerCourse(courseName);
+        ArrayList<Module> modules = courseDAO.getModulesPerCourse(courseName);
         boolean allCompleted = true;
         for (Module module : modules) {
             if (this.getProgressPerModulePerStudent(email, module.getContentItemId()) != 100) {
