@@ -98,4 +98,37 @@ public class CourseDAO extends GenericDAO {
         }
         return modules;
     }
+
+    public int getTotalCompleted(String courseName) {
+        SQL = "SELECT COUNT(*) AS Total FROM Certificate WHERE CourseName=?";
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to statement
+            stmt.setString(1, courseName);
+            rs = stmt.executeQuery();
+            // excecute query
+            while (rs.next()) {
+                return rs.getInt("Total");
+            }
+        } catch (Exception e) {
+            System.out.println("failed to get progress");
+        }
+        return 0;
+    }
+
+    public int getGenderPercentage(String gender) {
+        SQL = "SELECT (convert(decimal(5, 2),COUNT(*)) / (SELECT COUNT(*) FROM Registration) * 100) AS 'Percentage' FROM Certificate JOIN Student ON Certificate.Email = Student.Email WHERE student.Gender=?";
+
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to statement
+            stmt.setString(1, gender);
+            rs = stmt.executeQuery();
+            // excecute query
+            while (rs.next()) {
+                return rs.getInt("Percentage");
+            }
+        } catch (Exception e) {
+            System.out.println("failed to get progress");
+        }
+        return 0;
+    }
 }
