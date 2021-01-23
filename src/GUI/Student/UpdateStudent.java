@@ -68,6 +68,7 @@ public class UpdateStudent extends GenericGUI {
         TextField addressInput = new TextField(student.getAddress());
         TextField cityInput = new TextField(student.getCity());
         TextField countryInput = new TextField(student.getCountry());
+        TextField zipCodeInput = new TextField(student.getZipCode());
 
         Label nameLabel = new Label("Name: ");
         Label birthdateLabel = new Label("Birthdate: ");
@@ -75,6 +76,7 @@ public class UpdateStudent extends GenericGUI {
         Label addressLabel = new Label("Address:");
         Label cityLabel = new Label("City: ");
         Label countryLabel = new Label("Country: ");
+        Label zipCodeLabel = new Label("Zip Code:");
         Label line1 = new Label("-");
         Label line2 = new Label("-");
 
@@ -88,7 +90,8 @@ public class UpdateStudent extends GenericGUI {
                         Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
 
                 studentDAO.updateStudent(new Student(student.getEmail(), nameInput.getText(), strDate,
-                        genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
+                        genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText(),
+                        zipCodeInput.getText()));
 
                 responseMsg.setText("Student has been successfully updated");
                 responseMsg.setStyle("-fx-text-fill: green");
@@ -100,7 +103,8 @@ public class UpdateStudent extends GenericGUI {
 
         dateInput.getChildren().addAll(dayInput, line1, monthInput, line2, yearInput);
         form.getChildren().addAll(title, responseMsg, nameLabel, nameInput, birthdateLabel, dateInput, genderLabel,
-                genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput, submit);
+                genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput, zipCodeLabel,
+                zipCodeInput, submit);
 
         return new Scene(layout);
     }

@@ -6,7 +6,6 @@ import Domain.Course;
 import Domain.Module;
 import GUI.GenericGUI;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -118,7 +117,6 @@ public class AddCourse extends GenericGUI {
 
         moduleLayout.setPadding(new Insets(30, 50, 50, 50));
 
-
         moduleLayout.getChildren().add(title);
 
         // Make arrayList of the selected modules
@@ -144,7 +142,7 @@ public class AddCourse extends GenericGUI {
             moduleLayout.getChildren().add(checkBox);
         }
         moduleLayout.getChildren().add(saveBtn);
-        
+
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(moduleLayout);
 

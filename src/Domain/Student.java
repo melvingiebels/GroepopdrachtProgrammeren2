@@ -10,10 +10,11 @@ public class Student {
     private String address;
     private String city;
     private String country;
+    private String zipCode;
     private ArrayList<Registration> registrations;
 
     public Student(String email, String name, String birthdate, String gender, String address, String city,
-            String country) {
+            String country, String zipCode) {
         this.email = email;
         this.name = name;
         this.birthdate = birthdate;
@@ -21,6 +22,7 @@ public class Student {
         this.address = address;
         this.city = city;
         this.country = country;
+        this.zipCode = zipCode;
         registrations = new ArrayList<>();
     }
 
@@ -90,6 +92,14 @@ public class Student {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
 }

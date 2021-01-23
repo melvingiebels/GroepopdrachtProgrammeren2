@@ -66,6 +66,7 @@ public class AddStudent extends GenericGUI {
         TextField addressInput = new TextField();
         TextField cityInput = new TextField();
         TextField countryInput = new TextField();
+        TextField zipCodeInput = new TextField();
 
         Label emailLabel = new Label("Email:");
         Label nameLabel = new Label("Name: ");
@@ -74,6 +75,7 @@ public class AddStudent extends GenericGUI {
         Label addressLabel = new Label("Address:");
         Label cityLabel = new Label("City: ");
         Label countryLabel = new Label("Country: ");
+        Label zipCodeLabel = new Label("Zip code: ");
         Label line1 = new Label("-");
         Label line2 = new Label("-");
 
@@ -84,14 +86,14 @@ public class AddStudent extends GenericGUI {
         });
 
         submitBtn.setOnAction((event) -> {
-
             try {
                 // Check if input is a number and make it correct date format
                 String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()),
                         Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
 
                 studentDAO.addStudent(new Student(emailInput.getText(), nameInput.getText(), strDate,
-                        genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText()));
+                        genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText(),
+                        zipCodeInput.getText()));
 
                 responseMsg.setText(nameInput.getText() + " has been added");
                 responseMsg.setStyle("-fx-text-fill: green");
@@ -115,7 +117,7 @@ public class AddStudent extends GenericGUI {
         dateInput.getChildren().addAll(dayInput, line1, monthInput, line2, yearInput);
         form.getChildren().addAll(title, responseMsg, emailLabel, emailInput, nameLabel, nameInput, birthdateLabel,
                 dateInput, genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel,
-                countryInput, submitBtn);
+                countryInput, zipCodeLabel, zipCodeInput, submitBtn);
 
         window.setTitle("Student overview");
         layout.setPrefSize(600, 600);

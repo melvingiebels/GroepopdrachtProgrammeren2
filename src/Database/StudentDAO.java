@@ -11,7 +11,7 @@ public class StudentDAO extends GenericDAO {
 
     // Add a student to the database
     public void addStudent(Student newStudent) {
-        SQL = "INSERT INTO Student VALUES(?, ?, ? ,?, ?, ?, ?)";
+        SQL = "INSERT INTO Student VALUES(?, ?, ? ,?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
             // Add values to prepared statement
             stmt.setString(1, newStudent.getEmail());
@@ -21,6 +21,7 @@ public class StudentDAO extends GenericDAO {
             stmt.setString(5, newStudent.getAddress());
             stmt.setString(6, newStudent.getCity());
             stmt.setString(7, newStudent.getCountry());
+            stmt.setString(8, newStudent.getZipCode());
 
             // execute statement
             stmt.executeUpdate();
@@ -42,8 +43,8 @@ public class StudentDAO extends GenericDAO {
             // If resultset contains values make new students and add them to arrayList
             while (rs.next()) {
                 students.add(new Student(rs.getString("Email"), rs.getString("Name"), rs.getString("Birthdate"),
-                        rs.getString("Gender"), rs.getString("Address"), rs.getString("City"),
-                        rs.getString("Country")));
+                        rs.getString("Gender"), rs.getString("Address"), rs.getString("City"), rs.getString("Country"),
+                        rs.getString("ZipCode")));
             }
         } catch (Exception e) {
             System.out.println("failed to getAllStudents");
