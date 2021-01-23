@@ -2,6 +2,7 @@ package GUI.Student;
 
 import Domain.Student;
 import GUI.GenericGUI;
+import Logic.Validation.ZipCodeValidation;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -76,7 +77,7 @@ public class UpdateStudent extends GenericGUI {
         Label addressLabel = new Label("Address:");
         Label cityLabel = new Label("City: ");
         Label countryLabel = new Label("Country: ");
-        Label zipCodeLabel = new Label("Zip Code:");
+        Label zipCodeLabel = new Label("Zip code:");
         Label line1 = new Label("-");
         Label line2 = new Label("-");
 
@@ -85,16 +86,36 @@ public class UpdateStudent extends GenericGUI {
         submit.setOnAction((event) -> {
 
             try {
+                // reset previous errors (for multiple attempts)
+                zipCodeLabel.setText("Zip code: ");
+                zipCodeLabel.setStyle(null);
+
+                Boolean isValidStudent = true;
+
+                // Check ZipCode
+                if (ZipCodeValidation.validateZipCode(zipCodeInput.getText())) {
+                    zipCodeInput.setText(ZipCodeValidation.formatZipCode(zipCodeInput.getText()));
+                } else {
+                    zipCodeLabel
+                            .setText(String.format("Zip code: '%s' is an invalid zip code!", zipCodeInput.getText()));
+                    zipCodeLabel.setStyle("-fx-text-fill: red");
+                    isValidStudent = false;
+                }
+
                 // Check if input is a number and make it correct date format
                 String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()),
                         Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
 
-                studentDAO.updateStudent(new Student(student.getEmail(), nameInput.getText(), strDate,
-                        genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText(),
-                        zipCodeInput.getText()));
+                // Add Student
+                if (isValidStudent) {
+                    studentDAO.updateStudent(new Student(student.getEmail(), nameInput.getText(), strDate,
+                            genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText(),
+                            zipCodeInput.getText()));
 
-                responseMsg.setText("Student has been successfully updated");
-                responseMsg.setStyle("-fx-text-fill: green");
+                    responseMsg.setText("Student has been successfully updated");
+                    responseMsg.setStyle("-fx-text-fill: green");
+                }
+
             } catch (NumberFormatException e) {
                 responseMsg.setText("Date is not a number");
                 responseMsg.setStyle("-fx-text-fill: red");

@@ -2,6 +2,7 @@ package GUI.Student;
 
 import Domain.Student;
 import GUI.GenericGUI;
+import Logic.Validation.ZipCodeValidation;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class AddStudent extends GenericGUI {
@@ -87,26 +89,45 @@ public class AddStudent extends GenericGUI {
 
         submitBtn.setOnAction((event) -> {
             try {
+                // reset previous errors (for multiple attempts)
+                zipCodeLabel.setText("Zip code: ");
+                zipCodeLabel.setStyle(null);
+
+                Boolean isValidStudent = true;
+
+                // Check ZipCode
+                if (ZipCodeValidation.validateZipCode(zipCodeInput.getText())) {
+                    zipCodeInput.setText(ZipCodeValidation.formatZipCode(zipCodeInput.getText()));
+                } else {
+                    zipCodeLabel
+                            .setText(String.format("Zip code: '%s' is an invalid zip code!", zipCodeInput.getText()));
+                    zipCodeLabel.setStyle("-fx-text-fill: red");
+                    isValidStudent = false;
+                }
                 // Check if input is a number and make it correct date format
                 String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()),
                         Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
 
-                studentDAO.addStudent(new Student(emailInput.getText(), nameInput.getText(), strDate,
-                        genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText(),
-                        zipCodeInput.getText()));
+                // Add student
+                if (isValidStudent) {
+                    studentDAO.addStudent(new Student(emailInput.getText(), nameInput.getText(), strDate,
+                            genderInput.getValue(), addressInput.getText(), cityInput.getText(), countryInput.getText(),
+                            zipCodeInput.getText()));
 
-                responseMsg.setText(nameInput.getText() + " has been added");
-                responseMsg.setStyle("-fx-text-fill: green");
+                    responseMsg.setText(nameInput.getText() + " has been added");
+                    responseMsg.setStyle("-fx-text-fill: green");
 
-                emailInput.clear();
-                nameInput.clear();
-                dayInput.clear();
-                monthInput.clear();
-                yearInput.clear();
-                genderInput.setValue("Male");
-                addressInput.clear();
-                cityInput.clear();
-                countryInput.clear();
+                    emailInput.clear();
+                    nameInput.clear();
+                    dayInput.clear();
+                    monthInput.clear();
+                    yearInput.clear();
+                    genderInput.setValue("Male");
+                    addressInput.clear();
+                    cityInput.clear();
+                    countryInput.clear();
+                }
+
             } catch (NumberFormatException e) {
                 responseMsg.setText("Date is not a number");
                 responseMsg.setStyle("-fx-text-fill: red");

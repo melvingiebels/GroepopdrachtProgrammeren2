@@ -195,7 +195,7 @@ public class DetailsStudent extends GenericGUI {
         // Modal elements
         Stage popupwindow = new Stage();
         popupwindow.initModality(Modality.APPLICATION_MODAL);
-        popupwindow.setTitle("Progress on each module");
+        popupwindow.setTitle(webcast.getTitle() + " details");
 
         HBox list = new HBox();
 

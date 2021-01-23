@@ -55,7 +55,7 @@ public class StudentDAO extends GenericDAO {
 
     // Update student
     public void updateStudent(Student student) {
-        SQL = "UPDATE Student SET Name= ?, Birthdate= ?, Gender= ?, Address= ?, City= ?, Country= ? WHERE Email= ?";
+        SQL = "UPDATE Student SET Name= ?, Birthdate= ?, Gender= ?, Address= ?, City= ?, Country= ?, ZipCode= ? WHERE Email= ?";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
             // Add values to prepared statement
             stmt.setString(1, student.getName());
@@ -64,8 +64,10 @@ public class StudentDAO extends GenericDAO {
             stmt.setString(4, student.getAddress());
             stmt.setString(5, student.getCity());
             stmt.setString(6, student.getCountry());
-            stmt.setString(7, student.getEmail());
+            stmt.setString(7, student.getZipCode());
+            stmt.setString(8, student.getEmail());
 
+            // Execute query
             stmt.executeUpdate();
         } catch (Exception e) {
             System.out.println("failed to update student");

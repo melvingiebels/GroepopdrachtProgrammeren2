@@ -19,7 +19,7 @@ public class MainMenu extends GenericGUI {
 
     public Scene getScene(Stage mainStage) {
 
-        mainStage.setTitle("Qiang Loozen(2168252), Melvin Giebels(2173543), Pieter Bakker(2160778)");
+        mainStage.setTitle("Qiang Loozen(2168151), Melvin Giebels(2173543), Pieter Bakker(2160778)");
 
         // Create views
         OverviewStudent studentScene = new OverviewStudent();

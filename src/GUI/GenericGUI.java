@@ -8,5 +8,4 @@ public abstract class GenericGUI {
     protected CourseDAO courseDAO = new CourseDAO();
     protected StudentDAO studentDAO = new StudentDAO();
     protected ContentItemDAO contentItemDAO = new ContentItemDAO();
-
 }
