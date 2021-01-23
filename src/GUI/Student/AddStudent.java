@@ -145,14 +145,14 @@ public class AddStudent extends GenericGUI {
                 nameLabel.setText("Name: Invalid name! (Don't forget capital letters)");
                 nameLabel.setStyle("-fx-text-fill: red");
                 nameInput.setStyle("-fx-text-box-border: red");
+                isValidStudent = false;
             }
 
             // Check date
             try {
-                strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()),
-                        Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
-                String validateDate = String.format("%s-%s-%s", Integer.parseInt(dayInput.getText()),
-                        Integer.parseInt(monthInput.getText()), Integer.parseInt(yearInput.getText()));
+                strDate = String.format("%s-%s-%s", yearInput.getText(), monthInput.getText(), dayInput.getText());
+                String validateDate = String.format("%s-%s-%s", dayInput.getText(), monthInput.getText(),
+                        yearInput.getText());
 
                 if (DateValidation.validateDate(validateDate)) {
                     dayInput.setStyle("-fx-text-box-border: green");
