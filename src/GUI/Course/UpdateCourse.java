@@ -126,10 +126,10 @@ public class UpdateCourse extends GenericGUI {
         for (Module module : test) {
             if (!module.isActive()) {
                 module.toggleActive();
-            } 
+            }
             availableModules.add(module);
         }
-       
+
         for (Module module : availableModules) {
             CheckBox checkBox = new CheckBox(module.getTitle());
 
@@ -150,7 +150,7 @@ public class UpdateCourse extends GenericGUI {
             moduleLayout.getChildren().add(checkBox);
         }
         moduleLayout.getChildren().add(saveBtn);
-        
+
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(moduleLayout);
 

@@ -116,7 +116,7 @@ public class StudentDAO extends GenericDAO {
                 stmt.setString(1, registration.getEmail());
                 stmt.setInt(2, module.getContentItemId());
                 // Excecute query
-                stmt.executeQuery();
+                stmt.executeUpdate();
             } catch (Exception e) {
                 // Set progress to 0 per module
                 SQL = "INSERT INTO Progress VALUES(?, ?, ?)";
