@@ -170,7 +170,7 @@ public class UpdateCourse extends GenericGUI {
             moduleLayout.getChildren().add(checkBox);
         }
         moduleLayout.getChildren().add(saveBtn);
-        
+
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(moduleLayout);
 

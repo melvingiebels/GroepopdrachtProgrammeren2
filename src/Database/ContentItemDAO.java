@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import Domain.Certificate;
-import Domain.Course;
 import Domain.Module;
 import Domain.Webcast;
 
@@ -151,7 +150,6 @@ public class ContentItemDAO extends GenericDAO {
             stmt.setInt(1, progress);
             stmt.setString(2, email);
             stmt.setInt(3, contentItemId);
-            rs = stmt.executeQuery();
             // excecute query
             stmt.executeUpdate();
         } catch (Exception e) {
@@ -285,5 +283,5 @@ public class ContentItemDAO extends GenericDAO {
             System.out.println("failed to get webcasts");
         }
         return percentages;
-    }   
+    }
 }

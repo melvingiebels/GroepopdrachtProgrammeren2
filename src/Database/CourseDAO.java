@@ -70,7 +70,6 @@ public class CourseDAO extends GenericDAO {
 
             // execute statement
             stmt.executeUpdate();
-            System.out.println(stmt);
         } catch (Exception e) {
             System.out.println("failed to remove course");
         }
