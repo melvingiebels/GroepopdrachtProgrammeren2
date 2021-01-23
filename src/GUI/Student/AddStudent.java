@@ -2,6 +2,7 @@ package GUI.Student;
 
 import Domain.Student;
 import GUI.GenericGUI;
+import Logic.Validation.MailValidation;
 import Logic.Validation.ZipCodeValidation;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -12,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class AddStudent extends GenericGUI {
@@ -47,6 +47,7 @@ public class AddStudent extends GenericGUI {
 
         // add textfields and labels
         TextField emailInput = new TextField();
+        emailInput.setPromptText("example@email.com");
         TextField nameInput = new TextField();
 
         HBox dateInput = new HBox();
@@ -90,18 +91,31 @@ public class AddStudent extends GenericGUI {
         submitBtn.setOnAction((event) -> {
             try {
                 // reset previous errors (for multiple attempts)
+                emailLabel.setText("Email: ");
+                emailLabel.setStyle(null);
                 zipCodeLabel.setText("Zip code: ");
                 zipCodeLabel.setStyle(null);
 
                 Boolean isValidStudent = true;
 
+                // Check mail
+                if (MailValidation.validateMailAddress(emailInput.getText())) {
+                    emailInput.setStyle("-fx-text-fill: green");
+                } else {
+                    emailLabel.setText("Email: Invalid Email!");
+                    emailLabel.setStyle("-fx-text-fill: red");
+                    emailInput.setStyle("-fx-text-box-border: red");
+                    isValidStudent = false;
+                }
+
                 // Check ZipCode
                 if (ZipCodeValidation.validateZipCode(zipCodeInput.getText())) {
                     zipCodeInput.setText(ZipCodeValidation.formatZipCode(zipCodeInput.getText()));
+                    zipCodeInput.setStyle("-fx-text-fill: green");
                 } else {
-                    zipCodeLabel
-                            .setText(String.format("Zip code: '%s' is an invalid zip code!", zipCodeInput.getText()));
+                    zipCodeLabel.setText("Zip code: Invalid zip code!");
                     zipCodeLabel.setStyle("-fx-text-fill: red");
+                    zipCodeInput.setStyle("-fx-text-box-border: red");
                     isValidStudent = false;
                 }
                 // Check if input is a number and make it correct date format

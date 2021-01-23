@@ -11,16 +11,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class DetailsCourse extends GenericGUI {
-    
+
     public Scene getScene(Course course, Stage window) {
-        
+
         // Create view for back button
         OverviewCourse courseOverview = new OverviewCourse();
 
@@ -55,7 +54,8 @@ public class DetailsCourse extends GenericGUI {
         Label topic = new Label("Topic: " + course.getTopic());
         Label difficulty = new Label("Difficulty: " + course.getDifficulty());
         Label description = new Label("Description: " + course.getDescription());
-        Label total = new Label("Total students that completed course: " + courseDAO.getTotalCompleted(course.getName()));
+        Label total = new Label(
+                "Total students that completed course: " + courseDAO.getTotalCompleted(course.getName()));
         Label genderPercentage = new Label();
 
         ComboBox<String> genderInput = new ComboBox<>();
@@ -68,7 +68,8 @@ public class DetailsCourse extends GenericGUI {
             genderPercentage.setText(genderInput.getValue() + " percentage: " + percentage);
         });
 
-        rightMenu.getChildren().addAll(courseName, topic, difficulty, description, total, genderInput, genderPercentage);
+        rightMenu.getChildren().addAll(courseName, topic, difficulty, description, total, genderInput,
+                genderPercentage);
 
         layout.setLeft(leftMenu);
         layout.setCenter(mainGrid);
@@ -84,7 +85,7 @@ public class DetailsCourse extends GenericGUI {
         ArrayList<Module> modules = contentItemDAO.getCourseModules(course.getName());
         HashMap<Integer, Integer> avgPercentages = contentItemDAO.getAverageModulePercentage(course.getName());
 
-        Label header =  new Label(course.getName() + " modules:");
+        Label header = new Label(course.getName() + " modules:");
         header.setStyle("-fx-font-weight: bold");
         header.setMinWidth(200);
 
@@ -92,7 +93,7 @@ public class DetailsCourse extends GenericGUI {
 
         VBox table = new VBox();
         table.getChildren().add(headRow);
-        
+
         if (modules.size() != 0) {
 
             Label indexLabel = new Label("INDEX");
@@ -131,7 +132,7 @@ public class DetailsCourse extends GenericGUI {
             Label message = new Label("No modules found");
             table.getChildren().add(message);
         }
-        
+
         table.setMinHeight(100);
         table.setMinWidth(500);
         table.setPadding(new Insets(0, 0, 0, 20));
