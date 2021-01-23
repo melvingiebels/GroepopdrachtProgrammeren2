@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch NameValidation",
+            "request": "launch",
+            "mainClass": "Logic.Validation.NameValidation",
+            "projectName": "GroepopdrachtProgrammeren2_136dde90"
+        },
+        {
+            "type": "java",
             "name": "Launch SceneController",
             "request": "launch",
             "vmArgs": "-p C:\\javafx-sdk-11.0.2\\lib --add-modules javafx.controls",
