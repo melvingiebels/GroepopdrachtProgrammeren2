@@ -86,7 +86,9 @@ public class DetailsStudent extends GenericGUI {
         layout.setCenter(scrollPane);
         layout.setRight(rightMenu);
 
-        return new Scene(layout);
+        Scene scene = new Scene(layout);
+        scene.getStylesheets().add("./GUI/Stylesheet.css");
+        return scene;
     }
 
     private VBox getCoursesOverview(Student student) {

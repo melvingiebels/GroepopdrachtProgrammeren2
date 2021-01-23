@@ -45,7 +45,9 @@ public class OverviewRegistration extends GenericGUI {
         // overview element
         layout.setCenter(this.createOverview(student));
 
-        return new Scene(layout);
+        Scene scene = new Scene(layout);
+        scene.getStylesheets().add("./GUI/Stylesheet.css");
+        return scene;
     }
 
     private ScrollPane createOverview(Student student) {

@@ -1,5 +1,9 @@
+.label{
+    -fx-max-width:100px;
+}
+
 .root{
-    -fx-background-color: rgb(68, 68, 68);
+    -fx-background-color: rgb(160, 160, 160);
     -fx-background-size: 600 500;
     /* -fx-font-family: "Franklin gothic heavy"; */
     /* -fx-font-weight: bold; */
@@ -7,7 +11,7 @@
 
 .button{
     -fx-font-family: "Arial Black";
-    -fx-background-color: rgb(0, 46, 63);
+    -fx-background-color: rgb(0, 96, 131);
     -fx-text-fill: #fff; 
     -fx-border-color: Black;
     -fx-border-radius: 10;
@@ -17,7 +21,7 @@
 }
 
 .button:hover{
-    -fx-background-color: rgb(42, 109, 139);
+    -fx-background-color: rgb(35, 146, 197);
 }
 
 #greenBtn{
@@ -25,7 +29,7 @@
 }
 
 #greenBtn:hover{
-    -fx-background-color: green;
+    -fx-background-color: rgb(3, 148, 3);
 }
 
 #orangeBtn{

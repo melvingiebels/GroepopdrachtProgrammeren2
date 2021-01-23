@@ -76,8 +76,9 @@ public class DetailsCourse extends GenericGUI {
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(layout);
-
-        return new Scene(scrollPane, 1500, 400);
+        Scene scene = new Scene(scrollPane, 1500, 400);
+        scene.getStylesheets().add("./GUI/Stylesheet.css");
+        return scene;
     }
 
     private VBox getCourseModulesOverview(Course course) {

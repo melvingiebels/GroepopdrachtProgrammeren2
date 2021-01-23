@@ -127,7 +127,9 @@ public class UpdateCourse extends GenericGUI {
         layout.setLeft(leftMenu);
         layout.setCenter(form);
 
-        return new Scene(layout);
+        Scene scene = new Scene(layout);
+        scene.getStylesheets().add("./GUI/Stylesheet.css");
+        return scene;
     }
 
     private ArrayList<Module> toggleModal(ArrayList<Module> updateModuleList) {
