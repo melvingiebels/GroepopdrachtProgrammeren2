@@ -1,6 +1,7 @@
 package GUI.Course;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Domain.Course;
 import Domain.Module;
@@ -82,6 +83,7 @@ public class DetailsCourse extends GenericGUI {
     private VBox getCourseModulesOverview(Course course) {
         // Sync with database
         ArrayList<Module> modules = contentItemDAO.getCourseModules(course.getName());
+        HashMap<Integer, Integer> avgPercentages = contentItemDAO.getAverageModulePercentage(course.getName());
 
         Label header =  new Label(course.getName() + " modules:");
         header.setStyle("-fx-font-weight: bold");
@@ -95,10 +97,12 @@ public class DetailsCourse extends GenericGUI {
 
             Label indexLabel = new Label("INDEX");
             Label moduleLabel = new Label("MODULE");
+            Label avgLabel = new Label("AVERAGE PROGRESS");
 
             indexLabel.setMinWidth(50);
+            moduleLabel.setMinWidth(200);
 
-            HBox tableColumns = new HBox(20, indexLabel, moduleLabel);
+            HBox tableColumns = new HBox(20, indexLabel, moduleLabel, avgLabel);
             tableColumns.setStyle("-fx-font-weight: bold");
 
             table.getChildren().addAll(tableColumns);
@@ -109,13 +113,14 @@ public class DetailsCourse extends GenericGUI {
 
                 Label index = new Label(String.valueOf(module.getIndexNumber()));
                 Label title = new Label(module.getTitle());
+                Label avg = new Label(String.valueOf(avgPercentages.get(module.getContentItemId())));
 
                 index.setMinWidth(50);
                 index.setMaxWidth(50);
-                title.setMinWidth(50);
+                title.setMinWidth(200);
                 title.setMaxWidth(250);
 
-                row.getChildren().addAll(index, title);
+                row.getChildren().addAll(index, title, avg);
                 row.setSpacing(20);
 
                 table.getChildren().add(row);

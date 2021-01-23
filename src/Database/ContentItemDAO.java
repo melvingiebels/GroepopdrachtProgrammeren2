@@ -266,4 +266,24 @@ public class ContentItemDAO extends GenericDAO {
 
         return webcasts;
     }
+
+    public HashMap<Integer, Integer> getAverageModulePercentage(String courseName) {
+        SQL = "SELECT module.ContentItemId, (SUM(Progress.Percentage) / COUNT(Progress.Email)) AS 'AvgPercentage' FROM Progress JOIN Module ON Progress.ContentItemId = module.ContentItemId WHERE module.CourseName=? GROUP BY module.ContentItemId";
+
+        HashMap<Integer, Integer> percentages = new HashMap<>();
+
+        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+            // Add values to prepared statement
+            stmt.setString(1, courseName);
+            // execute statement
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                percentages.put(rs.getInt("ContentItemId"), rs.getInt("AvgPercentage"));
+            }
+        } catch (Exception e) {
+            System.out.println("failed to get webcasts");
+        }
+        return percentages;
+    }   
 }
