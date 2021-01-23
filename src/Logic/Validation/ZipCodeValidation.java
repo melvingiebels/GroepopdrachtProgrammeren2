@@ -29,7 +29,13 @@ public class ZipCodeValidation {
         return false;
     }
 
-    public static String formatZipCode(String zipCode){
-        return zipCode.trim().substring(0, 4) + " " + zipCode.trim().substring(4).toUpperCase();
+    public static String formatZipCode(String zipCode) {
+        String zipCodeLetters = zipCode.trim().substring(4).trim();
+        String validation = zipCode.trim().substring(4).trim().toUpperCase();
+
+        if (!zipCode.contains(" ") || (!zipCodeLetters.equals(validation))) {
+            return zipCode.trim().substring(0, 4) + " " + zipCode.trim().substring(4).toUpperCase();
+        }
+        return zipCode;
     }
 }
