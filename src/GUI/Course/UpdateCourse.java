@@ -29,6 +29,21 @@ public class UpdateCourse extends GenericGUI {
         // create views
         OverviewCourse courseOverview = new OverviewCourse();
 
+        // Create module List
+        ArrayList<Module> courseModules = contentItemDAO.getCourseModules(course.getName());
+        ArrayList<Module> availableModules = contentItemDAO.getAvaibleModules();
+
+        ArrayList<Module> updateModuleList = new ArrayList<>();
+
+        for (Module module : courseModules) {
+            module.toggleActive();
+            updateModuleList.add(module);
+        }
+
+        for (Module module : availableModules) {
+            updateModuleList.add(module);
+        }
+
         modulesList = contentItemDAO.getCourseModules(course.getName());
 
         // Layout
@@ -75,7 +90,7 @@ public class UpdateCourse extends GenericGUI {
 
         // Change modules
         modalBtn.setOnAction((event) -> {
-            modulesList = toggleModal(modulesList);
+            modulesList = toggleModal(updateModuleList);
             moduleLabel.setText("Total modules: " + modulesList.size());
         });
 
@@ -85,10 +100,23 @@ public class UpdateCourse extends GenericGUI {
                     (String) difficultyInput.getValue());
 
             courseDAO.updateCourse(updatedCourse);
-            for (Module module : modulesList) {
-                contentItemDAO.updateModule(module, updatedCourse.getName());
-            }
 
+            if (modulesList.isEmpty()) {
+                for (Module module : courseModules) {
+                    contentItemDAO.updateModule(module, null);
+                }
+            } else if (!modulesList.equals(courseModules)) {
+                for (Module module : courseModules) {
+                    contentItemDAO.updateModule(module, null);
+                }
+                for (Module module : modulesList) {
+                    contentItemDAO.updateModule(module, updatedCourse.getName());
+                }
+            } else {
+                for (Module module : modulesList) {
+                    contentItemDAO.updateModule(module, updatedCourse.getName());
+                }
+            }
             succesMsg.setText("Student has been successfully updated");
         });
 
@@ -102,7 +130,7 @@ public class UpdateCourse extends GenericGUI {
         return new Scene(layout);
     }
 
-    private ArrayList<Module> toggleModal(ArrayList<Module> test) {
+    private ArrayList<Module> toggleModal(ArrayList<Module> updateModuleList) {
 
         Stage popupwindow = new Stage();
 
@@ -120,17 +148,9 @@ public class UpdateCourse extends GenericGUI {
         moduleLayout.getChildren().add(title);
 
         // Make arrayList of the selected modules
-        ArrayList<Module> availableModules = contentItemDAO.getAvaibleModules();
         ArrayList<Module> selectedModules = new ArrayList<>();
-
-        for (Module module : test) {
-            if (!module.isActive()) {
-                module.toggleActive();
-            } 
-            availableModules.add(module);
-        }
        
-        for (Module module : availableModules) {
+        for (Module module : updateModuleList) {
             CheckBox checkBox = new CheckBox(module.getTitle());
 
             if (module.isActive()) {

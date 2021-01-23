@@ -269,7 +269,7 @@ public class ContentItemDAO extends GenericDAO {
 
     public HashMap<Integer, Integer> getAverageModulePercentage(String courseName) {
         SQL = "SELECT module.ContentItemId, (SUM(Progress.Percentage) / COUNT(Progress.Email)) AS 'AvgPercentage' FROM Progress JOIN Module ON Progress.ContentItemId = module.ContentItemId WHERE module.CourseName=? GROUP BY module.ContentItemId";
-
+        
         HashMap<Integer, Integer> percentages = new HashMap<>();
 
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
