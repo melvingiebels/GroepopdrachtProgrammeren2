@@ -56,7 +56,7 @@ public class MainMenu extends GenericGUI {
         // Add buttons to menu
         menu.getChildren().addAll(studentsBtn, coursesBtn, top3Btn);
 
-        layout.setPrefSize(650, 350);
+        layout.setPrefSize(650, 400);
         layout.setCenter(menu);
 
         Scene scene = new Scene(layout);

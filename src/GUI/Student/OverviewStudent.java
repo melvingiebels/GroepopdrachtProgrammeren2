@@ -56,6 +56,7 @@ public class OverviewStudent extends GenericGUI {
 
         layout.setTop(topMenu);
         layout.setCenter(createOverView(window));
+        layout.setPrefSize(700, 600);
         window.setTitle("Student overview");
 
         Scene scene = new Scene(layout);
@@ -79,12 +80,12 @@ public class OverviewStudent extends GenericGUI {
         Label emailLabel = new Label("EMAIL");
         Label nameLabel = new Label("NAME");
         emailLabel.setStyle("-fx-font-weight: bold");
-        emailLabel.setMinWidth(150);
+        emailLabel.setMinWidth(220);
         nameLabel.setStyle("-fx-font-weight: bold");
+        nameLabel.setMinWidth(150);
 
         // Individual record
         HBox headRow = new HBox(20, emailLabel, nameLabel);
-        headRow.setPadding(new Insets(0, 0, 0, 20));
 
         // Table grid
         VBox table = new VBox();
@@ -94,7 +95,7 @@ public class OverviewStudent extends GenericGUI {
         for (Student student : students) {
             Label email = new Label(student.getEmail());
             Label name = new Label(student.getName());
-            email.setMinWidth(150);
+            email.setMinWidth(220);
             name.setMinWidth(150);
 
             Button updateBtn = new Button("Update");
@@ -104,7 +105,7 @@ public class OverviewStudent extends GenericGUI {
             Button detailBtn = new Button("Details");
 
             HBox row = new HBox(20, email, name, updateBtn, detailBtn, deleteBtn);
-            row.setPadding(new Insets(10, 0, 0, 20));
+            row.setPadding(new Insets(10, 0, 0, 0));
 
             updateBtn.setOnAction((event) -> {
                 window.setScene(updateView.getScene(student, window));
@@ -123,7 +124,6 @@ public class OverviewStudent extends GenericGUI {
             table.getChildren().add(row);
         }
         overviewlayout.setContent(table);
-        overviewlayout.setPrefSize(650, 600);
         overviewlayout.setPadding(new Insets(0, 0, 0, 20));
         return overviewlayout;
     }

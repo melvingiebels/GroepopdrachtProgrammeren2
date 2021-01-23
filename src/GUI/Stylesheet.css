@@ -1,22 +1,14 @@
-.label{
-    -fx-max-width:100px;
-}
 
-.root{
-    -fx-background-color: rgb(160, 160, 160);
-    -fx-background-size: 600 500;
-    /* -fx-font-family: "Franklin gothic heavy"; */
-    /* -fx-font-weight: bold; */
-}
+
 
 .button{
     -fx-font-family: "Arial Black";
     -fx-background-color: rgb(0, 96, 131);
     -fx-text-fill: #fff; 
     -fx-border-color: Black;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
-    -fx-effect: dropshadow(three-pass-box, black, 10, 0.5, 0, 0);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, black, 5, 0.5, 0, 0);
     -fx-border-size: 2px;
 }
 

@@ -116,7 +116,6 @@ public class OverviewCourse extends GenericGUI {
         }
 
         overviewlayout.setContent(table);
-        overviewlayout.setPrefSize(500, 600);
         overviewlayout.setPadding(new Insets(0, 0, 0, 20));
         return overviewlayout;
     }

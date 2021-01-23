@@ -41,7 +41,7 @@ public class DetailsStudent extends GenericGUI {
 
         // CENTER - center lists (courses, webcasts)
         VBox centerView = new VBox();
-        centerView.setPadding(new Insets(30, 50, 50, 50));
+        centerView.setPadding(new Insets(30, 30, 50, 30));
         centerView.setSpacing(10);
         centerView.getChildren().add(getCoursesOverview(student));
         centerView.getChildren().add(getWebcastOverview(student));
@@ -50,7 +50,7 @@ public class DetailsStudent extends GenericGUI {
         scrollPane.setContent(centerView);
         // LEFT - back button
         HBox leftMenu = new HBox();
-        leftMenu.setPadding(new Insets(20, 0, 0, 20));
+        leftMenu.setPadding(new Insets(20, 20, 0, 20));
         leftMenu.getChildren().addAll(backBtn);
 
         // RIGHT - properties pane
@@ -125,7 +125,7 @@ public class DetailsStudent extends GenericGUI {
         }
 
         table.setMinHeight(100);
-        table.setMinWidth(700);
+        table.setMinWidth(600);
         table.setPadding(new Insets(0, 0, 0, 20));
         return table;
     }
@@ -144,8 +144,14 @@ public class DetailsStudent extends GenericGUI {
         // "table" headers
         HBox headRow = new HBox();
         headRow.setStyle("-fx-font-weight: bold");
-        headRow.getChildren().addAll(new Label("ID"), new Label("Webcast"), new Label("Progress"));
-        headRow.setSpacing(50);
+        Label IdLabel = new Label("ID");
+        Label webcastLabel = new Label("Webcast");
+        Label progressLabel = new Label("Progress");
+        IdLabel.setPrefWidth(50);
+        webcastLabel.setPrefWidth(250);
+        progressLabel.setPrefWidth(50);
+        headRow.getChildren().addAll(IdLabel, webcastLabel, progressLabel);
+        headRow.setSpacing(20);
         table.getChildren().addAll(title, headRow);
 
         // Individual records
@@ -155,6 +161,9 @@ public class DetailsStudent extends GenericGUI {
             Label contentItemId = new Label(String.valueOf(webcast.getContentItemId()));
             Label titleWebcast = new Label(webcast.getTitle());
             TextField progress = new TextField();
+            contentItemId.setPrefWidth(50);
+            titleWebcast.setPrefWidth(250);
+            progress.setPrefWidth(50);
             progress.setText(
                     String.valueOf(contentItemDAO.getProgressPerWebcastPerStudent(webcast.getContentItemId())));
             Button saveBtn = new Button("Save");
@@ -171,12 +180,12 @@ public class DetailsStudent extends GenericGUI {
             });
 
             row.getChildren().addAll(contentItemId, titleWebcast, progress, saveBtn, detailBtn);
-            row.setSpacing(50);
+            row.setSpacing(20);
             table.getChildren().addAll(row);
         }
 
         table.setMinHeight(100);
-        table.setMinWidth(700);
+        table.setMinWidth(600);
         table.setPadding(new Insets(0, 0, 0, 20));
         return table;
 

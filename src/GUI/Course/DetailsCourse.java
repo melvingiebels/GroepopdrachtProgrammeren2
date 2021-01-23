@@ -74,9 +74,7 @@ public class DetailsCourse extends GenericGUI {
         layout.setCenter(mainGrid);
         layout.setRight(rightMenu);
 
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(layout);
-        Scene scene = new Scene(scrollPane, 1500, 400);
+        Scene scene = new Scene(layout, 1200, 300);
         scene.getStylesheets().add("./GUI/Stylesheet.css");
         return scene;
     }
@@ -88,6 +86,7 @@ public class DetailsCourse extends GenericGUI {
 
         Label header =  new Label(course.getName() + " modules:");
         header.setStyle("-fx-font-weight: bold");
+        header.setMinWidth(200);
 
         HBox headRow = new HBox(header);
 
@@ -101,7 +100,8 @@ public class DetailsCourse extends GenericGUI {
             Label avgLabel = new Label("AVERAGE PROGRESS");
 
             indexLabel.setMinWidth(50);
-            moduleLabel.setMinWidth(200);
+            moduleLabel.setMinWidth(250);
+            avgLabel.setMinWidth(100);
 
             HBox tableColumns = new HBox(20, indexLabel, moduleLabel, avgLabel);
             tableColumns.setStyle("-fx-font-weight: bold");
@@ -118,8 +118,9 @@ public class DetailsCourse extends GenericGUI {
 
                 index.setMinWidth(50);
                 index.setMaxWidth(50);
-                title.setMinWidth(200);
+                title.setMinWidth(250);
                 title.setMaxWidth(250);
+                avg.setMinWidth(100);
 
                 row.getChildren().addAll(index, title, avg);
                 row.setSpacing(20);
@@ -132,7 +133,7 @@ public class DetailsCourse extends GenericGUI {
         }
         
         table.setMinHeight(100);
-        table.setMinWidth(700);
+        table.setMinWidth(500);
         table.setPadding(new Insets(0, 0, 0, 20));
         return table;
     }
