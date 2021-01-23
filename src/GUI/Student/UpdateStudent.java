@@ -106,6 +106,8 @@ public class UpdateStudent extends GenericGUI {
                 genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel, countryInput, zipCodeLabel,
                 zipCodeInput, submit);
 
-        return new Scene(layout);
+        Scene scene = new Scene(layout);
+        scene.getStylesheets().add("./GUI/Stylesheet.css");
+        return scene;
     }
 }

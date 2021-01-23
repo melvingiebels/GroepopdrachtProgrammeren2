@@ -99,7 +99,9 @@ public class AddRegistration extends GenericGUI {
         form.getChildren().addAll(title, emailValue, responseMsg, registrationDateLabel, dateInput, coursesLabel,
                 coursesInput, submitBtn);
 
-        return new Scene(layout);
+        Scene scene = new Scene(layout);
+        scene.getStylesheets().add("./GUI/Stylesheet.css");
+        return scene;
     }
 
     private ArrayList<String> createCourseList() {

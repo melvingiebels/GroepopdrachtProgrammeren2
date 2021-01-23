@@ -121,7 +121,9 @@ public class AddStudent extends GenericGUI {
 
         window.setTitle("Student overview");
         layout.setPrefSize(600, 600);
-        return new Scene(layout);
+        Scene scene = new Scene(layout);
+        scene.getStylesheets().add("./GUI/Stylesheet.css");
+        return scene;
     }
 
 }
