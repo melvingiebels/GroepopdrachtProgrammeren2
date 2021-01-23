@@ -198,6 +198,7 @@ public class DetailsStudent extends GenericGUI {
         popupwindow.setTitle(webcast.getTitle() + " details");
 
         HBox list = new HBox();
+        list.setPadding(new Insets(30, 50, 50, 50));
 
         // List elements
         VBox listSubjects = new VBox();
@@ -236,6 +237,7 @@ public class DetailsStudent extends GenericGUI {
         label.setStyle("-fx-font-weight: bold");
 
         VBox list = new VBox();
+        list.setPadding(new Insets(30, 50, 50, 50));
         list.setSpacing(20);
         HBox listHeader = new HBox();
         listHeader.getChildren().addAll(new Label("ID"), new Label("Version"), new Label("Index"), new Label("Title"),
@@ -292,6 +294,8 @@ public class DetailsStudent extends GenericGUI {
 
         // Table elemtens
         VBox table = new VBox();
+        table.setPadding(new Insets(30, 50, 50, 50));
+
         HBox header = new HBox();
         header.getChildren().addAll(new Label("Certificate ID"), new Label("Registration date"),
                 new Label("Course name"), new Label("Email"));
