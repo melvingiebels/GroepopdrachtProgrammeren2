@@ -30,11 +30,14 @@ public class ZipCodeValidation {
     }
 
     public static String formatZipCode(String zipCode) {
-        String zipCodeLetters = zipCode.trim().substring(4).trim();
-        String validation = zipCode.trim().substring(4).trim().toUpperCase();
+        // Check if zipCode is already formatted
+        String zipCodeConcat = zipCode.replaceAll("\\W", "");
+
+        String zipCodeLetters = zipCodeConcat.trim().substring(4).trim();
+        String validation = zipCodeConcat.trim().substring(4).trim().toUpperCase();
 
         if (!zipCode.contains(" ") || (!zipCodeLetters.equals(validation))) {
-            return zipCode.trim().substring(0, 4) + " " + zipCode.trim().substring(4).toUpperCase();
+            return zipCodeConcat.substring(0, 4) + " " + validation;
         }
         return zipCode;
     }
