@@ -8,6 +8,7 @@ import Domain.Module;
 import Domain.Registration;
 import GUI.GenericGUI;
 import GUI.Student.Registration.OverviewRegistration;
+import Logic.Validation.PercentageValidation;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -161,6 +162,7 @@ public class DetailsStudent extends GenericGUI {
             Label contentItemId = new Label(String.valueOf(webcast.getContentItemId()));
             Label titleWebcast = new Label(webcast.getTitle());
             TextField progress = new TextField();
+            progress.setPromptText("0-100");
             contentItemId.setPrefWidth(50);
             titleWebcast.setPrefWidth(250);
             progress.setPrefWidth(50);
@@ -169,9 +171,17 @@ public class DetailsStudent extends GenericGUI {
             Button saveBtn = new Button("Save");
 
             saveBtn.setOnAction((event) -> {
-                contentItemDAO.updateWebcastProgress(student.getEmail(), webcast.getContentItemId(),
-                        Integer.valueOf(progress.getText()));
-                progress.setStyle("-fx-text-fill: green");
+                try {
+                    if (PercentageValidation.validatePercentage(Integer.valueOf(progress.getText()))) {
+                        contentItemDAO.updateWebcastProgress(student.getEmail(), webcast.getContentItemId(),
+                                Integer.valueOf(progress.getText()));
+                        progress.setStyle("-fx-text-box-border: green");
+                    } else {
+                        progress.setStyle("-fx-text-box-border: red");
+                    }
+                } catch (Exception e) {
+                    progress.setStyle("-fx-text-box-border: red");
+                }
             });
 
             Button detailBtn = new Button("Details");
@@ -253,15 +263,25 @@ public class DetailsStudent extends GenericGUI {
             Label index = new Label(String.valueOf(module.getIndexNumber()));
             Label title = new Label(module.getTitle());
             TextField progress = new TextField();
+            progress.setPromptText("1-100%");
             progress.setText(String.valueOf(
                     contentItemDAO.getProgressPerModulePerStudent(registration.getEmail(), module.getContentItemId())));
 
             Button update = new Button("Update");
             update.setOnAction((event) -> {
-                contentItemDAO.updateModuleProgress(registration.getEmail(), module.getContentItemId(),
-                        Integer.valueOf(progress.getText()), registration.getCourseName(),
-                        registration.getRegistrationDate());
-                progress.setStyle("-fx-text-fill: green");
+                try {
+                    if (PercentageValidation.validatePercentage(Integer.valueOf(progress.getText()))) {
+                        contentItemDAO.updateModuleProgress(registration.getEmail(), module.getContentItemId(),
+                                Integer.valueOf(progress.getText()), registration.getCourseName(),
+                                registration.getRegistrationDate());
+                        progress.setStyle("-fx-text-box-border: green");
+                    } else {
+                        progress.setStyle("-fx-text-box-border: red");
+                    }
+                } catch (Exception e) {
+                    progress.setStyle("-fx-text-box-border: red");
+                }
+
             });
 
             // Adding values to row
