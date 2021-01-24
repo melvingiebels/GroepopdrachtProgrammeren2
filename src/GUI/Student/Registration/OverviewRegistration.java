@@ -34,6 +34,7 @@ public class OverviewRegistration extends GenericGUI {
         });
 
         Button addBtn = new Button("Add registration");
+        addBtn.setId("greenBtn");
         AddRegistration addregistration = new AddRegistration();
         addBtn.setOnAction((event) -> {
             window.setScene(addregistration.getScene(window, student));

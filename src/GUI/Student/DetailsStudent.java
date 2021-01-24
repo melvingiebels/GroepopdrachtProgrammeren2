@@ -169,6 +169,7 @@ public class DetailsStudent extends GenericGUI {
             progress.setText(
                     String.valueOf(contentItemDAO.getProgressPerWebcastPerStudent(webcast.getContentItemId())));
             Button saveBtn = new Button("Save");
+            saveBtn.setId("greenBtn");
 
             saveBtn.setOnAction((event) -> {
                 try {

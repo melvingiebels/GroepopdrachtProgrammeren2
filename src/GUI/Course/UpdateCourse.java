@@ -144,6 +144,7 @@ public class UpdateCourse extends GenericGUI {
         title.setStyle("-fx-font-weight: bold");
 
         Button saveBtn = new Button("Save");
+        saveBtn.setId("greenBtn");
         VBox moduleLayout = new VBox(10);
 
         moduleLayout.setPadding(new Insets(30, 50, 50, 50));

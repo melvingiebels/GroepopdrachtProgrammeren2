@@ -88,9 +88,11 @@ public class UpdateStudent extends GenericGUI {
         Label line1 = new Label("-");
         Label line2 = new Label("-");
 
-        Button submit = new Button("Save changes");
+        Button submitBtn = new Button("Save changes");
+        submitBtn.setId("greenBtn");
 
-        submit.setOnAction((event) -> {
+
+        submitBtn.setOnAction((event) -> {
             // reset previous errors (for multiple attempts)
             emailLabel.setText("Email: ");
             emailLabel.setStyle(null);
@@ -237,7 +239,7 @@ public class UpdateStudent extends GenericGUI {
         dateInput.getChildren().addAll(dayInput, line1, monthInput, line2, yearInput);
         form.getChildren().addAll(title, responseMsg, emailLabel, emailInput, nameLabel, nameInput, birthdateLabel,
                 dateInput, genderLabel, genderInput, addressLabel, addressInput, cityLabel, cityInput, countryLabel,
-                countryInput, zipCodeLabel, zipCodeInput, submit);
+                countryInput, zipCodeLabel, zipCodeInput, submitBtn);
 
         Scene scene = new Scene(layout);
         scene.getStylesheets().add("./GUI/Stylesheet.css");
