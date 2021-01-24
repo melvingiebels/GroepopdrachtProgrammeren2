@@ -150,6 +150,7 @@ public class AddCourse extends GenericGUI {
 
     private ArrayList<Module> toggleModal() {
 
+        // Create Modal
         Stage popupwindow = new Stage();
 
         popupwindow.initModality(Modality.APPLICATION_MODAL);
@@ -160,10 +161,9 @@ public class AddCourse extends GenericGUI {
 
         Button saveBtn = new Button("Save");
         saveBtn.setId("greenBtn");
+
         VBox moduleLayout = new VBox(10);
-
         moduleLayout.setPadding(new Insets(30, 50, 50, 50));
-
         moduleLayout.getChildren().add(title);
 
         // Make arrayList of the selected modules
@@ -195,10 +195,10 @@ public class AddCourse extends GenericGUI {
 
         saveBtn.setOnAction(e -> popupwindow.close());
 
-        Scene scene1 = new Scene(scrollPane, 400, 400);
-        scene1.getStylesheets().add("./GUI/Stylesheet.css");
+        Scene modal = new Scene(scrollPane, 400, 400);
+        modal.getStylesheets().add("./GUI/Stylesheet.css");
 
-        popupwindow.setScene(scene1);
+        popupwindow.setScene(modal);
         popupwindow.showAndWait();
 
         return selectedModules;

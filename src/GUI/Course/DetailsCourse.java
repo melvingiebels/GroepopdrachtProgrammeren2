@@ -49,8 +49,10 @@ public class DetailsCourse extends GenericGUI {
         VBox rightMenu = new VBox();
         rightMenu.setPadding(new Insets(30, 50, 50, 50));
         rightMenu.setSpacing(10);
+
         Label rightMenuHeader = new Label("Course info");
         rightMenuHeader.setStyle("-fx-font-weight: bold");
+        
         Label courseName = new Label("Name: " + course.getName());
         Label topic = new Label("Topic: " + course.getTopic());
         Label difficulty = new Label("Difficulty: " + course.getDifficulty());
