@@ -10,27 +10,15 @@
 }
 
 .button:hover{
-    -fx-background-color: rgb(35, 146, 197);
-}
-
-#greenBtn{
-    
+    -fx-background-color: rgb(30, 153, 211);
 }
 
 #greenBtn:hover{
     -fx-background-color: rgb(3, 148, 3);
 }
 
-#orangeBtn{
-
-}
-
 #orangeBtn:hover{
     -fx-background-color: orange;
-}
-
-#redBtn{
-
 }
 
 #redBtn:hover{
