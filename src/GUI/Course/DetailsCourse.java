@@ -57,18 +57,19 @@ public class DetailsCourse extends GenericGUI {
         Label total = new Label(
                 "Total students that completed course: " + courseDAO.getTotalCompleted(course.getName()));
         Label genderPercentage = new Label();
-
+        Label genderLabel = new Label("Percentage of gender that has a certificate");
         ComboBox<String> genderInput = new ComboBox<>();
+        genderLabel.setStyle("-fx-font-weight: bold");
 
         genderInput.setValue("Choose one option");
         genderInput.getItems().addAll("Male", "Female");
 
         genderInput.setOnAction((event) -> {
-            int percentage = courseDAO.getGenderPercentage(genderInput.getValue());
-            genderPercentage.setText(genderInput.getValue() + " percentage: " + percentage);
+            int percentage = courseDAO.getGenderPercentage(genderInput.getValue(), course.getName());
+            genderPercentage.setText(genderInput.getValue() + ": " + percentage + "% has a certificate");
         });
 
-        rightMenu.getChildren().addAll(courseName, topic, difficulty, description, total, genderInput,
+        rightMenu.getChildren().addAll(courseName, topic, difficulty, description, total, genderLabel, genderInput,
                 genderPercentage);
 
         layout.setLeft(leftMenu);

@@ -114,12 +114,15 @@ public class CourseDAO extends GenericDAO {
         return 0;
     }
 
-    public int getGenderPercentage(String gender) {
-        SQL = "SELECT (convert(decimal(5, 2),COUNT(*)) / (SELECT COUNT(*) FROM Registration) * 100) AS 'Percentage' FROM Certificate JOIN Student ON Certificate.Email = Student.Email WHERE student.Gender=?";
+    public int getGenderPercentage(String gender, String courseName) {
+        SQL = "SELECT (convert(decimal(5, 2),COUNT(*)) / (SELECT COUNT(*) FROM Registration JOIN student ON Registration.Email = student.Email WHERE CourseName = ? AND Gender = ?) * 100) AS 'Percentage' FROM Certificate JOIN Student ON Certificate.Email = Student.Email WHERE student.Gender=? AND Certificate.CourseName= ?";
 
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
             // Add values to statement
-            stmt.setString(1, gender);
+            stmt.setString(1, courseName);
+            stmt.setString(2, gender);
+            stmt.setString(3, gender);
+            stmt.setString(4, courseName);
             rs = stmt.executeQuery();
             // excecute query
             while (rs.next()) {
