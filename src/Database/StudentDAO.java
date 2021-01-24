@@ -121,20 +121,22 @@ public class StudentDAO extends GenericDAO {
                 // Excecute query
                 stmt.executeUpdate();
             } catch (Exception e) {
-                // Set progress to 0 per module
-                SQL = "INSERT INTO Progress VALUES(?, ?, ?)";
-                try (PreparedStatement stmt = con.prepareStatement(SQL)) {
-                    // Add values to prepared statement
-                    stmt.setString(1, registration.getEmail());
-                    stmt.setInt(2, module.getContentItemId());
-                    stmt.setInt(3, 0);
+                System.out.println("No progress found");
+            }
 
-                    // Excecute query
-                    stmt.executeUpdate();
+            // Set progress to 0 per module
+            SQL = "INSERT INTO Progress VALUES(?, ?, ?)";
+            try (PreparedStatement stmt = con.prepareStatement(SQL)) {
+                // Add values to prepared statement
+                stmt.setString(1, registration.getEmail());
+                stmt.setInt(2, module.getContentItemId());
+                stmt.setInt(3, 0);
 
-                } catch (Exception b) {
-                    System.out.println("failed to add progress");
-                }
+                // Excecute query
+                stmt.executeUpdate();
+
+            } catch (Exception b) {
+                System.out.println("failed to add progress");
             }
 
         }
