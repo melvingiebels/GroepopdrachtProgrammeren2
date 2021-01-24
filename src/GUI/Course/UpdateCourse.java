@@ -118,7 +118,7 @@ public class UpdateCourse extends GenericGUI {
                     contentItemDAO.updateModule(module, updatedCourse.getName());
                 }
             }
-            succesMsg.setText("Student has been successfully updated");
+            succesMsg.setText("Course has been successfully updated");
         });
 
         leftMenu.getChildren().addAll(overviewBtn);
@@ -153,7 +153,7 @@ public class UpdateCourse extends GenericGUI {
 
         // Make arrayList of the selected modules
         ArrayList<Module> selectedModules = new ArrayList<>();
-       
+
         for (Module module : updateModuleList) {
             CheckBox checkBox = new CheckBox(module.getTitle());
 
