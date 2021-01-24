@@ -77,8 +77,8 @@ public class MainMenu extends GenericGUI {
         rankLabel.setMinWidth(50);
         rankLabel.setMaxWidth(50);
         Label titleLabel = new Label("Title");
-        titleLabel.setMinWidth(250);
-        titleLabel.setMaxWidth(250);
+        titleLabel.setMinWidth(300);
+        titleLabel.setMaxWidth(300);
         Label viewsLabel = new Label("Views");
         viewsLabel.setMinWidth(50);
         viewsLabel.setMaxWidth(50);
@@ -95,8 +95,8 @@ public class MainMenu extends GenericGUI {
                 rank.setMinWidth(50);
                 rank.setMaxWidth(50);
                 Label title = new Label(webcast.getTitle());
-                title.setMinWidth(250);
-                title.setMaxWidth(250);
+                title.setMinWidth(300);
+                title.setMaxWidth(300);
                 Label views = new Label(String.valueOf(map.get(webcast)));
                 views.setMinWidth(50);
                 views.setMaxWidth(50);
