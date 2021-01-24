@@ -194,6 +194,7 @@ public class AddCourse extends GenericGUI {
         saveBtn.setOnAction(e -> popupwindow.close());
 
         Scene scene1 = new Scene(scrollPane, 400, 400);
+        scene1.getStylesheets().add("./GUI/Stylesheet.css");
 
         popupwindow.setScene(scene1);
         popupwindow.showAndWait();
