@@ -114,7 +114,7 @@ public class AddStudent extends GenericGUI {
             countryLabel.setText("Country: ");
             countryLabel.setStyle(null);
 
-            Boolean isValidStudent = true;
+            boolean isValidStudent = true;
             String strDate = "";
 
             // Check mail
@@ -158,6 +158,10 @@ public class AddStudent extends GenericGUI {
                 if (date.isAfter(LocalDate.now())) {
                     birthdateLabel.setText("Birthdate: Date can't be in the future");
                     birthdateLabel.setStyle("-fx-text-fill: red");
+                    dayInput.setStyle("-fx-text-box-border: red");
+                    monthInput.setStyle("-fx-text-box-border: red");
+                    yearInput.setStyle("-fx-text-box-border: red");
+                    isValidStudent = false;
                 } else {
                     strDate = String.format("%s-%s-%s", yearInput.getText(), monthInput.getText(), dayInput.getText());
                     String validateDate = String.format("%s-%s-%s", dayInput.getText(), monthInput.getText(),
@@ -177,7 +181,7 @@ public class AddStudent extends GenericGUI {
                     }
                 }
 
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 birthdateLabel.setText("Birthdate: Invalid birthdate!");
                 birthdateLabel.setStyle("-fx-text-fill: red");
                 dayInput.setStyle("-fx-text-box-border: red");

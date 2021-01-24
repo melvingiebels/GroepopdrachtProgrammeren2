@@ -1,5 +1,7 @@
 package GUI.Student;
 
+import java.time.LocalDate;
+
 import Domain.Student;
 import GUI.GenericGUI;
 import Logic.Validation.DateValidation;
@@ -105,7 +107,7 @@ public class UpdateStudent extends GenericGUI {
             countryLabel.setText("Country: ");
             countryLabel.setStyle(null);
 
-            Boolean isValidStudent = true;
+            boolean isValidStudent = true;
             String strDate = "";
 
             // Check mail
@@ -144,23 +146,36 @@ public class UpdateStudent extends GenericGUI {
 
             // Check date
             try {
-                strDate = String.format("%s-%s-%s", yearInput.getText(), monthInput.getText(), dayInput.getText());
-                String validateDate = String.format("%s-%s-%s", dayInput.getText(), monthInput.getText(),
-                        yearInput.getText());
-
-                if (DateValidation.validateDate(validateDate)) {
-                    dayInput.setStyle("-fx-text-box-border: green");
-                    monthInput.setStyle("-fx-text-box-border: green");
-                    yearInput.setStyle("-fx-text-box-border: green");
-                } else {
-                    birthdateLabel.setText("Birthdate: Invalid birthdate!");
+                LocalDate localDate = LocalDate.of(Integer.valueOf(yearInput.getText()),
+                        Integer.valueOf(monthInput.getText()), Integer.valueOf(dayInput.getText()));
+                // Check if the date is in the future
+                if (localDate.isAfter(LocalDate.now())) {
+                    isValidStudent = false;
+                    birthdateLabel.setText("Birthdate: Date can't be in the future");
                     birthdateLabel.setStyle("-fx-text-fill: red");
                     dayInput.setStyle("-fx-text-box-border: red");
                     monthInput.setStyle("-fx-text-box-border: red");
                     yearInput.setStyle("-fx-text-box-border: red");
-                    isValidStudent = false;
+                } else {
+                    strDate = String.format("%s-%s-%s", yearInput.getText(), monthInput.getText(), dayInput.getText());
+                    String validateDate = String.format("%s-%s-%s", dayInput.getText(), monthInput.getText(),
+                            yearInput.getText());
+
+                    if (DateValidation.validateDate(validateDate)) {
+                        dayInput.setStyle("-fx-text-box-border: green");
+                        monthInput.setStyle("-fx-text-box-border: green");
+                        yearInput.setStyle("-fx-text-box-border: green");
+                    } else {
+                        birthdateLabel.setText("Birthdate: Invalid birthdate!");
+                        birthdateLabel.setStyle("-fx-text-fill: red");
+                        dayInput.setStyle("-fx-text-box-border: red");
+                        monthInput.setStyle("-fx-text-box-border: red");
+                        yearInput.setStyle("-fx-text-box-border: red");
+                        isValidStudent = false;
+                    }
                 }
-            } catch (NumberFormatException e) {
+
+            } catch (Exception e) {
                 birthdateLabel.setText("Birthdate: Invalid birthdate!");
                 birthdateLabel.setStyle("-fx-text-fill: red");
                 dayInput.setStyle("-fx-text-box-border: red");
