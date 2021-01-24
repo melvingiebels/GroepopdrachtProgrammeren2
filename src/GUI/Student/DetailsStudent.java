@@ -340,14 +340,18 @@ public class DetailsStudent extends GenericGUI {
         VBox table = new VBox();
         table.setPadding(new Insets(30, 50, 50, 50));
 
-        Label certificateHeader = new Label("Certificate ID");
+        Label idHeader = new Label("ID");
         Label registrationheader = new Label("Registration date");
         Label courseHeader = new Label("Course");
         Label emailHeader = new Label("Email");
 
-        HBox header = new HBox();
-        header.getChildren().addAll(new Label("Certificate ID"), new Label("Registration date"),
-                new Label("Course name"), new Label("Email"));
+        idHeader.setMinWidth(20);
+        registrationheader.setMinWidth(120);
+        courseHeader.setMinWidth(200);
+        emailHeader.setMinWidth(200);
+
+        HBox header = new HBox(idHeader, registrationheader, courseHeader, emailHeader);
+
         header.setSpacing(50);
         header.setStyle("-fx-font-weight: bold");
         table.getChildren().add(header);
@@ -362,7 +366,13 @@ public class DetailsStudent extends GenericGUI {
             Label courseLabel = new Label(certificate.getCourseName());
             Label emailLabel = new Label(certificate.getEmail());
 
+            idLabel.setMinWidth(20);
+            dateLabel.setMinWidth(120);
+            courseLabel.setMinWidth(200);
+            emailLabel.setMinWidth(200);
+
             Button deleteCertificate = new Button("Delete");
+            deleteCertificate.setId("redBtn");
             deleteCertificate.setOnAction((event) -> {
                 contentItemDAO.removeCertificate(certificate.getCertiticateId());
                 table.getChildren().remove(row);
@@ -375,7 +385,8 @@ public class DetailsStudent extends GenericGUI {
         }
 
         // Adding table to the scene
-        Scene scene = new Scene(table);
+        Scene scene = new Scene(table, 1000, 200);
+        scene.getStylesheets().add("./GUI/Stylesheet.css");
         popupwindow.setScene(scene);
         popupwindow.showAndWait();
     }
