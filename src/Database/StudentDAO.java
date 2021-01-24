@@ -113,7 +113,7 @@ public class StudentDAO extends GenericDAO {
 
         // Add progress to database per module
         for (Module module : modules) {
-            // first check if there is already process made & set it back to 0
+            // first check if there is already progress made & set it back to 0
             SQL = "UPDATE Progress SET Percentage= 0 WHERE Email=? AND contentItemId=?";
             try (PreparedStatement stmt = con.prepareStatement(SQL)) {
                 stmt.setString(1, registration.getEmail());
@@ -136,7 +136,6 @@ public class StudentDAO extends GenericDAO {
                 stmt.executeUpdate();
 
             } catch (Exception b) {
-                System.out.println("failed to add progress");
             }
 
         }
