@@ -113,7 +113,7 @@ public class AddRegistration extends GenericGUI {
                     }
                 }
 
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 registrationDateLabel.setText("Registration Date: Invalid date!");
                 registrationDateLabel.setStyle("-fx-text-fill: red");
                 dayInput.setStyle("-fx-text-box-border: red");
