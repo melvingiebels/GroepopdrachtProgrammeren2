@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class DetailsCourse extends GenericGUI {
@@ -48,7 +49,7 @@ public class DetailsCourse extends GenericGUI {
         VBox rightMenu = new VBox();
         rightMenu.setPadding(new Insets(30, 50, 50, 50));
         rightMenu.setSpacing(10);
-        Label rightMenuHeader = new Label("Student details");
+        Label rightMenuHeader = new Label("Course info");
         rightMenuHeader.setStyle("-fx-font-weight: bold");
         Label courseName = new Label("Name: " + course.getName());
         Label topic = new Label("Topic: " + course.getTopic());
@@ -69,7 +70,7 @@ public class DetailsCourse extends GenericGUI {
             genderPercentage.setText(genderInput.getValue() + ": " + percentage + "% has a certificate");
         });
 
-        rightMenu.getChildren().addAll(courseName, topic, difficulty, description, total, genderLabel, genderInput,
+        rightMenu.getChildren().addAll(rightMenuHeader, courseName, topic, difficulty, description, total, genderLabel, genderInput,
                 genderPercentage);
 
         layout.setLeft(leftMenu);
@@ -99,13 +100,11 @@ public class DetailsCourse extends GenericGUI {
 
             Label indexLabel = new Label("INDEX");
             Label moduleLabel = new Label("MODULE");
-            Label avgLabel = new Label("AVERAGE PROGRESS");
 
             indexLabel.setMinWidth(50);
             moduleLabel.setMinWidth(250);
-            avgLabel.setMinWidth(100);
 
-            HBox tableColumns = new HBox(20, indexLabel, moduleLabel, avgLabel);
+            HBox tableColumns = new HBox(20, indexLabel, moduleLabel);
             tableColumns.setStyle("-fx-font-weight: bold");
 
             table.getChildren().addAll(tableColumns);
@@ -116,15 +115,20 @@ public class DetailsCourse extends GenericGUI {
 
                 Label index = new Label(String.valueOf(module.getIndexNumber()));
                 Label title = new Label(module.getTitle());
-                Label avg = new Label(String.valueOf(avgPercentages.get(module.getContentItemId())));
+
+                Button detailBtn = new Button("Details");
+
+
+                detailBtn.setOnAction((event) -> {
+                    this.getModuleDetailModal(module, avgPercentages);
+                });
 
                 index.setMinWidth(50);
                 index.setMaxWidth(50);
                 title.setMinWidth(250);
                 title.setMaxWidth(250);
-                avg.setMinWidth(100);
 
-                row.getChildren().addAll(index, title, avg);
+                row.getChildren().addAll(index, title, detailBtn);
                 row.setSpacing(20);
 
                 table.getChildren().add(row);
@@ -138,5 +142,48 @@ public class DetailsCourse extends GenericGUI {
         table.setMinWidth(500);
         table.setPadding(new Insets(0, 0, 0, 20));
         return table;
+    }
+
+    private void getModuleDetailModal(Module module, HashMap<Integer, Integer> avgPercentages) {
+        // Modal elements
+        Stage popupwindow = new Stage();
+        popupwindow.initModality(Modality.APPLICATION_MODAL);
+        popupwindow.setTitle("Details: " + module.getTitle());
+
+        HBox list = new HBox();
+        list.setPadding(new Insets(30, 50, 50, 50));
+
+        // List elements
+        VBox listSubjects = new VBox();
+
+        Label versionHeader = new Label("Version: ");
+        Label indexHeader = new Label("Index: ");
+        Label titleHeader = new Label("Title: ");
+        Label contactNameHeader = new Label("Contact name: ");
+        Label contactMailHeader = new Label("Contact email: ");
+        Label avgLabel = new Label("Average progress: ");
+   
+        listSubjects.getChildren().addAll(versionHeader, indexHeader, titleHeader, contactNameHeader, contactMailHeader, avgLabel);
+        listSubjects.setStyle("-fx-font-weight: bold");
+
+        VBox listValues = new VBox();
+
+        Label version = new Label(String.valueOf(module.getVersion()));
+        Label index = new Label(String.valueOf(module.getIndexNumber()));
+        Label title = new Label(module.getTitle());
+        Label contactName = new Label(module.getContactName());
+        Label contactMail = new Label(module.getContactMail());
+        Label avg = new Label(String.valueOf(avgPercentages.get(module.getContentItemId())));
+
+        listValues.getChildren().addAll(version, index, title, contactName, contactMail, avg);
+
+        // Make list
+        list.getChildren().addAll(listSubjects, listValues);
+        list.setSpacing(10);
+
+        // Adding table to the scene
+        Scene scene = new Scene(list);
+        popupwindow.setScene(scene);
+        popupwindow.showAndWait();
     }
 }
