@@ -79,15 +79,57 @@ public class AddCourse extends GenericGUI {
 
         // submit action
         submitBtn.setOnAction((event) -> {
-            Course newCourse = new Course(nameInput.getText(), topicInput.getText(), descriptionInput.getText(),
-                    difficultyInput.getValue());
-            courseDAO.addCourse(newCourse);
+            // reset tags / messages when trying again
+            name.setText("Name: ");
+            name.setStyle(null);
+            topic.setText("Topic: ");
+            topic.setStyle(null);
+            description.setText("Description: ");
+            description.setStyle(null);
 
-            for (Module module : modulesList) {
-                contentItemDAO.updateModule(module, newCourse.getName());
+            // Valid switch
+            boolean isValidCourse = true;
+
+            // Check name
+            if (nameInput.getText().equals("")) {
+                name.setText("Name: cannot be empty!");
+                name.setStyle("-fx-text-fill: red");
+                nameInput.setStyle("-fx-text-box-border: red");
+                isValidCourse = false;
+            } else {
+                nameInput.setStyle("-fx-text-box-border: green");
             }
 
-            succesMsg.setText(nameInput.getText() + " Has been added");
+            if (topicInput.getText().equals("")) {
+                topic.setText("Topic: cannot be empty!");
+                topic.setStyle("-fx-text-fill: red");
+                topicInput.setStyle("-fx-text-box-border: red");
+                isValidCourse = false;
+            } else {
+                topicInput.setStyle("-fx-text-box-border: green");
+            }
+
+            if (descriptionInput.getText().equals("")) {
+                description.setText("Description: cannot be empty!");
+                description.setStyle("-fx-text-fill: red");
+                descriptionInput.setStyle("-fx-text-box-border: red");
+                isValidCourse = false;
+            } else {
+                descriptionInput.setStyle("-fx-text-box-border: green");
+            }
+
+            if (isValidCourse) {
+                Course newCourse = new Course(nameInput.getText(), topicInput.getText(), descriptionInput.getText(),
+                        difficultyInput.getValue());
+                courseDAO.addCourse(newCourse);
+
+                for (Module module : modulesList) {
+                    contentItemDAO.updateModule(module, newCourse.getName());
+                }
+
+                succesMsg.setText(nameInput.getText() + " Has been added");
+            }
+
         });
 
         // Placing elements inside the layout elements
@@ -99,7 +141,7 @@ public class AddCourse extends GenericGUI {
         layout.setCenter(form);
         window.setTitle("Add new course");
         layout.setPrefSize(600, 600);
-        
+
         Scene scene = new Scene(layout);
         scene.getStylesheets().add("./GUI/Stylesheet.css");
         return scene;
