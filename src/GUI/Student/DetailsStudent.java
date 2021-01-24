@@ -239,11 +239,26 @@ public class DetailsStudent extends GenericGUI {
         VBox list = new VBox();
         list.setPadding(new Insets(30, 50, 50, 50));
         list.setSpacing(20);
-        HBox listHeader = new HBox();
-        listHeader.getChildren().addAll(new Label("ID"), new Label("Version"), new Label("Index"), new Label("Title"),
-                new Label("Progress"));
-        list.getChildren().addAll(label, listHeader);
+
+        Label idHeader = new Label("ID");
+        Label versionHeader = new Label("Version");
+        Label indexHeader = new Label("Index");
+        Label titleHeader = new Label("Title");
+        Label progressHeader = new Label("Progress");
+
+        idHeader.setMinWidth(20);
+        versionHeader.setMinWidth(50);
+        indexHeader.setMinWidth(50);
+        titleHeader.setMinWidth(180);
+        progressHeader.setMinWidth(50);
+
+        HBox listHeader = new HBox(idHeader, versionHeader, indexHeader, titleHeader, progressHeader);
+
+        listHeader.setStyle("-fx-font-weight: bold");
         listHeader.setSpacing(50);
+
+        list.getChildren().addAll(label, listHeader);
+      
 
         // Creating rows
         for (Module module : modules) {
@@ -252,11 +267,18 @@ public class DetailsStudent extends GenericGUI {
             Label version = new Label(String.valueOf(module.getVersion()));
             Label index = new Label(String.valueOf(module.getIndexNumber()));
             Label title = new Label(module.getTitle());
+
+            id.setMinWidth(20);
+            version.setMinWidth(50);
+            index.setMinWidth(50);
+            title.setMinWidth(180);
+
             TextField progress = new TextField();
             progress.setText(String.valueOf(
                     contentItemDAO.getProgressPerModulePerStudent(registration.getEmail(), module.getContentItemId())));
 
             Button update = new Button("Update");
+            update.setId("orangeBtn");
             update.setOnAction((event) -> {
                 contentItemDAO.updateModuleProgress(registration.getEmail(), module.getContentItemId(),
                         Integer.valueOf(progress.getText()), registration.getCourseName(),
@@ -274,7 +296,9 @@ public class DetailsStudent extends GenericGUI {
 
         // Adding table to the scene
         scrollPane.setContent(list);
-        Scene scene = new Scene(scrollPane);
+        Scene scene = new Scene(scrollPane, 950, 250);
+        scene.getStylesheets().add("./GUI/Stylesheet.css");
+
         popupwindow.setScene(scene);
         popupwindow.showAndWait();
     }
@@ -295,6 +319,11 @@ public class DetailsStudent extends GenericGUI {
         // Table elemtens
         VBox table = new VBox();
         table.setPadding(new Insets(30, 50, 50, 50));
+
+        Label certificateHeader = new Label("Certificate ID");
+        Label registrationheader = new Label("Registration date");
+        Label courseHeader = new Label("Course");
+        Label emailHeader = new Label("Email");
 
         HBox header = new HBox();
         header.getChildren().addAll(new Label("Certificate ID"), new Label("Registration date"),
