@@ -81,7 +81,8 @@ public class UpdateCourse extends GenericGUI {
         // Buttons
         Button modalBtn = new Button("Add modules");
         Button overviewBtn = new Button("Back");
-        Button submit = new Button("SUBMIT");
+        Button submitBtn = new Button("Save changes");
+        submitBtn.setId("greenBtn");
 
         // Switch to overview
         overviewBtn.setOnAction((event) -> {
@@ -95,7 +96,7 @@ public class UpdateCourse extends GenericGUI {
         });
 
         // update event
-        submit.setOnAction((event) -> {
+        submitBtn.setOnAction((event) -> {
             Course updatedCourse = new Course(nameInput.getText(), topicInput.getText(), descriptionInput.getText(),
                     (String) difficultyInput.getValue());
 
@@ -122,7 +123,7 @@ public class UpdateCourse extends GenericGUI {
 
         leftMenu.getChildren().addAll(overviewBtn);
         form.getChildren().addAll(title, succesMsg, nameLabel, nameInput, topicLabel, topicInput, descriptionLabel,
-                descriptionInput, difficultyLabel, difficultyInput, moduleLabel, modalBtn, submit);
+                descriptionInput, difficultyLabel, difficultyInput, moduleLabel, modalBtn, submitBtn);
 
         layout.setLeft(leftMenu);
         layout.setCenter(form);

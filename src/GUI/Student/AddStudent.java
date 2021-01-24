@@ -46,6 +46,7 @@ public class AddStudent extends GenericGUI {
         // add button
         Button overviewBtn = new Button("Back");
         Button submitBtn = new Button("SUBMIT");
+        submitBtn.setId("greenBtn");
 
         overviewBtn.setMinSize(50, 30);
 

@@ -65,6 +65,7 @@ public class AddCourse extends GenericGUI {
         Button overviewBtn = new Button("Back");
         Button modalBtn = new Button("Add modules");
         Button submitBtn = new Button("SUBMIT");
+        submitBtn.setId("greenBtn");
 
         // Switch to overview
         overviewBtn.setOnAction((event) -> {
@@ -158,6 +159,7 @@ public class AddCourse extends GenericGUI {
         title.setStyle("-fx-font-weight: bold");
 
         Button saveBtn = new Button("Save");
+        saveBtn.setId("greenBtn");
         VBox moduleLayout = new VBox(10);
 
         moduleLayout.setPadding(new Insets(30, 50, 50, 50));

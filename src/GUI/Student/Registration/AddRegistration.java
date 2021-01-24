@@ -72,6 +72,7 @@ public class AddRegistration extends GenericGUI {
 
         // submit
         Button submitBtn = new Button("SUBMIT");
+        submitBtn.setId("greenBtn");
 
         submitBtn.setOnAction((event) -> {
             // Check date
