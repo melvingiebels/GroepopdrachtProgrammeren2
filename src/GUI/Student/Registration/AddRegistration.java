@@ -1,10 +1,12 @@
 package GUI.Student.Registration;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import Domain.Course;
 import Domain.Registration;
 import Domain.Student;
 import GUI.GenericGUI;
+import Logic.Validation.DateValidation;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -72,27 +74,52 @@ public class AddRegistration extends GenericGUI {
         Button submitBtn = new Button("SUBMIT");
 
         submitBtn.setOnAction((event) -> {
+            // Check date
+            String strDate = "";
             try {
-                // Check if input is a number and make it correct date format
-                String strDate = String.format("%s-%s-%s", Integer.parseInt(yearInput.getText()),
-                        Integer.parseInt(monthInput.getText()), Integer.parseInt(dayInput.getText()));
+                // Year-month-day
+                strDate = String.format("%s-%s-%s", yearInput.getText(), monthInput.getText(), dayInput.getText());
+                LocalDate date = LocalDate.of(Integer.valueOf(yearInput.getText()),
+                        Integer.valueOf(monthInput.getText()), Integer.valueOf(dayInput.getText()));
+                // Check if the date is in the past
+                if (date.isBefore(LocalDate.now())) {
+                    registrationDateLabel.setText("Registration Date: Date can't be in the past");
+                    registrationDateLabel.setStyle("-fx-text-fill: red");
+                } else {
+                    // Day-month-year
+                    String validateDate = String.format("%s-%s-%s", dayInput.getText(), monthInput.getText(),
+                            yearInput.getText());
 
-                // create registration
-                Registration registration = new Registration(strDate, coursesInput.getValue(), student.getEmail());
+                    if (DateValidation.validateDate(validateDate)) {
+                        dayInput.setStyle("-fx-text-box-border: green");
+                        monthInput.setStyle("-fx-text-box-border: green");
+                        yearInput.setStyle("-fx-text-box-border: green");
+                        // create registration
+                        Registration registration = new Registration(strDate, coursesInput.getValue(),
+                                student.getEmail());
+                        // add it to the database
+                        studentDAO.addRegistration(registration);
 
-                // add it to the database
-                studentDAO.addRegistration(registration);
+                        responseMsg.setText("Registration for " + student.getEmail() + " Has been added");
+                        responseMsg.setStyle("-fx-text-fill: green");
+                        registrationDateLabel.setText("Registration Date: ");
+                        registrationDateLabel.setStyle(null);
+                    } else {
+                        registrationDateLabel.setText("Registration Date: Invalid date!");
+                        registrationDateLabel.setStyle("-fx-text-fill: red");
+                        dayInput.setStyle("-fx-text-box-border: red");
+                        monthInput.setStyle("-fx-text-box-border: red");
+                        yearInput.setStyle("-fx-text-box-border: red");
+                    }
+                }
 
-                // add it to the student itself
-                student.addNewRegistration(registration);
-
-                responseMsg.setText("Registration for " + student.getEmail() + " Has been added");
-                responseMsg.setStyle("-fx-text-fill: green");
             } catch (NumberFormatException e) {
-                responseMsg.setText("Date is not a number");
-                responseMsg.setStyle("-fx-text-fill: red");
+                registrationDateLabel.setText("Registration Date: Invalid date!");
+                registrationDateLabel.setStyle("-fx-text-fill: red");
+                dayInput.setStyle("-fx-text-box-border: red");
+                monthInput.setStyle("-fx-text-box-border: red");
+                yearInput.setStyle("-fx-text-box-border: red");
             }
-
         });
 
         dateInput.getChildren().addAll(dayInput, line1, monthInput, line2, yearInput);
