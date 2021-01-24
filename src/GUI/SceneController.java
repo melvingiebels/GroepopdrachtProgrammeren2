@@ -1,6 +1,7 @@
 package GUI;
 
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class SceneController extends Application{
@@ -8,6 +9,7 @@ public class SceneController extends Application{
     @Override
     public void start(Stage window) throws Exception {
         MainMenu mainMenuScene = new MainMenu();
+        window.getIcons().add(new Image(SceneController.class.getResourceAsStream("./Media/arno.png")));
         
         window.setScene(mainMenuScene.getScene(window));
         window.show();        
