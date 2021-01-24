@@ -31,6 +31,7 @@ public class ContentItemDAO extends GenericDAO {
         return modules;
     }
 
+    // Get all modules that are linked to the given course
     public ArrayList<Module> getCourseModules(String courseName) {
         ArrayList<Module> modules = new ArrayList<>();
         SQL = "SELECT * FROM Module WHERE CourseName=?";
@@ -66,8 +67,7 @@ public class ContentItemDAO extends GenericDAO {
         }
     }
 
-    // get all webcasts from a student that they are currently watching or have been
-    // watched
+    // Get all webcasts from a student that they are currently watching or have been watched
     public ArrayList<Webcast> getWebcastsPerStudent(String email) {
         SQL = "SELECT * FROM Webcast JOIN Progress ON Webcast.contentItemId = Progress.contentItemId WHERE Email= ?";
         ArrayList<Webcast> webcasts = new ArrayList<>();
@@ -89,6 +89,7 @@ public class ContentItemDAO extends GenericDAO {
         return webcasts;
     }
 
+    // Get progress per webcast per student
     public int getProgressPerWebcastPerStudent(int contentItemId) {
         SQL = "SELECT Percentage FROM Progress WHERE ContentItemId= ?";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
@@ -106,6 +107,8 @@ public class ContentItemDAO extends GenericDAO {
 
     }
 
+
+    // Get progress per module per student
     public int getProgressPerModulePerStudent(String email, int contentItemId) {
         SQL = "SELECT * FROM Progress WHERE Email=? AND ContentItemId= ?";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
@@ -123,6 +126,7 @@ public class ContentItemDAO extends GenericDAO {
         return 0;
     }
 
+    // Update webcast progress of student
     public void updateWebcastProgress(String email, int contentItemId, int progress) {
         SQL = "UPDATE Progress SET Percentage=? WHERE Email=? AND ContentItemId=?";
 
@@ -138,7 +142,7 @@ public class ContentItemDAO extends GenericDAO {
         }
     }
 
-    // update progress of modules per course per student & automatically create
+    // Update progress of modules per course per student & automatically create
     // certificate when progress is 100 (DetailsStudent)
     public void updateModuleProgress(String email, int contentItemId, int progress, String courseName,
             String registrationDate) {
@@ -228,6 +232,7 @@ public class ContentItemDAO extends GenericDAO {
         return certificates;
     }
 
+    // Remove certificate
     public void removeCertificate(int CertificateId) {
         SQL = "DELETE FROM certificate WHERE CertificateId =?";
 
@@ -242,6 +247,7 @@ public class ContentItemDAO extends GenericDAO {
         }
     }
 
+    // Get Top 3 viewed webcasts
     public ArrayList<HashMap<Webcast, Integer>> getTop3ViewedWebcasts() {
         SQL = "SELECT * FROM Webcast JOIN (SELECT TOP 3 Webcast.ContentItemId, COUNT(*) AS 'Views' FROM Webcast JOIN Progress ON Webcast.ContentItemId = Progress.ContentItemId GROUP BY Webcast.ContentItemId ORDER BY Views DESC) AS best ON Webcast.ContentItemId = best.ContentItemId ";
         ArrayList<HashMap<Webcast, Integer>> webcasts = new ArrayList<>();
@@ -266,6 +272,7 @@ public class ContentItemDAO extends GenericDAO {
         return webcasts;
     }
 
+    // Get Average module completion percentage
     public HashMap<Integer, Integer> getAverageModulePercentage(String courseName) {
         SQL = "SELECT module.ContentItemId, (SUM(Progress.Percentage) / COUNT(Progress.Email)) AS 'AvgPercentage' FROM Progress JOIN Module ON Progress.ContentItemId = module.ContentItemId WHERE module.CourseName=? GROUP BY module.ContentItemId";
 

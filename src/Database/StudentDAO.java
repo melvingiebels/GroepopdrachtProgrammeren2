@@ -160,7 +160,7 @@ public class StudentDAO extends GenericDAO {
 
     }
 
-    // get registrations of a student (DetailsStudent)
+    // Get registrations of a student (DetailsStudent)
     public ArrayList<Registration> getRegistrations(Student student) {
         SQL = "SELECT * FROM Registration WHERE Email= ?";
         ArrayList<Registration> registrations = new ArrayList<>();
@@ -180,24 +180,4 @@ public class StudentDAO extends GenericDAO {
         }
         return registrations;
     }
-
-    public ArrayList<String> getCourses(String email) {
-        SQL = "SELECT DISTINCT CourseName FROM Registration WHERE Email= ?";
-        ArrayList<String> courses = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(SQL)) {
-            // Add values to prepared statement
-            stmt.setString(1, email);
-
-            // Excecute query
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                courses.add(rs.getString("CourseName"));
-            }
-        } catch (Exception e) {
-            System.out.println("failed to retrieve courses");
-        }
-        return courses;
-    }
-
 }

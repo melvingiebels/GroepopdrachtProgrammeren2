@@ -61,7 +61,7 @@ public class CourseDAO extends GenericDAO {
         }
     }
 
-    // remove a course from the database
+    // Remove a course from the database
     public void removeCourse(String courseName) {
         SQL = "DELETE FROM Course WHERE CourseName= ?";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
@@ -98,6 +98,7 @@ public class CourseDAO extends GenericDAO {
         return modules;
     }
 
+    // Get total complete count
     public int getTotalCompleted(String courseName) {
         SQL = "SELECT COUNT(*) AS Total FROM Certificate WHERE CourseName=?";
         try (PreparedStatement stmt = con.prepareStatement(SQL)) {
@@ -114,6 +115,7 @@ public class CourseDAO extends GenericDAO {
         return 0;
     }
 
+    // Get completion percentage of one gender
     public int getGenderPercentage(String gender, String courseName) {
         SQL = "SELECT (convert(decimal(5, 2),COUNT(*)) / (SELECT COUNT(*) FROM Registration JOIN student ON Registration.Email = student.Email WHERE CourseName = ? AND Gender = ?) * 100) AS 'Percentage' FROM Certificate JOIN Student ON Certificate.Email = Student.Email WHERE student.Gender=? AND Certificate.CourseName= ?";
 
